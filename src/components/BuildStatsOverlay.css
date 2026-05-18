@@ -1,0 +1,433 @@
+.build-stats-container {
+    width: 220px;
+    color: white;
+    font-family: 'Inter', system-ui, sans-serif;
+    animation: fadeIn 0.3s ease-out;
+    background: rgba(15, 20, 35, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 8px 10px 10px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+
+.build-stats-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chart-section {
+    width: 100%;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-card h3 {
+    margin: 0 0 2px 0;
+    font-size: 10px;
+    color: #b2f5ea;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-card li {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+}
+
+.rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    background: #00e5ff;
+    color: #000;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 8px;
+    margin-right: 6px;
+}
+
+/* Horizontal Dot Plot Styles */
+.dot-plot-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.plot-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.plot-row:hover,
+.plot-row.row-hovered {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 229, 255, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.plot-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.8px;
+}
+
+.stat-values {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.curr-val {
+    color: #e040fb;
+    text-shadow: 0 0 6px rgba(224, 64, 251, 0.4);
+}
+
+.val-separator {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 8px;
+}
+
+.avg-val {
+    color: #00e5ff;
+    text-shadow: 0 0 4px rgba(0, 229, 255, 0.2);
+}
+
+.track-container {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.track-line {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 1.5px;
+}
+
+.plot-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    transition: left 0.4s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+.dot-avg {
+    background: #00e5ff;
+    box-shadow: 0 0 4px rgba(0, 229, 255, 0.7);
+}
+
+.dot-set1 {
+    background: #4caf50;
+}
+
+.dot-set2 {
+    background: #ff9800;
+}
+
+.dot-set3 {
+    background: #e91e63;
+}
+
+.dot-curr {
+    width: 9px;
+    height: 9px;
+    background: #9c27b0;
+    border: 1px solid #fff;
+    box-shadow: 0 0 5px rgba(156, 39, 176, 0.9);
+    z-index: 10;
+}
+
+/* Hover Tooltip */
+.row-tooltip {
+    position: absolute;
+    left: 105%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 150px;
+    background: rgba(12, 16, 28, 0.96);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 6px;
+    padding: 6px 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    pointer-events: none;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.tooltip-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 3px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tooltip-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    margin-bottom: 2px;
+}
+
+.tooltip-item:last-child {
+    margin-bottom: 0;
+}
+
+.bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.bullet-avg { background: #00e5ff; }
+.bullet-set1 { background: #4caf50; }
+.bullet-set2 { background: #ff9800; }
+.bullet-set3 { background: #e91e63; }
+.bullet-curr { background: #9c27b0; border: 0.5px solid #fff; }
+
+.text-avg { color: #00e5ff; }
+.text-set1 { color: #4caf50; }
+.text-set2 { color: #ff9800; }
+.text-set3 { color: #e91e63; }
+.text-curr { color: #e040fb; font-weight: bold; }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(5px, -50%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, -50%);
+    }
+}
+
+.custom-legend-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.custom-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.set-icons-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.set-legend-icon {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+    transform: scale(1.4);
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.7));
+}
+
+.set-legend-icon.no-scale {
+    transform: scale(1.22);
+    object-fit: contain;
+}
+
+.legend-bullet {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-text {
+    font-size: 10px;
+    text-transform: capitalize;
+    opacity: 0.9;
+}
+
+.pro-chart-indicator {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    border-radius: 3px;
+    color: #00e5ff;
+    font-size: 8px;
+    padding: 1px 4px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 4px rgba(0, 229, 255, 0.5);
+    pointer-events: none;
+}
+
+.chart-keybind-tips {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 6px 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.tip-item {
+    font-size: 9px;
+    color: #94a3b8;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tip-item kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 8.5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Combat Stats Overlay Panel */
+.combat-stats-overlay-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+    margin-top: 4px;
+}
+
+.combat-stats-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.combat-badge-tag {
+    font-size: 8px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1;
+}
+
+.combat-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    text-align: center;
+}
+
+.combat-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 4px 2px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.combat-stat-label {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 600;
+}
+
+.combat-stat-val {
+    font-size: 10px;
+    font-weight: 700;
+    font-family: monospace;
+}
+
+.val-wr {
+    color: #4caf50;
+    text-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+}
+
+.val-pr {
+    color: #3b82f6;
+    text-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+}
+
+.val-br {
+    color: #f43f5e;
+    text-shadow: 0 0 6px rgba(244, 63, 94, 0.3);
+}

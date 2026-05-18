@@ -1,0 +1,157 @@
+/* ── OverlayView.css: Precise Absolute Positioning outside the Dashboard ── */
+
+.overlay-view-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    /* Make overlay container click-through */
+    box-sizing: border-box;
+}
+
+/* Stats Column Overlay (Left Side of Screen) */
+.overlay-stats-column-container {
+    position: absolute;
+    top: 57%;
+    left: 26.7%;
+    z-index: 100;
+    pointer-events: none;
+    transition: all 0.2s ease-out;
+}
+
+/* Radar & Detailed Build Overlay Card (Middle-Right Side of Screen) */
+.overlay-stats-radar-container {
+    position: absolute;
+    top: 20%;
+    left: 41%;
+    /* Ditch horizontal -50% translate shift to prevent overlap with left column */
+    z-index: 100;
+    pointer-events: auto;
+    transition: all 0.2s ease-out;
+}
+
+/* Loading/Empty State Overlay Cards */
+.overlay-message-card {
+    background: rgba(15, 20, 35, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    width: 220px;
+    box-sizing: border-box;
+}
+
+.overlay-message-fetch-prompt {
+    color: #00e5ff;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+/* Sleek Non-intrusive Overlay Scale Indicator */
+.overlay-scale-indicator {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.unsafe-scale {
+    color: #ff3366 !important;
+    background: rgba(18, 10, 15, 0.95) !important;
+    border: 1px solid rgba(255, 51, 102, 0.3) !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    max-width: 250px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    box-shadow: 0 4px 12px rgba(255, 51, 102, 0.15) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Watermark Container (Bottom Left Corner) */
+.overlay-watermark {
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(10, 13, 20, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4px 8px;
+    border-radius: 6px;
+    z-index: 999;
+    user-select: none;
+    pointer-events: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.watermark-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.75;
+    object-fit: contain;
+}
+
+.watermark-text {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+}
+
+.warning-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.warning-icon {
+    font-size: 11px;
+}
+
+.warning-title {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.current-scale-val {
+    margin-left: auto;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 9.5px;
+    background: rgba(255, 51, 102, 0.15);
+    padding: 0px 4px;
+    border-radius: 3px;
+}
+
+.resize-prompt {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.3;
+}

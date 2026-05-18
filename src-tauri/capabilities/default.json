@@ -1,0 +1,12 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": ["main", "controls", "selector"],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "core:window:allow-set-ignore-cursor-events",
+    "global-shortcut:default"
+  ]
+}

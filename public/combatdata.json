@@ -1,0 +1,219 @@
+{
+  "hero_list": [
+    {
+      "hero": "c5154",
+      "hero_name": "Perfumer Byblis",
+      "count": 103508
+    }
+  ],
+  "hero_analyses": {
+    "c5154": {
+      "hero_name": "Perfumer Byblis",
+      "total_matches": 103508,
+      "total_losses": 37917,
+      "total_appearances": 103508,
+      "players": 1316,
+      "player_list": [
+        {
+          "player": "BurnMyDread",
+          "region": "Korea",
+          "url": "https://epic7.onstove.com/en/gg/battlerecord/world_kor/204516431",
+          "games": 731,
+          "wins": 486,
+          "win_rate": 66.5,
+          "fp_wr": 67.4,
+          "sp_wr": 63,
+          "fp_games": 577,
+          "sp_games": 154
+        }
+      ],
+      "wins": 65591,
+      "win_rate": 63.4,
+      "first_pick": {
+        "games": 68541,
+        "wins": 43672,
+        "win_rate": 63.7
+      },
+      "second_pick": {
+        "games": 34967,
+        "wins": 21919,
+        "win_rate": 62.7
+      },
+      "draft_position": {
+        "1": {
+          "wins": 54300,
+          "win_rate": 62.8,
+          "pct": 83.5,
+          "count": 86479
+        }
+      },
+      "position_picks_fp": {
+        "1": [
+          {
+            "hero": "c2181",
+            "hero_name": "Notos",
+            "count": 2703,
+            "win_rate": 67.5
+          }
+        ]
+      },
+      "position_picks_sp": {
+        "1": [
+          {
+            "hero": "c2124",
+            "hero_name": "Boss Arunka",
+            "count": 2202,
+            "win_rate": 64.6
+          }
+        ]
+      },
+      "best_pairs_fp": [
+        {
+          "hero": "c1172",
+          "hero_name": "Frieren",
+          "count": 13709,
+          "win_rate": 67.6,
+          "by_position": {
+            "1": {
+              "count": 24,
+              "pct": 0.2,
+              "win_rate": 54.2,
+              "responding_to": []
+            }
+          }
+        }
+      ],
+      "best_pairs_sp": [
+        {
+          "hero": "c2124",
+          "hero_name": "Boss Arunka",
+          "count": 9038,
+          "win_rate": 63.6,
+          "by_position": {
+            "1": {
+              "count": 2202,
+              "pct": 24.4,
+              "win_rate": 64.6,
+              "responding_to": [
+                {
+                  "hero": "c6005",
+                  "hero_name": "Lady of the Scales",
+                  "count": 590
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "my_prebans": [
+        {
+          "hero": "c2181",
+          "hero_name": "Notos",
+          "count": 44972,
+          "win_rate": 64.1
+        }
+      ],
+      "enemy_prebans": [
+        {
+          "hero": "c2181",
+          "count": 56140
+        }
+      ],
+      "pilot_bans": [
+        {
+          "hero": "c2124",
+          "hero_name": "Boss Arunka",
+          "count": 7225,
+          "ban_rate": 7
+        }
+      ],
+      "counters_strong": [
+        {
+          "hero": "c1027",
+          "hero_name": "Charles",
+          "count": 10,
+          "wins": 10,
+          "losses": 0,
+          "win_rate": 100,
+          "loss_pct": 0,
+          "loss_by_position": {}
+        }
+      ],
+      "counters_weak": [
+        {
+          "hero": "c2124",
+          "hero_name": "Boss Arunka",
+          "count": 41159,
+          "wins": 26990,
+          "losses": 14169,
+          "win_rate": 65.6,
+          "loss_pct": 37.4,
+          "loss_by_position": {
+            "1": {
+              "count": 8715,
+              "pct": 61.5
+            }
+          }
+        }
+      ],
+      "matchups_fp": [
+        {
+          "hero": "c2124",
+          "hero_name": "Boss Arunka",
+          "count": 31547,
+          "wins": 20857,
+          "win_rate": 66.1
+        }
+      ],
+      "matchups_sp": [
+        {
+          "hero": "c2124",
+          "hero_name": "Boss Arunka",
+          "count": 9612,
+          "wins": 6133,
+          "win_rate": 63.8
+        }
+      ],
+      "top_comps": [
+        {
+          "heroes": [
+            "c1022"
+          ],
+          "hero_names": [
+            "Ruele of Light"
+          ],
+          "count": 553,
+          "win_rate": 72.5
+        }
+      ],
+      "preban_pairs": [
+        {
+          "heroes": [
+            "c2181"
+          ],
+          "hero_names": [
+            "Notos"
+          ],
+          "count": 15559,
+          "win_rate": 64.8
+        }
+      ],
+      "opp_winning_positions": {
+        "1": [
+          {
+            "hero": "c2124",
+            "hero_name": "Boss Arunka",
+            "count": 8715,
+            "pct": 23
+          }
+        ]
+      }
+    }
+  },
+  "hero_image_map": {
+    "c1074": {
+      "name": "Violet"
+    }
+  },
+  "total_matches": 351393
+}
