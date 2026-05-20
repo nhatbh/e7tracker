@@ -1,28 +1,27 @@
-pub mod screen;
+//! AI-based OCR Detection Engine
+//!
+//! This module provides the core detection capabilities for E7Tracker,
+//! using AI models for screen classification and OCR for hero/stat detection.
+
 pub mod hero_ocr;
-pub mod hero_image;
 
-use std::collections::HashMap;
-use image::RgbImage;
-use crate::models::*;
 use crate::capture::crop_zone;
+use crate::models::*;
+use image::RgbImage;
+use std::collections::HashMap;
 
-/// Preloaded assets for detection.
+/// AI-based Detection Engine using ONNX models for screen classification and OCR.
 pub struct DetectionEngine {
     /// The base assets directory
     pub assets_dir: std::path::PathBuf,
-    /// Screen definitions loaded from screens.json.
+    /// Screen definitions loaded from simplified screen configs.
     pub screens: HashMap<String, ScreenDef>,
     /// Hero database loaded from heroes.json.
     pub heroes: Vec<HeroEntry>,
-    /// Preloaded identity template images per screen.
-    /// Key: "ScreenName/image_filename.png"
-    pub identity_templates: HashMap<String, RgbImage>,
-    /// Preloaded hero portrait images.
-    /// Key: portrait filename
-    pub hero_portraits: HashMap<String, RgbImage>,
+    /// Persistent ONNX Session for AI screen detection
+    pub ort_session: Option<ort::session::Session>,
     /// The currently detected screen name.
-    pub current_screen: Option<String>,
+    pub current_screen: std::sync::Mutex<Option<String>>,
     /// Counters for rotating debug crop saves (0, 1, 2)
     pub crop_counters: std::sync::Mutex<HashMap<String, usize>>,
     /// Throttle OCR to once per second
@@ -36,169 +35,239 @@ impl DetectionEngine {
         assets_dir: std::path::PathBuf,
         screens: HashMap<String, ScreenDef>,
         heroes: Vec<HeroEntry>,
-        identity_templates: HashMap<String, RgbImage>,
-        hero_portraits: HashMap<String, RgbImage>,
     ) -> Self {
+        // Initialize the ONNX session for screen classification
+        let onnx_path = assets_dir.join("onnx").join("screen-classifier.onnx");
+        let ort_session = match ort::session::Session::builder() {
+            Ok(mut builder) => {
+                crate::log_message(&format!(
+                    "[ONNX] Loading screen classifier from {:?}",
+                    onnx_path
+                ));
+                match builder.commit_from_file(&onnx_path) {
+                    Ok(session) => {
+                        crate::log_message("[ONNX] Screen classifier loaded successfully.");
+                        Some(session)
+                    }
+                    Err(e) => {
+                        crate::log_message(&format!(
+                            "[ONNX] ERROR: Failed to load session from file: {:?}",
+                            e
+                        ));
+                        None
+                    }
+                }
+            }
+            Err(e) => {
+                crate::log_message(&format!(
+                    "[ONNX] ERROR: Failed to create session builder: {:?}",
+                    e
+                ));
+                None
+            }
+        };
+
         Self {
             assets_dir,
             screens,
             heroes,
-            identity_templates,
-            hero_portraits,
-            current_screen: None,
+            ort_session,
+            current_screen: std::sync::Mutex::new(None),
             crop_counters: std::sync::Mutex::new(HashMap::new()),
-            last_ocr_run: std::sync::Mutex::new(std::time::Instant::now() - std::time::Duration::from_secs(1)),
+            last_ocr_run: std::sync::Mutex::new(std::time::Instant::now()),
             last_ocr_results: std::sync::Mutex::new(HashMap::new()),
         }
     }
 
+    /// Process a frame through the AI detection pipeline.
     pub fn process_frame(&mut self, frame: &RgbImage, win_w: u32, win_h: u32) -> FrameResult {
-        // Step 1: Identify which screen we are on
+        // Step 1: Identify which screen we are on using AI classifier
         let (screen_name, debug_zones) = self.detect_screen(frame, win_w, win_h);
 
-        if screen_name != self.current_screen {
-            if let Some(ref name) = screen_name {
-                crate::log_message(&format!("[e7tracker] Screen detected: {}", name));
-            } else if self.current_screen.is_some() {
-                crate::log_message("[e7tracker] Screen lost — no match");
-            }
-            self.current_screen = screen_name.clone();
-        }
-
-        // Step 2: If we have a screen, detect heroes in each slot
-        let mut detections = Vec::new();
-
-        if let Some(ref screen_name) = self.current_screen {
-            if let Some(screen_def) = self.screens.get(screen_name) {
-                // Determine if we should run OCR this frame
-                let mut should_ocr = false;
-                if let Ok(mut last_run) = self.last_ocr_run.lock() {
-                    if last_run.elapsed() >= std::time::Duration::from_secs(1) {
-                        should_ocr = true;
-                        *last_run = std::time::Instant::now();
+        // Update current screen tracking and log only on final changes
+        {
+            let mut current = self.current_screen.lock().unwrap();
+            if screen_name != *current {
+                if let Some(ref name) = screen_name {
+                    // Only log if changing from stats to other screen types
+                    if !name.contains("Stats")
+                        || current.as_ref().map_or(false, |c| c.contains("Stats"))
+                    {
+                        crate::log_message(&format!("[e7tracker] Screen detected: {}", name));
                     }
+                } else if current.as_ref().map_or(false, |c| c.contains("Stats")) {
+                    crate::log_message("[e7tracker] Screen lost — no match");
                 }
-
-                for slot in &screen_def.slots {
-                    match &slot.detection {
-                        HeroDetection::OCR { .. } => {
-                            if should_ocr {
-                                let result = self.detect_slot(frame, win_w, win_h, slot);
-                                if let Ok(mut cached) = self.last_ocr_results.lock() {
-                                    cached.insert(slot.id.clone(), result.clone());
-                                }
-                                detections.push(result);
-                            } else if let Ok(cached) = self.last_ocr_results.lock() {
-                                if let Some(result) = cached.get(&slot.id) {
-                                    detections.push(result.clone());
-                                }
-                            }
-                        }
-                        _ => {
-                            detections.push(self.detect_slot(frame, win_w, win_h, slot));
-                        }
-                    }
-                }
+                *current = screen_name.clone();
             }
         }
+
+        // Step 2: OCR is now called on-demand from frontend, not automatically
+        let detections = Vec::new();
 
         FrameResult {
-            screen_name: self.current_screen.clone(),
+            screen_name,
             detections,
             debug_zones,
         }
     }
 
-    fn detect_screen(&self, frame: &RgbImage, win_w: u32, win_h: u32) -> (Option<String>, Vec<DebugZone>) {
-        let mut all_debug_zones = Vec::new();
-        let mut best_screen: Option<String> = None;
-        let mut best_avg_confidence = 0.0;
-        
-        for (name, screen_def) in &self.screens {
-            if screen_def.identity.is_empty() {
-                continue;
-            }
-
-            let mut screen_zones = Vec::new();
-            let mut total_confidence = 0.0;
-            let mut all_met_threshold = true;
-
-            for feature in &screen_def.identity {
-                let region = crop_zone(frame, win_w, win_h, &feature.zone);
-                let template_key = format!("{}/identity/{}", name, feature.image);
-
-                // DEBUG CROP SAVING: Save 3 rotating crops to disk for visual verification
-                if let Ok(mut counters) = self.crop_counters.lock() {
-                    let count = counters.entry(template_key.clone()).or_insert(0);
-                    let debug_dir = self.assets_dir.join("debug_crops").join(name);
-                    let _ = std::fs::create_dir_all(&debug_dir);
-                    let crop_path = debug_dir.join(format!("{}_{}.png", feature.image, *count));
-                    let _ = region.save(&crop_path);
-                    *count = (*count + 1) % 3;
-                }
-
-                if let Some(template) = self.identity_templates.get(&template_key) {
-                    let confidence = screen::template_match_confidence(&region, template);
-                    total_confidence += confidence;
-
-                    if confidence < feature.threshold {
-                        all_met_threshold = false;
-                    }
-                    
-                    let image_path = self.assets_dir
-                        .join("screens")
-                        .join(name)
-                        .join("identity")
-                        .join(&feature.image)
-                        .to_string_lossy()
-                        .to_string();
-
-                    screen_zones.push(DebugZone {
-                        zone: feature.zone.clone(),
-                        image_name: image_path,
-                        screen_name: name.clone(),
-                        confidence,
-                        threshold: feature.threshold,
-                    });
-                } else {
-                    crate::log_message(&format!("[e7tracker] ERROR: Template not found: {}", template_key));
-                    all_met_threshold = false;
-                }
-            }
-
-            let avg_confidence = total_confidence / screen_def.identity.len() as f64;
-            
-            // Only consider this screen if all its features met their individual thresholds
-            if all_met_threshold && avg_confidence > best_avg_confidence {
-                best_avg_confidence = avg_confidence;
-                best_screen = Some(name.clone());
-            }
-
-            // Always collect debug zones to show in the overlay
-            all_debug_zones.extend(screen_zones);
-        }
-
-
-
-        if all_debug_zones.is_empty() {
-            crate::log_message("[e7tracker] Warning: No debug zones evaluated this frame!");
-        }
-
-        (best_screen, all_debug_zones)
+    /// Get the currently detected screen name.
+    fn current_screen(&self) -> Option<String> {
+        let current = self.current_screen.lock().unwrap();
+        current.clone()
     }
 
-    /// Detect the hero in a specific slot.
-    fn detect_slot(&self, frame: &RgbImage, win_w: u32, win_h: u32, slot: &HeroSlot) -> DetectionResult {
+    /// Detect which screen is active using the AI classifier.
+    fn detect_screen(
+        &mut self,
+        frame: &RgbImage,
+        _win_w: u32,
+        _win_h: u32,
+    ) -> (Option<String>, Vec<DebugZone>) {
+        let mut predicted_screen: Option<String> = None;
+        let mut debug_zones = Vec::new();
+
+        if let Some(ref mut session) = self.ort_session {
+            // 1. Resize the frame to the model's expected input size (448x448)
+            let resized =
+                image::imageops::resize(frame, 448, 448, image::imageops::FilterType::Triangle);
+
+            // 2. Preprocess pixels into CHW float layout (1, 3, 448, 448)
+            let mut input_data = vec![0.0_f32; 1 * 3 * 448 * 448];
+            for y in 0..448 {
+                for x in 0..448 {
+                    let pixel = resized.get_pixel(x, y);
+                    let r_idx = 0 * 448 * 448 + y as usize * 448 + x as usize;
+                    let g_idx = 1 * 448 * 448 + y as usize * 448 + x as usize;
+                    let b_idx = 2 * 448 * 448 + y as usize * 448 + x as usize;
+
+                    input_data[r_idx] = pixel[0] as f32 / 255.0; // R
+                    input_data[g_idx] = pixel[1] as f32 / 255.0; // G
+                    input_data[b_idx] = pixel[2] as f32 / 255.0; // B
+                }
+            }
+
+            let shape = [1, 3, 448, 448];
+
+            // 3. Create the input tensor
+            match ort::value::Tensor::from_array((shape, input_data.into_boxed_slice())) {
+                Ok(tensor) => {
+                    // 4. Run inference
+                    let inputs = ort::inputs![tensor];
+                    match session.run(inputs) {
+                        Ok(outputs) => {
+                            let output_value = &outputs[0];
+                            match output_value.try_extract_tensor::<f32>() {
+                                Ok((_shape, slice)) => {
+                                    if slice.len() >= 3 {
+                                        // Apply Softmax to get probabilities
+                                        let logits = &slice[0..3];
+                                        let max_logit = logits
+                                            .iter()
+                                            .cloned()
+                                            .fold(f32::NEG_INFINITY, f32::max);
+                                        let exp_sum: f32 =
+                                            logits.iter().map(|&l| (l - max_logit).exp()).sum();
+                                        let probs: Vec<f32> = logits
+                                            .iter()
+                                            .map(|&l| (l - max_logit).exp() / exp_sum)
+                                            .collect();
+
+                                        // Find the class with highest probability
+                                        let (label_idx, confidence) = probs
+                                            .iter()
+                                            .enumerate()
+                                            .max_by(|(_, &a), (_, &b)| {
+                                                a.partial_cmp(&b)
+                                                    .unwrap_or(std::cmp::Ordering::Equal)
+                                            })
+                                            .map(|(idx, &prob)| (idx, prob))
+                                            .unwrap_or((0, 0.0));
+
+                                        // crate::log_message(&format!(
+                                        //     "[AI Screen Detection] Predicted class {} with confidence: {:.4} (probs: {:?})",
+                                        //     label_idx, confidence, probs
+                                        // ));
+
+                                        // Map class index to screen names
+                                        // This mapping should be configurable
+                                        predicted_screen = match label_idx {
+                                            0 => Some("Guild_War".to_string()),
+                                            1 => Some("Hero_Stats".to_string()),
+                                            _ => Some("Other".to_string()),
+                                        };
+
+                                        // Add debug zone for visualization
+                                        debug_zones.push(DebugZone {
+                                            zone: Zone {
+                                                x: 0.0,
+                                                y: 0.0,
+                                                w: 100.0,
+                                                h: 100.0,
+                                            },
+                                            screen_name: predicted_screen
+                                                .clone()
+                                                .unwrap_or_default(),
+                                            confidence: confidence as f64,
+                                        });
+                                    } else {
+                                        crate::log_message(&format!(
+                                            "[ONNX] Warning: Unexpected output tensor length: {}",
+                                            slice.len()
+                                        ));
+                                    }
+                                }
+                                Err(e) => {
+                                    crate::log_message(&format!(
+                                        "[ONNX] ERROR: Failed to extract output array: {:?}",
+                                        e
+                                    ));
+                                }
+                            }
+                        }
+                        Err(e) => {
+                            crate::log_message(&format!(
+                                "[ONNX] ERROR: Inference session run failed: {:?}",
+                                e
+                            ));
+                        }
+                    }
+                }
+                Err(e) => {
+                    crate::log_message(&format!("[ONNX] ERROR: Failed to create tensor: {:?}", e));
+                }
+            }
+        } else {
+            crate::log_message("[ONNX] Screen classifier session is not loaded.");
+        }
+
+        (predicted_screen, debug_zones)
+    }
+
+    /// Detect the hero in a specific slot using AI OCR (now called on-demand).
+    pub fn detect_slot(
+        &self,
+        frame: &RgbImage,
+        win_w: u32,
+        win_h: u32,
+        slot: &HeroSlot,
+    ) -> DetectionResult {
         match &slot.detection {
             HeroDetection::OCR { zone } => {
                 let region = crop_zone(frame, win_w, win_h, zone);
                 // Convert to grayscale for OCR
                 let gray = image::DynamicImage::ImageRgb8(region).to_luma8();
+
+                // Use the AI OCR system
                 if let Some((text, confidence)) = hero_ocr::detect_hero_by_ocr(&gray) {
-                    crate::log_message(&format!("[e7tracker] Slot '{}': {} (OCR, conf: {:.2})", slot.id, text, confidence));
+                    // Note: Hero validation is now done in the frontend using BuildAssist.matchHeroName()
+                    // which uses the cached hero data from SQLite. Backend heroes.json may be empty.
+                    // Return hero_name without backend fuzzy matching.
+
                     DetectionResult {
                         slot_id: slot.id.clone(),
-                        hero_id: None,
+                        hero_id: None, // Frontend will validate and provide the matched name
                         hero_name: Some(text),
                         confidence,
                         display: slot.display.clone(),
@@ -213,34 +282,47 @@ impl DetectionEngine {
                     }
                 }
             }
-            HeroDetection::Image { zone, threshold } => {
-                let region = crop_zone(frame, win_w, win_h, zone);
-                // Convert to grayscale for hero image matching (for now)
-                let gray = image::DynamicImage::ImageRgb8(region).to_luma8();
-                let gray_portraits: HashMap<String, image::GrayImage> = self.hero_portraits.iter()
-                    .map(|(k, v)| (k.clone(), image::DynamicImage::ImageRgb8(v.clone()).to_luma8()))
-                    .collect();
-                if let Some((hero, confidence)) = hero_image::detect_hero_by_image(
-                    &gray, &self.heroes, &gray_portraits, *threshold,
-                ) {
-                    crate::log_message(&format!("[e7tracker] Slot '{}': {} (IMG, conf: {:.2})", slot.id, hero.name, confidence));
-                    DetectionResult {
-                        slot_id: slot.id.clone(),
-                        hero_id: Some(hero.id),
-                        hero_name: Some(hero.name),
-                        confidence,
-                        display: slot.display.clone(),
-                    }
-                } else {
-                    DetectionResult {
-                        slot_id: slot.id.clone(),
-                        hero_id: None,
-                        hero_name: None,
-                        confidence: 0.0,
-                        display: slot.display.clone(),
-                    }
-                }
-            }
         }
+    }
+
+    /// Fuzzy match OCR text against known heroes.
+    fn fuzzy_match_hero(&self, text: &str) -> Option<HeroEntry> {
+        let query = text.to_lowercase();
+        self.heroes
+            .iter()
+            .filter_map(|hero| {
+                let hero_name = hero.name.to_lowercase();
+                let similarity = Self::string_similarity(&query, &hero_name);
+                if similarity > 0.7 {
+                    Some((similarity, hero))
+                } else {
+                    None
+                }
+            })
+            .max_by(|(a, _), (b, _)| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal))
+            .map(|(_, hero)| hero.clone())
+    }
+
+    /// Simple string similarity (0.0 to 1.0) based on substring matching.
+    fn string_similarity(a: &str, b: &str) -> f64 {
+        if a.is_empty() || b.is_empty() {
+            return 0.0;
+        }
+        if a == b {
+            return 1.0;
+        }
+
+        let a_in_b = if b.contains(a) {
+            a.len() as f64 / b.len() as f64
+        } else {
+            0.0
+        };
+        let b_in_a = if a.contains(b) {
+            b.len() as f64 / a.len() as f64
+        } else {
+            0.0
+        };
+
+        a_in_b.max(b_in_a)
     }
 }

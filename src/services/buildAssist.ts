@@ -64,8 +64,21 @@ class BuildAssistService {
     private heroData: any = null;
     private artifactData: any = null;
     private memoryCache: Map<string, string> = new Map();
+    private isInitialized: boolean = false;
+    private initPromise: Promise<void> | null = null;
 
     async init() {
+        // Prevent multiple concurrent init calls
+        if (this.initPromise) {
+            console.log("[BuildAssist] Init already in progress, waiting for completion...");
+            return this.initPromise;
+        }
+
+        this.initPromise = this._performInit();
+        return this.initPromise;
+    }
+
+    private async _performInit() {
         try {
             const allCache = await invoke<Record<string, string>>("cache_get_all");
             this.memoryCache = new Map(Object.entries(allCache));
@@ -81,10 +94,14 @@ class BuildAssistService {
             const h = this.memoryCache.get(CACHE_KEY_HERO);
             const a = this.memoryCache.get(CACHE_KEY_ARTIFACT);
             if (h && a) {
-                this.heroData = JSON.parse(h);
-                this.artifactData = JSON.parse(a);
-                console.log("[BuildAssist] Loaded static data from cache.");
-                return;
+                try {
+                    this.heroData = JSON.parse(h);
+                    this.artifactData = JSON.parse(a);
+                    this.isInitialized = true;
+                    return;
+                } catch (e) {
+                    console.error("[BuildAssist] Failed to parse cached data:", e);
+                }
             }
         }
 
@@ -111,14 +128,28 @@ class BuildAssistService {
             invoke("cache_set", { key: CACHE_KEY_TIME, value: timeStr }).catch(console.error);
 
             console.log("[BuildAssist] Static data fetched and cached.");
+            this.isInitialized = true;
         } catch (e) {
             console.error("[BuildAssist] Error fetching static data:", e);
+            this.isInitialized = true; // Mark as initialized even on error to prevent infinite loops
         }
+    }
+
+    async waitForInit(): Promise<void> {
+        if (this.isInitialized) {
+            return;
+        }
+        if (this.initPromise) {
+            return this.initPromise;
+        }
+        // If init hasn't been called yet, wait a bit and check again
+        await new Promise(resolve => setTimeout(resolve, 100));
+        return this.waitForInit();
     }
 
     getCacheEntries() {
         const entries: { key: string; label: string; date: Date | null; valueSize: number; originalValue: string }[] = [];
-        
+
         for (const [key, val] of this.memoryCache.entries()) {
             // Ignore combat analysis files to prevent UI lag and memory bloat in the cache manager table
             if (key.startsWith("combat_analysis_")) continue;
@@ -463,20 +494,28 @@ class BuildAssistService {
     }
 
     matchHeroName(ocrName: string): string | null {
-        if (!ocrName) return null;
+        if (!ocrName) {
+            return null;
+        }
+
+        // Attempt to load heroData if not already loaded
         if (!this.heroData) {
             const h = this.memoryCache.get(CACHE_KEY_HERO);
             if (h) {
                 try {
                     this.heroData = JSON.parse(h);
-                } catch (e) {}
+                } catch (e) {
+                    console.error("[BuildAssist] Failed to parse heroData from cache:", e);
+                }
             }
         }
+
         if (!this.heroData) {
-            console.log("[BuildAssist] Static heroData not initialized yet, skipping match.");
             return null;
         }
+
         const heroKeys = Object.keys(this.heroData);
+        
         let bestName: string | null = null;
         let bestScore = 0;
 
@@ -492,6 +531,7 @@ class BuildAssistService {
         if (bestScore >= 0.75) {
             return bestName;
         }
+        
         return null;
     }
 

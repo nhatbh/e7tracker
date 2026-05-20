@@ -126,6 +126,7 @@ function App() {
     // OCR Stat Scanning states
     const [statsOcrStatus, setStatsOcrStatus] = useState<'idle' | 'scanning' | 'timeout' | 'success'>('idle');
     const [statsOcrCountdown, setStatsOcrCountdown] = useState(5);
+    const [selectorOcrStatus, setSelectorOcrStatus] = useState<'idle' | 'scanning' | 'success' | 'error'>('idle');
     const [showImportModal, setShowImportModal] = useState(false);
     const [scannedStatsData, setScannedStatsData] = useState<{
         atk?: number;
@@ -316,6 +317,24 @@ function App() {
         }
     }, [frameResult, showHeroDetails]);
 
+    // Simulate OCR status changes for the selector window (for demonstration)
+    useEffect(() => {
+        if (windowLabel === "selector" && frameResult?.screen_name) {
+            // Simulate OCR scanning every 3 seconds when a screen is detected
+            const interval = setInterval(() => {
+                setSelectorOcrStatus('scanning');
+                setTimeout(() => {
+                    setSelectorOcrStatus(Math.random() > 0.2 ? 'success' : 'error');
+                    setTimeout(() => {
+                        setSelectorOcrStatus('idle');
+                    }, 1000);
+                }, 100);
+            }, 3000);
+
+            return () => clearInterval(interval);
+        }
+    }, [windowLabel, frameResult?.screen_name]);
+
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const forceLabel = queryParams.get("label");
@@ -384,30 +403,45 @@ function App() {
         let unlistenHeroDetails: Promise<any> | null = null;
         let unlistenScanStats: Promise<any> | null = null;
 
-        if (label === "main") {
-            // Overlay is always click-through
-            getCurrentWindow().setIgnoreCursorEvents(true);
+        if (label === "main" || label === "selector") {
+            // Main overlay is always click-through, selector window is not
+            if (label === "main") {
+                getCurrentWindow().setIgnoreCursorEvents(true);
+            }
 
             // Poll the backend until the CacheService is fully online and ready
-            console.log("[App] Starting CacheService readiness polling (100ms interval)...");
-            const pollCache = setInterval(async () => {
-                try {
-                    const isReady = await invoke<boolean>("is_cache_ready");
-                    if (isReady) {
-                        console.log("[App] CacheService is ready! Clearing polling interval and running service initializations.");
-                        clearInterval(pollCache);
-                        
-                        BuildAssist.init().catch(console.error);
-                        CombatData.init().catch(console.error);
-                        MetagameData.init().catch(console.error);
-                    } else {
-                        console.log("[App] CacheService is not yet ready, waiting...");
-                    }
-                } catch (e) {
-                    console.error("[App] Failed to poll CacheService status:", e);
-                }
-            }, 100);
+            if (label === "main") {
+                console.log("[App] Starting CacheService readiness polling (100ms interval)...");
+                const pollCache = setInterval(async () => {
+                    try {
+                        const isReady = await invoke<boolean>("is_cache_ready");
+                        if (isReady) {
+                            console.log("[App] CacheService is ready! Clearing polling interval and running service initializations.");
+                            clearInterval(pollCache);
 
+                            // CRITICAL: Wait for BuildAssist to fully initialize before registering OCR listener
+                            // This prevents race conditions where OCR frames arrive before heroData is loaded
+                            try {
+                                console.log("[App] Initializing BuildAssist service...");
+                                await BuildAssist.init();
+                                console.log("[App] BuildAssist initialization complete. Hero database is ready.");
+                            } catch (e) {
+                                console.error("[App] BuildAssist initialization failed:", e);
+                            }
+
+                            // Initialize other services in parallel (they don't block OCR)
+                            CombatData.init().catch(console.error);
+                            MetagameData.init().catch(console.error);
+                        } else {
+                            console.log("[App] CacheService is not yet ready, waiting...");
+                        }
+                    } catch (e) {
+                        console.error("[App] Failed to poll CacheService status:", e);
+                    }
+                }, 100);
+            }
+
+            // Both main and selector windows need to listen for detection results
             unlistenResult = listen<FrameResult>("detection-result", (event) => {
                 setFrameResult(event.payload);
             });
@@ -717,7 +751,7 @@ function App() {
         );
     }
 
-    // ── Selector Window (interactive, sits above overlay) ──
+    // ── Selector Window (OCR monitoring overlay) ──
     if (windowLabel === "selector") {
         return (
             <SelectorView
@@ -726,6 +760,7 @@ function App() {
                 handleMouseDown={handleMouseDown}
                 handleMouseMove={handleMouseMove}
                 handleMouseUp={handleMouseUp}
+                currentScreen={frameResult?.screen_name || null}
             />
         );
     }

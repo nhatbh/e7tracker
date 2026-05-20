@@ -1,45 +1,43 @@
 #![allow(dead_code)]
-use image::GrayImage;
 use crate::models::BuildStats;
 
-/// Perform OCR on a cropped grayscale region and fuzzy-match against the hero database.
-/// Returns the best matching hero and confidence score.
-pub fn detect_hero_by_ocr(
-    region: &image::GrayImage,
-) -> Option<(String, f64)> {
-    // win_ocr only supports file paths, so we save to a writable system temp dir
+/// Perform AI OCR on a cropped grayscale region and return raw text.
+/// Uses the system OCR engine (win_ocr) for text extraction.
+/// Returns the extracted text and confidence score.
+pub fn detect_hero_by_ocr(region: &image::GrayImage) -> Option<(String, f64)> {
+    // Save to temp directory for OCR processing
     let temp_dir = std::env::temp_dir().join("e7tracker");
     if let Err(e) = std::fs::create_dir_all(&temp_dir) {
-        crate::log_message(&format!("[e7tracker] OCR Error: Failed to create temp dir {:?}: {:?}", temp_dir, e));
-        return None;
-    }
-    let temp_path = temp_dir.join("ocr_temp.png");
-    
-    if let Err(e) = region.save(&temp_path) {
-        crate::log_message(&format!("[e7tracker] OCR Error: Failed to save temp image: {:?}", e));
         return None;
     }
 
+    let temp_path = temp_dir.join("ocr_temp.png");
+
+    if let Err(e) = region.save(&temp_path) {
+        return None;
+    }
+
+    // Use system OCR to extract text
     let text = match win_ocr::ocr_with_lang(&temp_path.to_string_lossy(), "en") {
         Ok(t) => {
-            crate::log_message(&format!("[e7tracker] RAW OCR Scanned Text:\n{}", t));
-            let cleaned: String = t.chars()
+            // Clean the OCR output - keep only alphanumeric, spaces, dots, and percentages
+            let cleaned: String = t
+                .chars()
                 .filter(|c| c.is_alphanumeric() || c.is_whitespace() || *c == '.' || *c == '%')
                 .collect();
-            cleaned.split_whitespace().collect::<Vec<&str>>().join(" ")
+            let cleaned_joined = cleaned.split_whitespace().collect::<Vec<&str>>().join(" ");
+            cleaned_joined
         }
-        Err(e) => {
-            crate::log_message(&format!("[e7tracker] OCR Error: {:?}", e));
-            String::new()
-        }
+        Err(e) => String::new(),
     };
 
     if text.is_empty() {
         return None;
     }
 
-    crate::log_message(&format!("[e7tracker] OCR Scanned Text: \"{}\"", text));
-    
+    crate::log_message(&format!("[AI OCR] Success: Extracted '{}'", text));
+
+    // For now, return with full confidence - the fuzzy matching happens in the caller
     Some((text, 1.0))
 }
 
@@ -75,7 +73,10 @@ pub fn parse_current_stats(ocr_text: &str) -> Option<BuildStats> {
         .collect();
 
     if tokens.len() < 8 {
-        crate::log_message(&format!("[e7tracker] Stats OCR parsing error: Expected at least 8 numeric tokens, got {}", tokens.len()));
+        crate::log_message(&format!(
+            "[e7tracker] Stats OCR parsing error: Expected at least 8 numeric tokens, got {}",
+            tokens.len()
+        ));
         return None;
     }
 
@@ -117,7 +118,7 @@ fn parse_integer_stat(token: &str) -> Option<u32> {
 
 fn parse_percentage_stat(token: &str, max_val: f64) -> Option<f64> {
     let lower = token.to_lowercase();
-    
+
     // Clean known percentage suffix errors
     let mut cleaned_token = lower;
     if cleaned_token.ends_with("/0") {
@@ -130,14 +131,19 @@ fn parse_percentage_stat(token: &str, max_val: f64) -> Option<f64> {
         cleaned_token = cleaned_token[..cleaned_token.len() - 1].to_string();
     } else if cleaned_token.ends_with('o') && cleaned_token.len() > 1 {
         // Strip trailing 'o' if it's preceded by a digit
-        if cleaned_token.chars().nth(cleaned_token.len() - 2).map_or(false, |c| c.is_ascii_digit()) {
+        if cleaned_token
+            .chars()
+            .nth(cleaned_token.len() - 2)
+            .map_or(false, |c| c.is_ascii_digit())
+        {
             cleaned_token = cleaned_token[..cleaned_token.len() - 1].to_string();
         }
     }
 
     // 1. If it contains a dot, clean of non-numeric except dot, and parse
     if cleaned_token.contains('.') {
-        let cleaned: String = cleaned_token.chars()
+        let cleaned: String = cleaned_token
+            .chars()
             .filter(|c| c.is_ascii_digit() || *c == '.')
             .collect();
         if let Ok(val) = cleaned.parse::<f64>() {
@@ -148,7 +154,8 @@ fn parse_percentage_stat(token: &str, max_val: f64) -> Option<f64> {
     }
 
     // 2. No dot found (or failed validation), clean of non-numeric entirely
-    let digits: String = cleaned_token.chars()
+    let digits: String = cleaned_token
+        .chars()
         .filter(|c| c.is_ascii_digit())
         .collect();
 

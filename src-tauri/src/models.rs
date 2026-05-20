@@ -1,17 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DebugZone {
-    pub zone: Zone,
-    pub image_name: String,
-    pub screen_name: String,
-    pub confidence: f64,
-    pub threshold: f64,
-}
-
-
-/// A rectangular region defined in percentage coordinates (0.0–100.0).
+/// A rectangular region defined in percentage coordinates (0.0-100.0).
 /// Scales with window size.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Zone {
@@ -32,37 +22,43 @@ impl Zone {
     }
 }
 
-/// A feature used to identify which screen is currently active.
-/// The `image` field is the filename of the template image inside the screen's identity folder.
-/// ALL identity features for a screen must match for that screen to be considered active.
+/// OCR zone configuration for a specific screen
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct IdentityFeature {
-    pub image: String,
-    pub zone: Zone,
-    /// Match threshold (0.0–1.0). Higher = stricter. Default 0.8.
-    #[serde(default = "default_threshold")]
-    pub threshold: f64,
+pub struct OcrZoneConfig {
+    pub zones: HashMap<String, ZoneWithDescription>,
+    pub description: String,
 }
 
-fn default_threshold() -> f64 {
-    0.8
+/// Zone with description for OCR monitoring
+/// Matches the JSON structure where x, y, w, h are at the same level as description
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ZoneWithDescription {
+    pub x: f64,
+    pub y: f64,
+    pub w: f64,
+    pub h: f64,
+    pub description: String,
 }
 
-/// How a hero is detected in a specific slot.
+impl ZoneWithDescription {
+    /// Convert to a Zone for compatibility
+    pub fn to_zone(&self) -> Zone {
+        Zone {
+            x: self.x,
+            y: self.y,
+            w: self.w,
+            h: self.h,
+        }
+    }
+}
+
+/// How a hero is detected in a specific slot using AI OCR.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum HeroDetection {
-    /// Read hero name via OCR, then fuzzy-match against heroes.json.
+    /// Read hero name via AI OCR, then fuzzy-match against heroes.json.
     #[serde(rename = "ocr")]
     OCR { zone: Zone },
-    /// Match the zone's content against hero portrait images.
-    #[serde(rename = "image")]
-    Image {
-        zone: Zone,
-        /// Match threshold (0.0–1.0). Default 0.8.
-        #[serde(default = "default_threshold")]
-        threshold: f64,
-    },
 }
 
 /// A single hero position on a screen.
@@ -77,11 +73,10 @@ pub struct HeroSlot {
     pub display: Zone,
 }
 
-/// A game screen definition.
+/// A simplified screen definition for AI-based detection.
+/// Screens are now identified by the AI classifier, not by template matching.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ScreenDef {
-    /// ALL identity features must match for this screen to be active.
-    pub identity: Vec<IdentityFeature>,
     /// Hero slots on this screen.
     pub slots: Vec<HeroSlot>,
 }
@@ -124,4 +119,12 @@ pub struct FrameResult {
     pub screen_name: Option<String>,
     pub detections: Vec<DetectionResult>,
     pub debug_zones: Vec<DebugZone>,
+}
+
+/// Debug zone for visualization (kept for compatibility but no longer uses template matching).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DebugZone {
+    pub zone: Zone,
+    pub screen_name: String,
+    pub confidence: f64,
 }

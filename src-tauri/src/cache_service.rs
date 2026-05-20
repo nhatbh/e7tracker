@@ -430,3 +430,46 @@ pub async fn get_or_download_portrait(state: tauri::State<'_, CacheState>, hero_
     crate::log_message(&format!("[CacheService] Portrait for code {} successfully downloaded and stashed in SQLite.", code));
     Ok(data_url)
 }
+
+/// Get list of hero names from cached hero data
+#[tauri::command]
+pub fn get_hero_names(state: tauri::State<'_, CacheState>) -> Result<Vec<String>, String> {
+    let service = state.get_service()?;
+    let conn = service.conn.lock().unwrap();
+    
+    // Try to get hero data from static_data table
+    let mut stmt = conn.prepare(
+        "SELECT payload FROM static_data WHERE data_type = 'hero_data'"
+    ).map_err(|e| format!("[get_hero_names] DB error: {}", e))?;
+    
+    let mut rows = stmt.query([]).map_err(|e| format!("[get_hero_names] Query error: {}", e))?;
+    
+    if let Some(row) = rows.next().map_err(|e| format!("[get_hero_names] Row error: {}", e))? {
+        let payload: String = row.get(0).map_err(|e| format!("[get_hero_names] Get error: {}", e))?;
+        
+        // Parse the JSON payload and extract hero names
+        if let Ok(parsed) = serde_json::from_str::<serde_json::Value>(&payload) {
+            if let Some(heroes) = parsed.as_object() {
+                let names: Vec<String> = heroes.keys().cloned().collect();
+                crate::log_message(&format!("[get_hero_names] Found {} hero names in cache", names.len()));
+                return Ok(names);
+            }
+        }
+    }
+    
+    // Fallback: try to get from individual hero builds
+    let mut stmt = conn.prepare(
+        "SELECT DISTINCT hero_name FROM hero_builds"
+    ).map_err(|e| format!("[get_hero_names] Fallback query error: {}", e))?;
+    
+    let mut rows = stmt.query([]).map_err(|e| format!("[get_hero_names] Fallback row error: {}", e))?;
+    
+    let mut names = Vec::new();
+    while let Some(row) = rows.next().map_err(|e| format!("[get_hero_names] Fallback next error: {}", e))? {
+        let name: String = row.get(0).map_err(|e| format!("[get_hero_names] Fallback get error: {}", e))?;
+        names.push(name);
+    }
+    
+    crate::log_message(&format!("[get_hero_names] Found {} hero names from builds cache", names.len()));
+    Ok(names)
+}

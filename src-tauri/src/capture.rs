@@ -5,7 +5,6 @@ use windows::Win32::Graphics::Gdi::{
     BitBlt, DeleteDC, DeleteObject, GetDIBits, BITMAPINFO, BITMAPINFOHEADER,
     DIB_RGB_COLORS, SRCCOPY, BI_RGB,
 };
-use windows::Win32::UI::WindowsAndMessaging::GetWindowRect;
 
 /// Get the client area rect in screen coordinates.
 fn get_visible_rect(hwnd: HWND) -> Option<RECT> {

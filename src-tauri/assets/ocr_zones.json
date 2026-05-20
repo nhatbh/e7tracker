@@ -1,0 +1,179 @@
+{
+  "Hero_Detail": {
+    "description": "Hero detail screen with signature and stats",
+    "zones": {
+      "selected_hero": {
+        "x": 50.0,
+        "y": 15.0,
+        "w": 20.0,
+        "h": 5.0,
+        "description": "Hero name area for OCR"
+      },
+      "hero_stats_panel": {
+        "x": 70.0,
+        "y": 30.0,
+        "w": 25.0,
+        "h": 40.0,
+        "description": "Hero stats panel for OCR"
+      }
+    }
+  },
+  "Hero_Stats": {
+    "description": "Hero stats screen showing detailed statistics",
+    "zones": {
+      "selected_hero": {
+        "x": 0.209,
+        "y": 0.556,
+        "w": 44.725,
+        "h": 7.037,
+        "description": "Hero name area for OCR"
+      },
+      "hero_stats_panel": {
+        "x": 19.261,
+        "y": 56.119,
+        "w": 5.896,
+        "h": 28.671,
+        "description": "Hero stats panel for OCR"
+      }
+    }
+  },
+  "Lobby": {
+    "description": "Main lobby screen",
+    "zones": {
+      "selected_hero": {
+        "x": 50.0,
+        "y": 80.0,
+        "w": 15.0,
+        "h": 4.0,
+        "description": "Selected hero name in lobby"
+      }
+    }
+  },
+  "Arena_Lobby": {
+    "description": "Arena lobby screen before match",
+    "zones": {
+      "my_pick_1": {
+        "x": 20.0,
+        "y": 60.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "First hero pick slot"
+      },
+      "my_pick_2": {
+        "x": 35.0,
+        "y": 60.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Second hero pick slot"
+      },
+      "my_pick_3": {
+        "x": 50.0,
+        "y": 60.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Third hero pick slot"
+      },
+      "my_pick_4": {
+        "x": 65.0,
+        "y": 60.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Fourth hero pick slot"
+      },
+      "my_pick_5": {
+        "x": 80.0,
+        "y": 60.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Fifth hero pick slot"
+      }
+    }
+  },
+  "Preban": {
+    "description": "Pre-ban phase screen",
+    "zones": {
+      "enemy_pick_1": {
+        "x": 20.0,
+        "y": 20.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "First enemy hero"
+      },
+      "enemy_pick_2": {
+        "x": 35.0,
+        "y": 20.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Second enemy hero"
+      },
+      "enemy_pick_3": {
+        "x": 50.0,
+        "y": 20.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Third enemy hero"
+      },
+      "enemy_pick_4": {
+        "x": 65.0,
+        "y": 20.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Fourth enemy hero"
+      },
+      "enemy_pick_5": {
+        "x": 80.0,
+        "y": 20.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Fifth enemy hero"
+      }
+    }
+  },
+  "Ban_Pick": {
+    "description": "Ban/pick phase screen",
+    "zones": {
+      "my_pick_1": {
+        "x": 20.0,
+        "y": 70.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "First my hero pick"
+      },
+      "my_pick_2": {
+        "x": 35.0,
+        "y": 70.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Second my hero pick"
+      },
+      "my_pick_3": {
+        "x": 50.0,
+        "y": 70.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Third my hero pick"
+      },
+      "enemy_pick_1": {
+        "x": 20.0,
+        "y": 30.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "First enemy hero pick"
+      },
+      "enemy_pick_2": {
+        "x": 35.0,
+        "y": 30.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Second enemy hero pick"
+      },
+      "enemy_pick_3": {
+        "x": 50.0,
+        "y": 30.0,
+        "w": 12.0,
+        "h": 3.0,
+        "description": "Third enemy hero pick"
+      }
+    }
+  }
+}

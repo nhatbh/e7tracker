@@ -1,261 +1,73 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import { listen } from '@tauri-apps/api/event';
 import { useTranslation } from 'react-i18next';
-import { BuildAssist } from '../services/buildAssist';
 
 // Type for setTimeout return value
 type Timeout = ReturnType<typeof setTimeout>;
 
 interface OcrZoneConfig {
     zones: Record<string, {
-        x: number;
-        y: number;
-        w: number;
-        h: number;
+        zone: { x: number; y: number; w: number; h: number };
         description: string;
     }>;
     description: string;
 }
 
-interface DetectionResult {
-    slot_id: string;
-    hero_id: number | null;
-    hero_name: string | null;
-    confidence: number;
-    display: { x: number; y: number; w: number; h: number };
+interface OcrMonitorViewProps {
+    currentScreen: string | null;
+    ocrStatus: 'idle' | 'scanning' | 'success' | 'error';
 }
 
-interface SelectorViewProps {
-    containerRef?: React.RefObject<HTMLDivElement | null>;
-    currentRect?: { x: number; y: number; w: number; h: number };
-    handleMouseDown?: (e: React.MouseEvent) => void;
-    handleMouseMove?: (e: React.MouseEvent) => void;
-    handleMouseUp?: () => Promise<void>;
-    currentScreen?: string | null;
-}
-
-export const SelectorView: React.FC<SelectorViewProps> = ({ currentScreen }) => {
+export const OcrMonitorView: React.FC<OcrMonitorViewProps> = ({ currentScreen, ocrStatus }) => {
     const { t } = useTranslation();
     const [ocrZones, setOcrZones] = useState<OcrZoneConfig | null>(null);
     const [flashGreen, setFlashGreen] = useState(false);
-    const [ocrStatus, setOcrStatus] = useState<'idle' | 'scanning' | 'success' | 'error'>('idle');
-
-    // OCR monitoring state
-    const [isChecking, setIsChecking] = useState(false);
-    const [detectedHero, setDetectedHero] = useState<string | null>(null);
-    const [isValidated, setIsValidated] = useState(false);
-    const [ocrAttempts, setOcrAttempts] = useState(0);
-
-    const ocrIntervalRef = useRef<Timeout | null>(null);
-    const unlistenMouseRef = useRef<any>(null);
-
-    // Initialize BuildAssist to ensure hero data is available for fuzzy matching
-    useEffect(() => {
-        BuildAssist.init().catch(err => {
-            logMessage(`[OCR Monitor] Failed to initialize BuildAssist: ${err}`);
-        });
-    }, []);
+    const flashTimeoutRef = useRef<Timeout | null>(null);
 
     // Fetch OCR zones for the current screen
     useEffect(() => {
         const fetchOcrZones = async () => {
             if (currentScreen) {
-                setOcrStatus('scanning');
                 try {
                     const zones = await invoke<OcrZoneConfig | null>('get_ocr_zones_for_screen', {
                         screenName: currentScreen
                     });
                     setOcrZones(zones);
-                    setOcrStatus(zones ? 'success' : 'error');
-
-                    // Flash green when zones are loaded
-                    setFlashGreen(true);
-                    setTimeout(() => setFlashGreen(false), 100);
                 } catch (err) {
                     console.error('Failed to fetch OCR zones:', err);
                     setOcrZones(null);
-                    setOcrStatus('error');
                 }
             } else {
                 setOcrZones(null);
-                setOcrStatus('idle');
             }
         };
 
         fetchOcrZones();
     }, [currentScreen]);
 
-    // Start/stop OCR loop based on screen and validation state
+    // Handle OCR status changes for visual feedback
     useEffect(() => {
-        // Stop OCR if screen changes or hero is validated
-        if ((!currentScreen || currentScreen !== 'Hero_Stats') && isChecking) {
-            logMessage('[OCR Monitor] Stopping OCR: screen changed');
-            stopOcrLoop();
-        }
-
-        // Start OCR when Hero_Stats is detected and we have zones
-        if (currentScreen === 'Hero_Stats' && ocrZones && !isChecking && !isValidated) {
-            logMessage('[OCR Monitor] Starting OCR loop for Hero_Stats');
-            startOcrLoop();
-        }
-    }, [currentScreen, ocrZones, isChecking, isValidated]);
-
-    // Listen for mouse click events
-    useEffect(() => {
-        const setupMouseListener = async () => {
-            if (unlistenMouseRef.current) {
-                await unlistenMouseRef.current();
+        if (ocrStatus === 'scanning') {
+            // Flash green when OCR is active
+            setFlashGreen(true);
+            if (flashTimeoutRef.current) {
+                clearTimeout(flashTimeoutRef.current);
             }
-            unlistenMouseRef.current = await listen('mouse-click', () => {
-                logMessage('[OCR Monitor] Mouse click detected');
-                // Restart OCR if on Hero_Stats and not already checking
-                if (currentScreen === 'Hero_Stats' && !isChecking) {
-                    logMessage('[OCR Monitor] Restarting OCR due to mouse click');
-                    // Reset validation to trigger new OCR
-                    setIsValidated(false);
-                    setDetectedHero(null);
-                    setOcrAttempts(0);
-                }
-            });
-        };
-
-        setupMouseListener();
-
-        return () => {
-            if (unlistenMouseRef.current) {
-                unlistenMouseRef.current();
-            }
-        };
-    }, [currentScreen, isChecking]);
-
-    // Listen for detection results from backend
-    useEffect(() => {
-        const setupDetectionListener = async () => {
-            const unlisten = await listen<any>('detection-result', (event) => {
-                const result = event.payload;
-
-                // Check if this is an OCR result with a hero name
-                if (result.hero_name) {
-                    // Validate the hero name using BuildAssist
-                    const matchedHeroName = BuildAssist.matchHeroName(result.hero_name);
-
-                    if (matchedHeroName) {
-                        setDetectedHero(matchedHeroName);
-                        setIsValidated(true);
-                        setOcrStatus('success');
-                        stopOcrLoop();
-                    }
-                }
-            });
-
-            return unlisten;
-        };
-
-        let unlistenDetection: any = null;
-        setupDetectionListener().then(fn => {
-            unlistenDetection = fn;
-        });
-
-        return () => {
-            if (unlistenDetection) {
-                unlistenDetection();
-            }
-        };
-    }, [isChecking]);
-
-    // OCR loop: trigger every second until hero is validated
-    const startOcrLoop = () => {
-        if (isChecking) return;
-        setIsChecking(true);
-        setIsValidated(false);
-        setDetectedHero(null);
-        setOcrAttempts(0);
-
-        const heroZone = ocrZones?.zones['selected_hero'];
-        if (!heroZone) {
-            logMessage('[OCR Monitor] No selected_hero zone configured');
-            setIsChecking(false);
-            return;
-        }
-
-        logMessage('[OCR Monitor] OCR loop started');
-
-        const triggerOcr = async () => {
-            try {
-                const attempt = ocrAttempts + 1;
-                setOcrAttempts(attempt);
-                setOcrStatus('scanning');
-                setFlashGreen(true);
-
-                logMessage(`[OCR Monitor] Attempt ${attempt}: calling perform_ocr_on_screen`);
-
-                const result = await invoke<DetectionResult>('perform_ocr_on_screen', {
-                    slotId: 'selected_hero',
-                    zone: { x: heroZone.x, y: heroZone.y, w: heroZone.w, h: heroZone.h }
-                });
-
+            flashTimeoutRef.current = setTimeout(() => {
                 setFlashGreen(false);
+            }, 100);
+        }
 
-                logMessage(`[OCR] Raw OCR result: ${JSON.stringify(result)}`);
-
-                if (result.hero_name) {
-                    logMessage(`[OCR] Raw OCR result: ${result.hero_name}`);
-
-                    // Ensure BuildAssist is initialized
-                    await BuildAssist.init().catch((err) => {
-                        logMessage(`[OCR] BuildAssist.init() failed: ${err}`);
-                    });
-
-                    logMessage(`[OCR] Calling matchHeroName with: "${result.hero_name}"`);
-                    const matchedHeroName = BuildAssist.matchHeroName(result.hero_name);
-                    logMessage(`[OCR] matchHeroName returned: ${matchedHeroName || 'null'}`);
-
-                    if (matchedHeroName) {
-                        logMessage(`[OCR] ✓ Hero validated: ${matchedHeroName}`);
-                        setDetectedHero(matchedHeroName);
-                        setIsValidated(true);
-                        setOcrStatus('success');
-                        stopOcrLoop();
-                    } else {
-                        logMessage(`[OCR] ✗ Hero validation failed for: ${result.hero_name}`);
-                        setOcrStatus('scanning');
-                    }
-                } else {
-                    logMessage(`[OCR Monitor] Attempt ${attempt}: no hero detected`);
-                    setOcrStatus('scanning');
-                }
-            } catch (err) {
-                logMessage(`[OCR Monitor] Attempt ${ocrAttempts + 1}: error - ${err}`);
-                setOcrStatus('error');
+        return () => {
+            if (flashTimeoutRef.current) {
+                clearTimeout(flashTimeoutRef.current);
             }
         };
-
-        // First attempt immediately
-        triggerOcr();
-
-        // Then every second
-        ocrIntervalRef.current = setInterval(triggerOcr, 1000) as unknown as Timeout;
-    };
-
-    const stopOcrLoop = () => {
-        if (ocrIntervalRef.current) {
-            clearInterval(ocrIntervalRef.current);
-            ocrIntervalRef.current = null;
-        }
-        setIsChecking(false);
-        setOcrStatus('idle');
-        logMessage('[OCR Monitor] OCR loop stopped');
-    };
-
-    // Helper to log to Rust terminal via backend command
-    const logMessage = (message: string) => {
-        invoke('log_frontend_info', { msg: message }).catch(() => { });
-    };
+    }, [ocrStatus]);
 
     return (
         <main
-            className="selector-view"
+            className="ocr-monitor-view"
             style={{
                 width: '100vw',
                 height: '100vh',
@@ -323,9 +135,9 @@ export const SelectorView: React.FC<SelectorViewProps> = ({ currentScreen }) => 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '8px', color: 'rgba(255,255,255,0.4)', fontWeight: 'bold', letterSpacing: '0.5px' }}>OCR STATUS</label>
                     <div style={{
-                        background: isChecking ? 'rgba(16, 185, 129, 0.8)' :
-                            isValidated ? 'rgba(16, 185, 129, 0.5)' :
-                                ocrStatus === 'error' ? 'rgba(239, 68, 68, 0.8)' : 'rgba(100, 100, 100, 0.3)',
+                        background: ocrStatus === 'scanning' ? 'rgba(16, 185, 129, 0.8)' : 
+                                    ocrStatus === 'success' ? 'rgba(16, 185, 129, 0.5)' :
+                                    ocrStatus === 'error' ? 'rgba(239, 68, 68, 0.8)' : 'rgba(100, 100, 100, 0.3)',
                         border: '1px solid rgba(255,255,255,0.1)',
                         borderRadius: '6px',
                         color: '#fff',
@@ -336,32 +148,11 @@ export const SelectorView: React.FC<SelectorViewProps> = ({ currentScreen }) => 
                         textAlign: 'center',
                         fontWeight: 'bold'
                     }}>
-                        {isChecking ? `CHECKING (${ocrAttempts})` :
-                            isValidated ? 'VALIDATED' :
-                                ocrStatus === 'error' ? 'ERROR' : 'IDLE'}
+                        {ocrStatus === 'scanning' ? 'SCANNING...' : 
+                         ocrStatus === 'success' ? 'SUCCESS' :
+                         ocrStatus === 'error' ? 'ERROR' : 'IDLE'}
                     </div>
                 </div>
-
-                {/* Detected Hero Display */}
-                {isChecking || detectedHero ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '8px', color: 'rgba(255,255,255,0.4)', fontWeight: 'bold', letterSpacing: '0.5px' }}>DETECTED</label>
-                        <div style={{
-                            background: detectedHero ? (isValidated ? 'rgba(16, 185, 129, 0.5)' : 'rgba(255, 165, 0, 0.5)') : 'rgba(100, 100, 100, 0.3)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: '6px',
-                            color: '#fff',
-                            fontSize: '11px',
-                            padding: '4px 8px',
-                            outline: 'none',
-                            minWidth: '140px',
-                            textAlign: 'center',
-                            fontWeight: 'bold'
-                        }}>
-                            {detectedHero || (isChecking ? '...' : 'None')}
-                        </div>
-                    </div>
-                ) : null}
             </div>
 
             {/* 📍 OCR Zone Visualization */}
@@ -389,10 +180,10 @@ export const SelectorView: React.FC<SelectorViewProps> = ({ currentScreen }) => 
             {ocrZones && currentScreen && Object.entries(ocrZones.zones).map(([slotId, zoneConfig]) => (
                 <div key={slotId} style={{
                     position: 'absolute',
-                    left: `${zoneConfig.x}%`,
-                    top: `${zoneConfig.y}%`,
-                    width: `${zoneConfig.w}%`,
-                    height: `${zoneConfig.h}%`,
+                    left: `${zoneConfig.zone.x}%`,
+                    top: `${zoneConfig.zone.y}%`,
+                    width: `${zoneConfig.zone.w}%`,
+                    height: `${zoneConfig.zone.h}%`,
                     border: flashGreen ? '2px solid rgba(16, 185, 129, 0.85)' : '2px solid rgba(239, 68, 68, 0.85)',
                     boxShadow: flashGreen ? '0 0 10px rgba(16, 185, 129, 0.4)' : '0 0 10px rgba(239, 68, 68, 0.4)',
                     pointerEvents: 'none',

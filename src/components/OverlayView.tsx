@@ -395,12 +395,6 @@ export const OverlayView: React.FC<OverlayViewProps> = ({
     const { t } = useTranslation();
     const [winSize, setWinSize] = useState({ width: window.innerWidth, height: window.innerHeight });
     
-    // Debug Mode & Coordinate Tickers State
-    const [debugMode, setDebugMode] = useState<boolean>(() => {
-        return localStorage.getItem('debug_overlay_mode') === 'true';
-    });
-    const [cursorPos, setCursorPos] = useState({ x: 0, y: 0, pctX: 0, pctY: 0 });
-
     useEffect(() => {
         const handleResize = () => {
             setWinSize({ width: window.innerWidth, height: window.innerHeight });
@@ -409,27 +403,8 @@ export const OverlayView: React.FC<OverlayViewProps> = ({
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    useEffect(() => {
-        localStorage.setItem('debug_overlay_mode', String(debugMode));
-    }, [debugMode]);
-
-    useEffect(() => {
-        if (!debugMode) return;
-        const handleMouseMove = (e: MouseEvent) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            const pctX = (x / window.innerWidth) * 100;
-            const pctY = (y / window.innerHeight) * 100;
-            setCursorPos({ x, y, pctX, pctY });
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [debugMode]);
-
-    const isSafeSize = winSize.width >= 960 && winSize.width <= 1030 && winSize.height >= 540 && winSize.height <= 598;
-
     return (
-        <main className={`overlay-view overlay-view-wrapper ${debugMode ? 'debug-mode-active' : ''}`}>
+        <main className="overlay-view overlay-view-wrapper">
             {frameResult?.screen_name === "Hero_Stats" && (
                 <>
                     {buildData && (
@@ -489,18 +464,6 @@ export const OverlayView: React.FC<OverlayViewProps> = ({
             {frameResult?.screen_name === "Lobby" && (
                 <LobbyOverlay />
             )}
-            {!isSafeSize && (
-                <div className="overlay-scale-indicator unsafe-scale">
-                    <div className="warning-row">
-                        <span className="warning-icon">⚠️</span>
-                        <span className="warning-title">{t('overlay.resolutionWarningTitle')}</span>
-                        <span className="current-scale-val">{winSize.width} × {winSize.height}</span>
-                    </div>
-                    <div className="resize-prompt">
-                        {t('overlay.resolutionWarningMessage')}
-                    </div>
-                </div>
-            )}
             
             {frameResult?.screen_name !== "Lobby" && (
                 <div className="overlay-watermark">
@@ -508,60 +471,6 @@ export const OverlayView: React.FC<OverlayViewProps> = ({
                     <span className="watermark-text">e7Tracker</span>
                 </div>
             )}
-
-            {/* ── Calibration & Debug HUD Rulers Layer ── */}
-            {debugMode && (
-                <>
-                    {/* Top Edge Ruler Grid ticks */}
-                    <div className="debug-ruler-bar horizontal">
-                        {Array.from({ length: Math.ceil(winSize.width / 100) + 1 }).map((_, idx) => {
-                            const px = idx * 100;
-                            return (
-                                <div key={px} className="ruler-tick top-tick" style={{ left: px }}>
-                                    <span className="tick-label">{px}</span>
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    {/* Left Edge Ruler Grid ticks */}
-                    <div className="debug-ruler-bar vertical">
-                        {Array.from({ length: Math.ceil(winSize.height / 100) + 1 }).map((_, idx) => {
-                            const px = idx * 100;
-                            return (
-                                <div key={px} className="ruler-tick left-tick" style={{ top: px }}>
-                                    <span className="tick-label">{px}</span>
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    {/* Dotted Dilation Target Crosshairs */}
-                    <div className="debug-ruler-line-h" style={{ top: cursorPos.y }} />
-                    <div className="debug-ruler-line-v" style={{ left: cursorPos.x }} />
-
-                    {/* Absolute Neon Position Cursor Ticker Tooltip */}
-                    <div 
-                        className="debug-cursor-tooltip" 
-                        style={{ 
-                            left: Math.min(cursorPos.x + 12, winSize.width - 120), 
-                            top: Math.min(cursorPos.y + 12, winSize.height - 45) 
-                        }}
-                    >
-                        X: {cursorPos.x}px ({cursorPos.pctX.toFixed(1)}%)<br />
-                        Y: {cursorPos.y}px ({cursorPos.pctY.toFixed(1)}%)
-                    </div>
-                </>
-            )}
-
-            {/* Neon Toggler Button positioned in the bottom edge panel */}
-            <button
-                className={`overlay-debug-toggle-btn ${debugMode ? 'active' : ''}`}
-                onClick={() => setDebugMode(prev => !prev)}
-                title="Toggle absolute calibration debug overlay"
-            >
-                🛠️ {debugMode ? 'Debug HUD ON' : 'Debug HUD OFF'}
-            </button>
         </main>
     );
 };
