@@ -203,6 +203,10 @@ export const useDamageCalculator = (heroName: string, defaultStats: any) => {
     setFormState(prev => ({ ...prev, [field]: value }));
   };
 
+  const bulkUpdateFields = (fields: Record<string, any>) => {
+    setFormState(prev => ({ ...prev, ...fields }));
+  };
+
   const currentArtifact = useMemo(() => {
     return Artifacts[artifactId] || Artifacts.noProc;
   }, [artifactId]);
@@ -310,6 +314,7 @@ export const useDamageCalculator = (heroName: string, defaultStats: any) => {
     setArtifactLevel,
     formState,
     updateField,
+    bulkUpdateFields,
     calculatedOutput
   };
 };

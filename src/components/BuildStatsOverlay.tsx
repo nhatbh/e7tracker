@@ -4,6 +4,7 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Responsi
 import { ProcessedBuildData, BuildStats } from '../services/buildAssist';
 import { HeroAnalysis, MetagameHero } from '../services/combatData';
 import { getSetIconUrl } from '../services/setAssets';
+import { SettingsService, AppSettings, DEFAULT_SETTINGS } from '../services/settingsService';
 import './BuildStatsOverlay.css';
 
 interface BuildStatsOverlayProps {
@@ -33,6 +34,21 @@ export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({
 }) => {
     const { t } = useTranslation();
     const [localBuildData, setLocalBuildData] = useState<ProcessedBuildData | null>(null);
+    const [visualSettings, setVisualSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
+
+    useEffect(() => {
+        // Load initial settings
+        SettingsService.getSettings().then(setVisualSettings).catch(console.error);
+
+        // Listen for live updates
+        const unsubscribe = SettingsService.onSettingsChanged((newSettings) => {
+            setVisualSettings(newSettings);
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
     // Deep copy build data independently when the screen turns on / updates
     useEffect(() => {
@@ -261,8 +277,14 @@ export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({
         );
     };
 
+    const containerStyle = {
+        background: `rgba(15, 20, 35, ${visualSettings.opacityOverlay})`,
+        backdropFilter: visualSettings.blurEnabledOverlay ? 'blur(12px)' : 'none',
+        WebkitBackdropFilter: visualSettings.blurEnabledOverlay ? 'blur(12px)' : 'none',
+    };
+
     return (
-        <div className="build-stats-container">
+        <div className="build-stats-container" style={containerStyle}>
             {cachedDateStr && (
                 <div style={{
                     position: 'absolute',

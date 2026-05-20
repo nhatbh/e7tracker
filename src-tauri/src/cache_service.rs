@@ -1,10 +1,22 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::Mutex;
+use std::sync::OnceLock;
 use rusqlite::{params, Connection};
 
 pub struct CacheService {
     pub conn: Mutex<Connection>,
+}
+
+pub struct CacheState(pub OnceLock<CacheService>);
+
+impl CacheState {
+    pub fn get_service(&self) -> Result<&CacheService, String> {
+        self.0.get().ok_or_else(|| {
+            let err = "[CacheState] Error: Attempted to query cache before CacheService was initialized.".to_string();
+            err
+        })
+    }
 }
 
 impl CacheService {
@@ -83,10 +95,18 @@ impl CacheService {
 }
 
 #[tauri::command]
-pub fn cache_set(state: tauri::State<'_, CacheService>, key: String, value: String) -> Result<(), String> {
+pub fn is_cache_ready(state: tauri::State<'_, CacheState>) -> bool {
+    let ready = state.0.get().is_some();
+    crate::log_message(&format!("[CacheState] is_cache_ready check requested by frontend. Status: {}", ready));
+    ready
+}
+
+#[tauri::command]
+pub fn cache_set(state: tauri::State<'_, CacheState>, key: String, value: String) -> Result<(), String> {
+    let service = state.get_service()?;
     // A. Static global databases
     if key == "buildassist_hero_data" {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let now = chrono::Utc::now().timestamp_millis();
         conn.execute(
             "INSERT INTO static_data (data_type, payload, updated_at)
@@ -98,7 +118,7 @@ pub fn cache_set(state: tauri::State<'_, CacheService>, key: String, value: Stri
     }
     
     if key == "buildassist_artifact_data" {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let now = chrono::Utc::now().timestamp_millis();
         conn.execute(
             "INSERT INTO static_data (data_type, payload, updated_at)
@@ -119,7 +139,7 @@ pub fn cache_set(state: tauri::State<'_, CacheService>, key: String, value: Stri
                 parsed.get("timestamp").and_then(|t| t.as_i64()),
                 parsed.get("requestData"),
             ) {
-                let conn = state.conn.lock().unwrap();
+                let conn = service.conn.lock().unwrap();
                 conn.execute(
                     "INSERT INTO hero_builds (hero_name, build_data, request_data, updated_at)
                      VALUES (?1, ?2, ?3, ?4)
@@ -133,7 +153,7 @@ pub fn cache_set(state: tauri::State<'_, CacheService>, key: String, value: Stri
             }
         }
         // Fallback for flat structure
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let now = chrono::Utc::now().timestamp_millis();
         conn.execute(
             "INSERT INTO hero_builds (hero_name, build_data, request_data, updated_at)
@@ -158,7 +178,7 @@ pub fn cache_set(state: tauri::State<'_, CacheService>, key: String, value: Stri
         } else {
             hero_code.to_string()
         };
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let now = chrono::Utc::now().timestamp_millis();
         conn.execute(
             "INSERT INTO combat_analyses (hero_code, hero_name, analysis_data, updated_at)
@@ -173,7 +193,7 @@ pub fn cache_set(state: tauri::State<'_, CacheService>, key: String, value: Stri
     }
 
     // D. Generic configuration fallback
-    let conn = state.conn.lock().unwrap();
+    let conn = service.conn.lock().unwrap();
     let now = chrono::Utc::now().timestamp_millis();
     conn.execute(
         "INSERT INTO kv_cache (key, value, updated_at)
@@ -185,10 +205,11 @@ pub fn cache_set(state: tauri::State<'_, CacheService>, key: String, value: Stri
 }
 
 #[tauri::command]
-pub fn cache_get(state: tauri::State<'_, CacheService>, key: String) -> Result<Option<String>, String> {
+pub fn cache_get(state: tauri::State<'_, CacheState>, key: String) -> Result<Option<String>, String> {
+    let service = state.get_service()?;
     // A. Static global databases
     if key == "buildassist_hero_data" {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let mut stmt = conn.prepare("SELECT payload FROM static_data WHERE data_type = 'hero_data'").map_err(|e| e.to_string())?;
         let mut rows = stmt.query([]).map_err(|e| e.to_string())?;
         if let Some(row) = rows.next().map_err(|e| e.to_string())? {
@@ -199,7 +220,7 @@ pub fn cache_get(state: tauri::State<'_, CacheService>, key: String) -> Result<O
     }
     
     if key == "buildassist_artifact_data" {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let mut stmt = conn.prepare("SELECT payload FROM static_data WHERE data_type = 'artifact_data'").map_err(|e| e.to_string())?;
         let mut rows = stmt.query([]).map_err(|e| e.to_string())?;
         if let Some(row) = rows.next().map_err(|e| e.to_string())? {
@@ -212,7 +233,7 @@ pub fn cache_get(state: tauri::State<'_, CacheService>, key: String) -> Result<O
     // B. Individual Hero Builds
     if key.starts_with("buildassist_build_") {
         let hero_name = &key[18..];
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let mut stmt = conn.prepare(
             "SELECT build_data, request_data, updated_at FROM hero_builds WHERE hero_name = ?1"
         ).map_err(|e| e.to_string())?;
@@ -235,7 +256,7 @@ pub fn cache_get(state: tauri::State<'_, CacheService>, key: String) -> Result<O
     // C. Segmented Combat Analysis
     if key.starts_with("combat_analysis_") {
         let hero_code = &key[16..];
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let mut stmt = conn.prepare("SELECT analysis_data FROM combat_analyses WHERE hero_code = ?1").map_err(|e| e.to_string())?;
         let mut rows = stmt.query(params![hero_code]).map_err(|e| e.to_string())?;
         if let Some(row) = rows.next().map_err(|e| e.to_string())? {
@@ -246,7 +267,7 @@ pub fn cache_get(state: tauri::State<'_, CacheService>, key: String) -> Result<O
     }
 
     // D. Generic fallback
-    let conn = state.conn.lock().unwrap();
+    let conn = service.conn.lock().unwrap();
     let mut stmt = conn.prepare("SELECT value FROM kv_cache WHERE key = ?1").map_err(|e| e.to_string())?;
     let mut rows = stmt.query(params![key]).map_err(|e| e.to_string())?;
     if let Some(row) = rows.next().map_err(|e| e.to_string())? {
@@ -257,15 +278,16 @@ pub fn cache_get(state: tauri::State<'_, CacheService>, key: String) -> Result<O
 }
 
 #[tauri::command]
-pub fn cache_remove(state: tauri::State<'_, CacheService>, key: String) -> Result<(), String> {
+pub fn cache_remove(state: tauri::State<'_, CacheState>, key: String) -> Result<(), String> {
+    let service = state.get_service()?;
     // A. Static global databases
     if key == "buildassist_hero_data" {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         conn.execute("DELETE FROM static_data WHERE data_type = 'hero_data';", []).map_err(|e| e.to_string())?;
         return Ok(());
     }
     if key == "buildassist_artifact_data" {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         conn.execute("DELETE FROM static_data WHERE data_type = 'artifact_data';", []).map_err(|e| e.to_string())?;
         return Ok(());
     }
@@ -273,7 +295,7 @@ pub fn cache_remove(state: tauri::State<'_, CacheService>, key: String) -> Resul
     // B. Individual Hero Builds
     if key.starts_with("buildassist_build_") {
         let hero_name = &key[18..];
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         conn.execute("DELETE FROM hero_builds WHERE hero_name = ?1;", params![hero_name]).map_err(|e| e.to_string())?;
         return Ok(());
     }
@@ -281,20 +303,21 @@ pub fn cache_remove(state: tauri::State<'_, CacheService>, key: String) -> Resul
     // C. Segmented Combat Analysis
     if key.starts_with("combat_analysis_") {
         let hero_code = &key[16..];
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         conn.execute("DELETE FROM combat_analyses WHERE hero_code = ?1;", params![hero_code]).map_err(|e| e.to_string())?;
         return Ok(());
     }
 
     // D. Generic fallback
-    let conn = state.conn.lock().unwrap();
+    let conn = service.conn.lock().unwrap();
     conn.execute("DELETE FROM kv_cache WHERE key = ?1;", params![key]).map_err(|e| e.to_string())?;
     Ok(())
 }
 
 #[tauri::command]
-pub fn cache_clear(state: tauri::State<'_, CacheService>) -> Result<(), String> {
-    let conn = state.conn.lock().unwrap();
+pub fn cache_clear(state: tauri::State<'_, CacheState>) -> Result<(), String> {
+    let service = state.get_service()?;
+    let conn = service.conn.lock().unwrap();
     conn.execute("DELETE FROM static_data;", []).map_err(|e| e.to_string())?;
     conn.execute("DELETE FROM hero_builds;", []).map_err(|e| e.to_string())?;
     conn.execute("DELETE FROM combat_analyses;", []).map_err(|e| e.to_string())?;
@@ -305,9 +328,10 @@ pub fn cache_clear(state: tauri::State<'_, CacheService>) -> Result<(), String> 
 }
 
 #[tauri::command]
-pub fn cache_get_all(state: tauri::State<'_, CacheService>) -> Result<HashMap<String, String>, String> {
+pub fn cache_get_all(state: tauri::State<'_, CacheState>) -> Result<HashMap<String, String>, String> {
+    let service = state.get_service()?;
     let mut map = HashMap::new();
-    let conn = state.conn.lock().unwrap();
+    let conn = service.conn.lock().unwrap();
 
     // 1. Load static databases
     let mut stmt = conn.prepare("SELECT data_type, payload FROM static_data").map_err(|e| e.to_string())?;
@@ -352,7 +376,8 @@ pub fn cache_get_all(state: tauri::State<'_, CacheService>) -> Result<HashMap<St
 }
 
 #[tauri::command]
-pub async fn get_or_download_portrait(state: tauri::State<'_, CacheService>, hero_code: String) -> Result<String, String> {
+pub async fn get_or_download_portrait(state: tauri::State<'_, CacheState>, hero_code: String) -> Result<String, String> {
+    let service = state.get_service()?;
     let code = hero_code.trim().to_lowercase();
     if code.is_empty() {
         return Err("Hero code cannot be empty".to_string());
@@ -360,7 +385,7 @@ pub async fn get_or_download_portrait(state: tauri::State<'_, CacheService>, her
 
     // 1. Check local cache first
     {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let mut stmt = conn.prepare("SELECT portrait_base64 FROM hero_portraits WHERE hero_code = ?1").map_err(|e| e.to_string())?;
         let mut rows = stmt.query(params![code]).map_err(|e| e.to_string())?;
         if let Some(row) = rows.next().map_err(|e| e.to_string())? {
@@ -392,7 +417,7 @@ pub async fn get_or_download_portrait(state: tauri::State<'_, CacheService>, her
 
     // 4. Commit to local SQLite
     {
-        let conn = state.conn.lock().unwrap();
+        let conn = service.conn.lock().unwrap();
         let now = chrono::Utc::now().timestamp_millis();
         conn.execute(
             "INSERT INTO hero_portraits (hero_code, portrait_base64, updated_at)

@@ -197,25 +197,23 @@ class CombatDataService {
     }
 
     /**
-     * Initializes the service by reading cache. If cache misses, triggers auto-fetch.
+     * Initializes the service by reading cache. Always triggers startup auto-fetch in the background.
      */
-    async init(autoFetchOnMiss = true): Promise<void> {
+    async init(): Promise<void> {
         try {
             await this.logInfo("[CombatDataService] Initializing and checking cache...");
             const cachedMetaStr = await invoke<string | null>("cache_get", { key: CACHE_KEY_METADATA });
             if (cachedMetaStr) {
                 this.metadata = JSON.parse(cachedMetaStr);
                 await this.logInfo(`[CombatDataService] Cache HIT. Loaded metadata from cache. Total matches analyzed: ${this.metadata?.total_matches}. Cached at: ${new Date(this.metadata?.cachedAt || 0).toLocaleString()}`);
-                return;
+            } else {
+                await this.logInfo("[CombatDataService] Cache MISS. Metadata not found in local cache.");
             }
 
-            await this.logInfo("[CombatDataService] Cache MISS. Metadata not found in local cache.");
-            if (autoFetchOnMiss) {
-                await this.logInfo("[CombatDataService] Auto-fetching combat data on startup...");
-                await this.fetchAndPartitionCombatData(DEFAULT_COMBAT_DATA_URL).catch(async (err) => {
-                    await this.logError("[CombatDataService] Startup auto-fetch failed", err);
-                });
-            }
+            await this.logInfo("[CombatDataService] Auto-fetching combat data on startup...");
+            this.fetchAndPartitionCombatData(DEFAULT_COMBAT_DATA_URL).catch(async (err) => {
+                await this.logError("[CombatDataService] Startup auto-fetch failed", err);
+            });
         } catch (e: any) {
             this.initError = e.message || String(e);
             await this.logError("[CombatDataService] Initialization error", e);
@@ -479,23 +477,21 @@ class MetagameDataService {
         }
     }
 
-    async init(autoFetchOnMiss = true): Promise<void> {
+    async init(): Promise<void> {
         try {
             await this.logInfo("[MetagameDataService] Initializing and checking cache...");
             const cachedMetaStr = await invoke<string | null>("cache_get", { key: CACHE_KEY_METAGAME_METADATA });
             if (cachedMetaStr) {
                 this.metadata = JSON.parse(cachedMetaStr);
                 await this.logInfo(`[MetagameDataService] Cache HIT. Loaded metadata from cache. Cached at: ${new Date(this.metadata?.cachedAt || 0).toLocaleString()}`);
-                return;
+            } else {
+                await this.logInfo("[MetagameDataService] Cache MISS. Metadata not found in local cache.");
             }
 
-            await this.logInfo("[MetagameDataService] Cache MISS. Metadata not found in local cache.");
-            if (autoFetchOnMiss) {
-                await this.logInfo("[MetagameDataService] Auto-fetching metagame data on startup...");
-                await this.fetchAndPartitionMetagameData(DEFAULT_METAGAME_DATA_URL).catch(async (err) => {
-                    await this.logError("[MetagameDataService] Startup auto-fetch failed", err);
-                });
-            }
+            await this.logInfo("[MetagameDataService] Auto-fetching metagame data on startup...");
+            this.fetchAndPartitionMetagameData(DEFAULT_METAGAME_DATA_URL).catch(async (err) => {
+                await this.logError("[MetagameDataService] Startup auto-fetch failed", err);
+            });
         } catch (e: any) {
             this.initError = e.message || String(e);
             await this.logError("[MetagameDataService] Initialization error", e);

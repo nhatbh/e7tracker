@@ -12,6 +12,85 @@ import { SelectorView } from "./components/SelectorView";
 import { OverlayView, FrameResult } from "./components/OverlayView";
 import { LogsView } from "./components/LogsView";
 import { HeroDetailsView } from "./components/HeroDetailsView";
+import { ImportStatsModal } from "./components/damageCalc/ImportStatsModal";
+import { SavedBuildProfile } from "./services/damageCalc/profileCalc";
+
+export interface ParsedStats {
+    atk: number;
+    defense: number;
+    hp: number;
+    speed: number;
+    chc: number;
+    chd: number;
+    eff: number;
+    efr: number;
+}
+
+export function parseOCRStats(text: string): ParsedStats | null {
+    const tokens = text.split(/\s+/).filter(token => /\d/.test(token));
+    if (tokens.length < 8) {
+        console.warn(`[OCR Stats] Expected at least 8 numeric tokens, got ${tokens.length}:`, tokens);
+        return null;
+    }
+
+    const parseInteger = (token: string): number | null => {
+        const cleaned = token.replace(/\D/g, '');
+        const val = parseInt(cleaned, 10);
+        return isNaN(val) ? null : val;
+    };
+
+    const parsePercentage = (token: string, maxVal: number): number | null => {
+        let cleaned = token.toLowerCase();
+        if (cleaned.endsWith('/0')) cleaned = cleaned.slice(0, -2);
+        else if (cleaned.endsWith('/o')) cleaned = cleaned.slice(0, -2);
+        else if (cleaned.endsWith('wo')) cleaned = cleaned.slice(0, -2);
+        else if (cleaned.endsWith('%')) cleaned = cleaned.slice(0, -1);
+        else if (cleaned.endsWith('o') && cleaned.length > 1) {
+            if (/\d/.test(cleaned[cleaned.length - 2])) {
+                cleaned = cleaned.slice(0, -1);
+            }
+        }
+
+        if (cleaned.includes('.')) {
+            const dotCleaned = cleaned.replace(/[^0-9.]/g, '');
+            const val = parseFloat(dotCleaned);
+            if (!isNaN(val) && val <= maxVal) {
+                return val;
+            }
+        }
+
+        const digitsCleaned = cleaned.replace(/\D/g, '');
+        if (!digitsCleaned) return null;
+
+        const num = parseInt(digitsCleaned, 10);
+        if (isNaN(num)) return null;
+
+        const val1 = num / 10;
+        if (val1 <= maxVal) return val1;
+
+        const val2 = num / 100;
+        if (val2 <= maxVal) return val2;
+
+        return null;
+    };
+
+    const atk = parseInteger(tokens[0]);
+    const defense = parseInteger(tokens[1]);
+    const hp = parseInteger(tokens[2]);
+    const speed = parseInteger(tokens[3]);
+
+    const chc = parsePercentage(tokens[4], 100.0);
+    const chd = parsePercentage(tokens[5], 999.0);
+    const eff = parsePercentage(tokens[6], 999.0);
+    const efr = parsePercentage(tokens[7], 999.0);
+
+    if (atk === null || defense === null || hp === null || speed === null ||
+        chc === null || chd === null || eff === null || efr === null) {
+        return null;
+    }
+
+    return { atk, defense, hp, speed, chc, chd, eff, efr };
+}
 
 
 function App() {
@@ -44,6 +123,31 @@ function App() {
     const [isHidingForOCR, setIsHidingForOCR] = useState(false);
     const [isAppLoaded, setIsAppLoaded] = useState(false);
 
+    // OCR Stat Scanning states
+    const [statsOcrStatus, setStatsOcrStatus] = useState<'idle' | 'scanning' | 'timeout' | 'success'>('idle');
+    const [statsOcrCountdown, setStatsOcrCountdown] = useState(5);
+    const [showImportModal, setShowImportModal] = useState(false);
+    const [scannedStatsData, setScannedStatsData] = useState<{
+        atk?: number;
+        defense?: number;
+        hp?: number;
+        speed?: number;
+        chc?: number;
+        chd?: number;
+        eff?: number;
+        efr?: number;
+    } | null>(null);
+    const [detailedHeroInitialTab, setDetailedHeroInitialTab] = useState<'analytics' | 'combat' | 'calculator' | 'saved_builds' | 'compare'>('analytics');
+    const [importedProfileToLoad, setImportedProfileToLoad] = useState<SavedBuildProfile | null>(null);
+
+    const statsOcrStatusRef = useRef(statsOcrStatus);
+    useEffect(() => {
+        statsOcrStatusRef.current = statsOcrStatus;
+    }, [statsOcrStatus]);
+
+    const scanCountdownTimerRef = useRef<any>(null);
+
+
     useEffect(() => {
         const handleOCRChange = (e: Event) => {
             const customEvent = e as CustomEvent;
@@ -75,8 +179,89 @@ function App() {
         detailedHeroNameRef.current = detailedHeroName;
     }, [detailedHeroName]);
 
-    const lastHeroNameRef = useRef<string | null>(null);
+    const triggerStatsScan = () => {
+        const latestFrame = frameResultRef.current;
+        if (latestFrame?.screen_name !== "Hero_Stats") {
+            invoke("log_frontend_info", { msg: `[App] Cannot scan: not on Hero_Stats screen.` }).catch(() => { });
+            setStatsOcrStatus('timeout');
+            setTimeout(() => setStatsOcrStatus('idle'), 3000);
+            return;
+        }
 
+        invoke("log_frontend_info", { msg: `[App] Alt+S pressed. Starting 5s stats OCR scanning loop.` }).catch(() => { });
+        
+        // Reset state
+        setStatsOcrStatus('scanning');
+        setStatsOcrCountdown(5);
+
+        if (scanCountdownTimerRef.current) clearInterval(scanCountdownTimerRef.current);
+
+        let ticks = 5;
+        scanCountdownTimerRef.current = setInterval(() => {
+            ticks--;
+            setStatsOcrCountdown(ticks);
+            if (ticks <= 0) {
+                clearInterval(scanCountdownTimerRef.current!);
+                scanCountdownTimerRef.current = null;
+                
+                // If it's still scanning (meaning not resolved as success), trigger timeout!
+                if (statsOcrStatusRef.current === 'scanning') {
+                    invoke("log_frontend_info", { msg: `[App] Stats scan TIMEOUT after 5 seconds.` }).catch(() => { });
+                    setStatsOcrStatus('timeout');
+                    
+                    // After timeout, still open the import modal but with null stats! This is extremely user-friendly.
+                    setTimeout(async () => {
+                        setStatsOcrStatus('idle');
+                        setScannedStatsData(null);
+                        setShowImportModal(true);
+                        await getCurrentWindow().setIgnoreCursorEvents(false);
+                    }, 1500);
+                }
+            }
+        }, 1000);
+    };
+
+    // Scan stats OCR trigger check
+    useEffect(() => {
+        if (statsOcrStatus !== 'scanning' || !frameResult) return;
+
+        // Verify we are still on Hero_Stats screen
+        if (frameResult.screen_name === "Hero_Stats") {
+            const statsToken = frameResult.detections?.find(d => d.slot_id === "hero_stats_panel" && d.hero_name)?.hero_name;
+            if (statsToken) {
+                const parsed = parseOCRStats(statsToken);
+                if (parsed) {
+                    if (scanCountdownTimerRef.current) {
+                        clearInterval(scanCountdownTimerRef.current);
+                        scanCountdownTimerRef.current = null;
+                    }
+                    invoke("log_frontend_info", { msg: `[App] Stats scan SUCCESS: ${JSON.stringify(parsed)}` }).catch(() => { });
+                    setStatsOcrStatus('success');
+                    setScannedStatsData(parsed);
+                    
+                    // Open modal! Clear scanning timers
+                    setTimeout(async () => {
+                        setStatsOcrStatus('idle');
+                        setShowImportModal(true);
+                        // Also open cursor events so the user can interact with the modal!
+                        await getCurrentWindow().setIgnoreCursorEvents(false);
+                    }, 1000);
+                }
+            }
+        }
+    }, [frameResult, statsOcrStatus]);
+
+    useEffect(() => {
+        const handleCustomScan = () => {
+            triggerStatsScan();
+        };
+        window.addEventListener("trigger-stats-scan", handleCustomScan);
+        return () => {
+            window.removeEventListener("trigger-stats-scan", handleCustomScan);
+            if (scanCountdownTimerRef.current) clearInterval(scanCountdownTimerRef.current);
+        };
+    }, []);
+    const lastHeroNameRef = useRef<string | null>(null);
 
     // Automatically monitor OCR value changes when on Hero_Stats screen
     useEffect(() => {
@@ -197,14 +382,31 @@ function App() {
         let unlistenBuild: Promise<any> | null = null;
         let unlistenToggle: Promise<any> | null = null;
         let unlistenHeroDetails: Promise<any> | null = null;
+        let unlistenScanStats: Promise<any> | null = null;
 
         if (label === "main") {
             // Overlay is always click-through
             getCurrentWindow().setIgnoreCursorEvents(true);
 
-            BuildAssist.init().catch(console.error);
-            CombatData.init().catch(console.error);
-            MetagameData.init().catch(console.error);
+            // Poll the backend until the CacheService is fully online and ready
+            console.log("[App] Starting CacheService readiness polling (100ms interval)...");
+            const pollCache = setInterval(async () => {
+                try {
+                    const isReady = await invoke<boolean>("is_cache_ready");
+                    if (isReady) {
+                        console.log("[App] CacheService is ready! Clearing polling interval and running service initializations.");
+                        clearInterval(pollCache);
+                        
+                        BuildAssist.init().catch(console.error);
+                        CombatData.init().catch(console.error);
+                        MetagameData.init().catch(console.error);
+                    } else {
+                        console.log("[App] CacheService is not yet ready, waiting...");
+                    }
+                } catch (e) {
+                    console.error("[App] Failed to poll CacheService status:", e);
+                }
+            }, 100);
 
             unlistenResult = listen<FrameResult>("detection-result", (event) => {
                 setFrameResult(event.payload);
@@ -331,6 +533,10 @@ function App() {
                     invoke("log_frontend_info", { msg: `[App] Interactive dashboard opened for hero: ${heroName}. Capturing paused and click-through disabled.` }).catch(() => { });
                 }
             });
+
+            unlistenScanStats = listen("scan-hero-stats", () => {
+                triggerStatsScan();
+            });
         }
 
         return () => {
@@ -340,6 +546,7 @@ function App() {
             if (unlistenBuild) unlistenBuild.then((f) => f());
             if (unlistenToggle) unlistenToggle.then((f) => f());
             if (unlistenHeroDetails) unlistenHeroDetails.then((f) => f());
+            if (unlistenScanStats) unlistenScanStats.then((f) => f());
         };
     }, []);
 
@@ -376,6 +583,8 @@ function App() {
 
     const handleCloseHeroDetails = async () => {
         setShowHeroDetails(false);
+        setDetailedHeroInitialTab('analytics');
+        setImportedProfileToLoad(null);
         await invoke("set_overlay_mode", { mode: "Display" });
         await getCurrentWindow().setIgnoreCursorEvents(true);
         invoke("log_frontend_info", { msg: `[App] Interactive dashboard manually closed. Capturing resumed and click-through restored.` }).catch(() => { });
@@ -538,6 +747,8 @@ function App() {
                         metagameHero={metagameHero}
                         onClose={handleCloseHeroDetails}
                         onHeroChange={handleHeroChange}
+                        initialTab={detailedHeroInitialTab}
+                        initialImportedProfile={importedProfileToLoad}
                     />
                 </div>
             )}
@@ -550,8 +761,60 @@ function App() {
                     activeBuildSource={activeBuildSource}
                     combatAnalysis={combatAnalysis}
                     metagameHero={metagameHero}
+                    statsOcrStatus={statsOcrStatus}
+                    statsOcrCountdown={statsOcrCountdown}
                 />
             </div>
+
+            {showImportModal && (
+                <ImportStatsModal
+                    initialStats={scannedStatsData}
+                    detectedHeroName={
+                        frameResult?.detections?.find(d => d.slot_id === "selected_hero" && d.hero_name)?.hero_name ||
+                        detailedHeroName
+                    }
+                    onConfirm={async (newProfile, importToCalculator) => {
+                        setShowImportModal(false);
+                        // Save successfully, now open the saved hero build screen!
+                        
+                        // 1. Fetch new data to make sure dashboard has everything it needs
+                        setDetailedHeroName(newProfile.heroName);
+                        
+                        const [analysis, meta, apiBuilds] = await Promise.all([
+                            CombatData.getHeroAnalysis(newProfile.heroName),
+                            MetagameData.getHeroMetagame(newProfile.heroName),
+                            BuildAssist.getBuilds(newProfile.heroName).catch(() => null)
+                        ]);
+                        
+                        setCombatAnalysis(analysis ? JSON.parse(JSON.stringify(analysis)) : null);
+                        setMetagameHero(meta);
+                        if (apiBuilds) {
+                            setBuildData({ heroName: newProfile.heroName, data: apiBuilds });
+                        }
+                        
+                        // 2. Route tab and pass imported profile
+                        if (importToCalculator) {
+                            setDetailedHeroInitialTab('calculator');
+                            setImportedProfileToLoad(newProfile);
+                        } else {
+                            setDetailedHeroInitialTab('saved_builds');
+                            setImportedProfileToLoad(null);
+                        }
+                        setShowHeroDetails(true);
+                        
+                        await invoke("set_overlay_mode", { mode: "HeroDetails" });
+                        await getCurrentWindow().setIgnoreCursorEvents(false);
+                    }}
+                    onCancel={async () => {
+                        setShowImportModal(false);
+                        // If detailed view wasn't already open, restore overlay state (click-through)
+                        if (!showHeroDetails) {
+                            await invoke("set_overlay_mode", { mode: "Display" });
+                            await getCurrentWindow().setIgnoreCursorEvents(true);
+                        }
+                    }}
+                />
+            )}
         </>
     );
 }

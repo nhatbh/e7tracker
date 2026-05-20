@@ -87,6 +87,7 @@ pub enum OverlayMode {
 pub struct AppState {
     pub tracked_hwnd: Mutex<Option<isize>>,
     pub mode: Mutex<OverlayMode>,
+    pub active_client: Mutex<String>,
 }
 
 // ── Window Enumeration ─────────────────────────────────────
@@ -156,6 +157,23 @@ fn log_frontend_error(msg: String) {
 #[tauri::command]
 fn log_frontend_info(msg: String) {
     log_message(&format!("[Frontend Info] {}", msg));
+}
+
+#[tauri::command]
+fn broadcast_settings(app: tauri::AppHandle, settings: serde_json::Value) -> Result<(), String> {
+    use tauri::Emitter;
+    log_message(&format!("[Rust Broadcast] settings-changed: {:?}", settings));
+    
+    if let Some(client) = settings.get("activeClient").and_then(|v| v.as_str()) {
+        let state = app.state::<AppState>();
+        let mut active = state.active_client.lock().unwrap();
+        if *active != client {
+            *active = client.to_string();
+            log_message(&format!("[Rust Broadcast] Active client profile changed to: {}", client));
+        }
+    }
+
+    app.emit("settings-changed", settings).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
@@ -280,23 +298,79 @@ fn get_tracked_window(state: tauri::State<'_, AppState>) -> Option<isize> {
 
 // ── Asset Loading ──────────────────────────────────────────
 
-fn load_screens(assets_dir: &std::path::Path) -> HashMap<String, ScreenDef> {
-    let path = assets_dir.join("screens.json");
+fn load_initial_client(db_file: &std::path::Path) -> String {
+    if let Ok(conn) = rusqlite::Connection::open(db_file) {
+        let stmt = conn.prepare("SELECT value FROM kv_cache WHERE key = 'app_user_settings'").ok();
+        if let Some(mut s) = stmt {
+            if let Ok(mut rows) = s.query([]) {
+                if let Ok(Some(row)) = rows.next() {
+                    if let Ok(val_str) = row.get::<_, String>(0) {
+                        if let Ok(parsed) = serde_json::from_str::<serde_json::Value>(&val_str) {
+                            if let Some(client) = parsed.get("activeClient").and_then(|v| v.as_str()) {
+                                return client.to_string();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    "default".to_string()
+}
+
+fn get_resolution_bucket(width: u32, height: u32) -> Option<&'static str> {
+    // 1280x720 window bucket
+    if (1200..=1360).contains(&width) && (680..=780).contains(&height) {
+        return Some("1280x720");
+    }
+    // 1600x900 window bucket
+    if (1500..=1700).contains(&width) && (850..=950).contains(&height) {
+        return Some("1600x900");
+    }
+    // 1920x1080 window bucket
+    if (1800..=2000).contains(&width) && (1000..=1150).contains(&height) {
+        return Some("1920x1080");
+    }
+    None
+}
+
+fn resolve_profile_filename(assets_dir: &std::path::Path, active_client: &str, win_w: u32, win_h: u32) -> String {
+    if active_client == "default" {
+        return "screens.json".to_string();
+    }
+
+    if let Some(bucket) = get_resolution_bucket(win_w, win_h) {
+        let specific_name = format!("screens_{}_{}.json", active_client, bucket);
+        if assets_dir.join(&specific_name).exists() {
+            return specific_name;
+        }
+    }
+
+    let generic_name = format!("screens_{}.json", active_client);
+    if assets_dir.join(&generic_name).exists() {
+        return generic_name;
+    }
+
+    "screens.json".to_string()
+}
+
+fn load_screens(assets_dir: &std::path::Path, profile: &str) -> HashMap<String, ScreenDef> {
+    let path = assets_dir.join(profile);
     match std::fs::read_to_string(&path) {
         Ok(content) => {
             match serde_json::from_str::<HashMap<String, ScreenDef>>(&content) {
                 Ok(screens) => {
-                    log_message(&format!("[e7tracker] Loaded {} screen definitions", screens.len()));
+                    log_message(&format!("[e7tracker] Loaded {} screen definitions from {}", screens.len(), profile));
                     screens
                 }
                 Err(e) => {
-                    log_message(&format!("[e7tracker] Error parsing screens.json: {}", e));
+                    log_message(&format!("[e7tracker] Error parsing screen profile '{}': {}", profile, e));
                     HashMap::new()
                 }
             }
         }
         Err(e) => {
-            log_message(&format!("[e7tracker] Could not read screens.json: {}", e));
+            log_message(&format!("[e7tracker] Could not read screen profile '{}': {}", profile, e));
             HashMap::new()
         }
     }
@@ -335,18 +409,75 @@ fn load_rgb_image(path: &std::path::Path) -> Option<RgbImage> {
 fn load_identity_templates(
     assets_dir: &std::path::Path,
     screens: &HashMap<String, ScreenDef>,
+    active_client: &str,
+    resolution: &str,
 ) -> HashMap<String, RgbImage> {
     let mut templates = HashMap::new();
 
     for (screen_name, screen_def) in screens {
         for feature in &screen_def.identity {
             let key = format!("{}/identity/{}", screen_name, feature.image);
-            let path = assets_dir.join("screens").join(screen_name).join("identity").join(&feature.image);
-            if let Some(img) = load_rgb_image(&path) {
-                log_message(&format!("[e7tracker] Loaded identity template: {}", key));
+            
+            // Search order resolution hierarchy
+            let mut signature_path = None;
+
+            // 1. Client + Resolution Specific
+            if active_client != "default" && resolution != "unknown" {
+                let path = assets_dir
+                    .join("screens")
+                    .join(screen_name)
+                    .join(format!("identity_{}_{}", active_client, resolution))
+                    .join(&feature.image);
+                if path.exists() {
+                    signature_path = Some(path);
+                }
+            }
+
+            // 2. Client Generic
+            if signature_path.is_none() && active_client != "default" {
+                let path = assets_dir
+                    .join("screens")
+                    .join(screen_name)
+                    .join(format!("identity_{}", active_client))
+                    .join(&feature.image);
+                if path.exists() {
+                    signature_path = Some(path);
+                }
+            }
+
+            // 3. Resolution Generic
+            if signature_path.is_none() && resolution != "unknown" {
+                let path = assets_dir
+                    .join("screens")
+                    .join(screen_name)
+                    .join(format!("identity_{}", resolution))
+                    .join(&feature.image);
+                if path.exists() {
+                    signature_path = Some(path);
+                }
+            }
+
+            // 4. Default Fallback
+            let final_path = signature_path.unwrap_or_else(|| {
+                assets_dir
+                    .join("screens")
+                    .join(screen_name)
+                    .join("identity")
+                    .join(&feature.image)
+            });
+
+            if let Some(img) = load_rgb_image(&final_path) {
+                // Log specialization choice if it differs from the basic template path
+                let default_path = assets_dir.join("screens").join(screen_name).join("identity").join(&feature.image);
+                if final_path != default_path {
+                    log_message(&format!(
+                        "[e7tracker] Loaded specialized signature for screen '{}' (client '{}', res '{}'): {}",
+                        screen_name, active_client, resolution, feature.image
+                    ));
+                }
                 templates.insert(key, img);
             } else {
-                log_message(&format!("[e7tracker] Warning: Could not load '{}'", path.display()));
+                log_message(&format!("[e7tracker] Warning: Could not load '{}'", final_path.display()));
             }
         }
     }
@@ -383,7 +514,9 @@ pub fn run() {
         .manage(AppState {
             tracked_hwnd: Mutex::new(None),
             mode: Mutex::new(OverlayMode::Display),
+            active_client: Mutex::new("default".to_string()),
         })
+        .manage(CacheState(std::sync::OnceLock::new()))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .invoke_handler(tauri::generate_handler![
@@ -392,6 +525,7 @@ pub fn run() {
             log_selection, 
             log_frontend_error, 
             log_frontend_info,
+            broadcast_settings,
             get_rust_logs,
             set_overlay_mode,
             cache_set,
@@ -405,7 +539,8 @@ pub fn run() {
             set_autostart_enabled,
             is_autostart_silent,
             is_silent_launch,
-            get_tracked_window
+            get_tracked_window,
+            is_cache_ready
         ])
         .setup(|app| {
             let handle = app.handle().clone();
@@ -453,13 +588,24 @@ pub fn run() {
             
             if is_silent {
                 crate::log_message("[Startup] App started in silent background mode.");
+                if let Some(controls_win) = app.get_webview_window("controls") {
+                    let _ = controls_win.hide();
+                }
             }
 
             // Setup Cache Database using a proper high-performance SQLite database
             let cache_dir = app.path().app_cache_dir().unwrap_or_else(|_| std::path::PathBuf::from("cache"));
             let db_file = cache_dir.join("cache.db");
+            crate::log_message(&format!("[CacheState] Initializing SQLite cache at path: {:?}", db_file));
             
-            app.manage(CacheService::new(db_file));
+            let service = CacheService::new(db_file.clone());
+            crate::log_message("[CacheState] SQLite tables successfully initialized. Storing in CacheState.");
+            
+            if app.state::<CacheState>().0.set(service).is_ok() {
+                crate::log_message("[CacheState] CacheState successfully populated and online for query operations.");
+            } else {
+                crate::log_message("[CacheState] Warning: CacheState was already populated.");
+            }
 
             // Resolve assets directory
             let assets_dir = app.path()
@@ -472,10 +618,19 @@ pub fn run() {
                     }
                 });
 
-            // Load all config and assets
-            let screens = load_screens(&assets_dir);
+            // Load initial active_client from settings db
+            let initial_client = load_initial_client(&db_file);
+            crate::log_message(&format!("[Startup] Active client profile: {}", initial_client));
+            *app.state::<AppState>().active_client.lock().unwrap() = initial_client.clone();
+
+            // Sizing bucket guess for startup (1600x900 default)
+            let initial_profile = resolve_profile_filename(&assets_dir, &initial_client, 1600, 900);
+            let resolution_bucket = get_resolution_bucket(1600, 900).unwrap_or("unknown");
+            crate::log_message(&format!("[Startup] Resolved screen profile: {}", initial_profile));
+
+            let screens = load_screens(&assets_dir, &initial_profile);
             let heroes = load_heroes(&assets_dir);
-            let identity_templates = load_identity_templates(&assets_dir, &screens);
+            let identity_templates = load_identity_templates(&assets_dir, &screens, &initial_client, resolution_bucket);
             let hero_portraits = load_hero_portraits(&assets_dir, &heroes);
 
             let mut engine = DetectionEngine::new(
@@ -603,11 +758,72 @@ pub fn run() {
                 }
             })?;
 
+            // Alt + S: Scan Stats and Import
+            let alt_s = Shortcut::new(Some(Modifiers::ALT), Code::KeyS);
+            let handle_s = handle.clone();
+            app.global_shortcut().on_shortcut(alt_s, move |_app, _shortcut, event| {
+                if event.state() == tauri_plugin_global_shortcut::ShortcutState::Pressed {
+                    if let Some(main_win) = handle_s.get_webview_window("main") {
+                        crate::log_message("[e7tracker] Emitting scan-hero-stats");
+                        let _ = main_win.emit("scan-hero-stats", ());
+                    }
+                }
+            })?;
+
+            // Alt + 1 to 9: Open Lobby Menu Items
+            for i in 1..=9 {
+                let digit_code = match i {
+                    1 => Code::Digit1,
+                    2 => Code::Digit2,
+                    3 => Code::Digit3,
+                    4 => Code::Digit4,
+                    5 => Code::Digit5,
+                    6 => Code::Digit6,
+                    7 => Code::Digit7,
+                    8 => Code::Digit8,
+                    9 => Code::Digit9,
+                    _ => unreachable!(),
+                };
+                let shortcut = Shortcut::new(Some(Modifiers::ALT), digit_code);
+                let handle_digit = handle.clone();
+                app.global_shortcut().on_shortcut(shortcut, move |_app, _shortcut, event| {
+                    if event.state() == tauri_plugin_global_shortcut::ShortcutState::Pressed {
+                        if let Some(main_win) = handle_digit.get_webview_window("main") {
+                            let _ = main_win.emit("menu-item-select", i);
+                        }
+                    }
+                })?;
+            }
+
+            // Alt + . (Period)
+            let alt_period = Shortcut::new(Some(Modifiers::ALT), Code::Period);
+            let handle_period = handle.clone();
+            app.global_shortcut().on_shortcut(alt_period, move |_app, _shortcut, event| {
+                if event.state() == tauri_plugin_global_shortcut::ShortcutState::Pressed {
+                    if let Some(main_win) = handle_period.get_webview_window("main") {
+                        let _ = main_win.emit("menu-navigate", "next");
+                    }
+                }
+            })?;
+
+            // Alt + , (Comma)
+            let alt_comma = Shortcut::new(Some(Modifiers::ALT), Code::Comma);
+            let handle_comma = handle.clone();
+            app.global_shortcut().on_shortcut(alt_comma, move |_app, _shortcut, event| {
+                if event.state() == tauri_plugin_global_shortcut::ShortcutState::Pressed {
+                    if let Some(main_win) = handle_comma.get_webview_window("main") {
+                        let _ = main_win.emit("menu-navigate", "prev");
+                    }
+                }
+            })?;
 
 
+
+            let loop_initial_profile = initial_profile.clone();
             // ── Tracking Loop ──
             tauri::async_runtime::spawn(async move {
                 let mut last_auto_search = std::time::Instant::now();
+                let mut current_loaded_profile = loop_initial_profile;
                 loop {
                     tokio::time::sleep(std::time::Duration::from_millis(100)).await;
 
@@ -692,6 +908,27 @@ pub fn run() {
                                         // Run detection engine (only in Display mode)
                                         if mode == OverlayMode::Display {
                                             if let Some((frame, w, h)) = capture::capture_window_to_rgb(hwnd) {
+                                                // Dynamic active client and resolution lookup
+                                                let active_client = {
+                                                    let state = handle.state::<AppState>();
+                                                    let guard = state.active_client.lock().unwrap();
+                                                    guard.clone()
+                                                };
+
+                                                let resolved_profile = resolve_profile_filename(&engine.assets_dir, &active_client, w, h);
+                                                if resolved_profile != current_loaded_profile {
+                                                    let res_bucket = get_resolution_bucket(w, h).unwrap_or("unknown");
+                                                    crate::log_message(&format!(
+                                                        "[Tracking Loop] Resolution bucket changed (size: {}x{}, bucket: '{}'). Reloading screens configuration from '{}'...",
+                                                        w, h, res_bucket, resolved_profile
+                                                    ));
+                                                    let new_screens = load_screens(&engine.assets_dir, &resolved_profile);
+                                                    let new_templates = load_identity_templates(&engine.assets_dir, &new_screens, &active_client, res_bucket);
+                                                    engine.screens = new_screens;
+                                                    engine.identity_templates = new_templates;
+                                                    current_loaded_profile = resolved_profile;
+                                                }
+
                                                 let result = engine.process_frame(&frame, w, h);
                                                 // Emit results to frontend
                                                 if !result.detections.is_empty() || !result.debug_zones.is_empty() {

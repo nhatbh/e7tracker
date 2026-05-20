@@ -30,7 +30,7 @@
         "decorations": true,
         "transparent": false,
         "alwaysOnTop": true,
-        "visible": false
+        "visible": true
       },
       {
         "label": "selector",

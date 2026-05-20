@@ -1,0 +1,80 @@
+/* ScanStatusOverlay.css: Sleek Cyberpunk Overlay Card */
+
+.scan-status-overlay-card {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(10, 14, 26, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 6px 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    align-self: flex-start;
+    pointer-events: none;
+    width: fit-content;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.scan-status-overlay-card.scanning {
+    border-color: rgba(0, 229, 255, 0.25);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
+}
+
+.scan-status-overlay-card.timeout {
+    border-color: rgba(255, 152, 0, 0.25);
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.15);
+}
+
+.scan-status-overlay-card.success {
+    border-color: rgba(76, 175, 80, 0.25);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.15);
+}
+
+.scan-status-item {
+    font-size: 8.5px;
+    color: #94a3b8;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.scan-status-item kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.scan-status-item kbd.pulse-cyan {
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #00f2fe;
+    box-shadow: 0 0 6px rgba(0, 229, 255, 0.3);
+    animation: kbdCyanPulse 1.2s infinite ease-in-out;
+}
+
+.scan-status-item kbd.pulse-amber {
+    background: rgba(255, 152, 0, 0.12);
+    border: 1px solid rgba(255, 152, 0, 0.4);
+    color: #ff9800;
+    box-shadow: 0 0 6px rgba(255, 152, 0, 0.3);
+}
+
+.scan-status-item kbd.pulse-green {
+    background: rgba(76, 175, 80, 0.12);
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    color: #4caf50;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+}
+
+@keyframes kbdCyanPulse {
+    0%, 100% { border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 0 4px rgba(0, 229, 255, 0.2); }
+    50% { border-color: rgba(0, 229, 255, 0.7); box-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+}

@@ -354,6 +354,33 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+.tip-item.scanning kbd.pulse-cyan {
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #00f2fe;
+    box-shadow: 0 0 6px rgba(0, 229, 255, 0.3);
+    animation: kbdCyanBreathing 1.2s infinite ease-in-out;
+}
+
+.tip-item.timeout kbd.pulse-amber {
+    background: rgba(255, 152, 0, 0.12);
+    border: 1px solid rgba(255, 152, 0, 0.4);
+    color: #ff9800;
+    box-shadow: 0 0 6px rgba(255, 152, 0, 0.3);
+}
+
+.tip-item.success kbd.pulse-green {
+    background: rgba(76, 175, 80, 0.12);
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    color: #4caf50;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+}
+
+@keyframes kbdCyanBreathing {
+    0%, 100% { border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 0 4px rgba(0, 229, 255, 0.2); }
+    50% { border-color: rgba(0, 229, 255, 0.7); box-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+}
+
 /* Combat Stats Overlay Panel */
 .combat-stats-overlay-section {
     display: flex;

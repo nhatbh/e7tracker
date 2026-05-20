@@ -3,6 +3,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n/index';
+import { SettingsService, AppSettings, DEFAULT_SETTINGS } from '../services/settingsService';
 import './ControlsView.css';
 
 export interface WindowInfo {
@@ -41,6 +42,24 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
     const [logs, setLogs] = useState<string[]>([]);
     const [currentLang, setCurrentLang] = useState(i18n.language || 'en');
     const logsEndRef = useRef<HTMLDivElement>(null);
+    const [autoscroll, setAutoscroll] = useState(true);
+
+    // Visual settings states
+    const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
+
+    useEffect(() => {
+        const loadVisualSettings = async () => {
+            const currentSettings = await SettingsService.getSettings();
+            setSettings(currentSettings);
+        };
+        loadVisualSettings();
+    }, []);
+
+    const updateSetting = async (key: keyof AppSettings, value: any) => {
+        const nextSettings = { ...settings, [key]: value };
+        setSettings(nextSettings);
+        await SettingsService.saveSettings(nextSettings);
+    };
 
     // Startup Registry Option
     const [startupEnabled, setStartupEnabled] = useState(false);
@@ -49,8 +68,8 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
     // Window Picker Collapsible state (for overriding auto-detect)
     const [showManualPicker, setShowManualPicker] = useState(false);
 
-    // Task Sync Progress State
-    const [taskProgress, setTaskProgress] = useState<{
+    // Task Sync Progress States
+    const [combatProgress, setCombatProgress] = useState<{
         isFetching: boolean;
         message: string;
         progress: number;
@@ -61,7 +80,21 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
         progress: 0,
         error: null
     });
-    const [hasMetadataCache, setHasMetadataCache] = useState<boolean>(false);
+
+    const [metagameProgress, setMetagameProgress] = useState<{
+        isFetching: boolean;
+        message: string;
+        progress: number;
+        error: string | null;
+    }>({
+        isFetching: false,
+        message: "Idle",
+        progress: 0,
+        error: null
+    });
+
+    const [hasCombatCache, setHasCombatCache] = useState<boolean>(false);
+    const [hasMetagameCache, setHasMetagameCache] = useState<boolean>(false);
 
     // 1. Initial startup registry value check
     useEffect(() => {
@@ -100,35 +133,41 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
         }
     };
 
-    // 2. Listen to background combat database fetch progress
+    // 2. Listen to background combat & metagame database fetch progress
     useEffect(() => {
-        let unlistenProgress: (() => void) | null = null;
+        let unlistenCombat: (() => void) | null = null;
+        let unlistenMetagame: (() => void) | null = null;
 
         const setup = async () => {
             try {
-                const unlisten = await listen<any>("combat-fetch-progress", (event) => {
-                    setTaskProgress(event.payload);
+                unlistenCombat = await listen<any>("combat-fetch-progress", (event) => {
+                    setCombatProgress(event.payload);
                 });
-                unlistenProgress = unlisten;
+                unlistenMetagame = await listen<any>("metagame-fetch-progress", (event) => {
+                    setMetagameProgress(event.payload);
+                });
             } catch (e) {
-                console.error("Failed to setup progress listener:", e);
+                console.error("Failed to setup progress listeners:", e);
             }
         };
 
         setup();
 
         return () => {
-            if (unlistenProgress) {
-                unlistenProgress();
-            }
+            if (unlistenCombat) unlistenCombat();
+            if (unlistenMetagame) unlistenMetagame();
         };
     }, []);
 
     // Check if the metadata exists in the disk cache
     const checkMetadataCache = async () => {
         try {
-            const cached = await invoke<string | null>("cache_get", { key: "combat_data_metadata" });
-            setHasMetadataCache(!!cached);
+            const [combatCached, metagameCached] = await Promise.all([
+                invoke<string | null>("cache_get", { key: "combat_data_metadata" }),
+                invoke<string | null>("cache_get", { key: "metagame_data_metadata" })
+            ]);
+            setHasCombatCache(!!combatCached);
+            setHasMetagameCache(!!metagameCached);
         } catch (e) {
             console.error("Failed to check metadata cache:", e);
         }
@@ -136,7 +175,7 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
 
     useEffect(() => {
         checkMetadataCache();
-    }, [activeTab]);
+    }, [activeTab, combatProgress.isFetching, metagameProgress.isFetching]);
 
     // Fetch Logs
     useEffect(() => {
@@ -157,10 +196,10 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
     }, [activeTab]);
 
     useEffect(() => {
-        if (activeTab === 'logs') {
+        if (activeTab === 'logs' && autoscroll) {
             logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
-    }, [logs, activeTab]);
+    }, [logs, activeTab, autoscroll]);
 
     const handleLangChange = (code: string) => {
         i18n.changeLanguage(code);
@@ -384,91 +423,185 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
                             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
                             border: '1px solid rgba(255, 255, 255, 0.06)',
                             borderRadius: '12px',
-                            padding: '16px'
+                            padding: '16px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '16px'
                         }}>
-                            <div className="task-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div className="task-info" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <span className="task-badge" style={{
-                                        display: 'inline-block',
-                                        padding: '3px 6px',
-                                        borderRadius: '4px',
-                                        fontSize: '9px',
-                                        fontWeight: 'bold',
-                                        textTransform: 'uppercase',
-                                        backgroundColor: taskProgress.isFetching ? 'rgba(0, 229, 255, 0.12)' : taskProgress.error ? 'rgba(239, 68, 68, 0.12)' : hasMetadataCache ? 'rgba(16, 185, 129, 0.12)' : 'rgba(164, 176, 190, 0.12)',
-                                        color: taskProgress.isFetching ? '#00e5ff' : taskProgress.error ? '#f87171' : hasMetadataCache ? '#10b981' : '#a4b0be',
-                                        border: `1px solid ${taskProgress.isFetching ? 'rgba(0, 229, 255, 0.25)' : taskProgress.error ? 'rgba(239, 68, 68, 0.25)' : hasMetadataCache ? 'rgba(16, 185, 129, 0.25)' : 'rgba(164, 176, 190, 0.25)'}`
-                                    }}>
-                                        {taskProgress.isFetching ? "Syncing" : taskProgress.error ? "Failed" : hasMetadataCache ? "Synchronized" : "Ready"}
-                                    </span>
-                                    <h3 className="task-title" style={{ margin: 0, fontSize: '12px', fontWeight: 'bold', color: '#fff' }}>RTA Combat Database</h3>
+                            {/* RTA Combat Database sync row */}
+                            <div>
+                                <div className="task-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div className="task-info" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <span className="task-badge" style={{
+                                            display: 'inline-block',
+                                            padding: '3px 6px',
+                                            borderRadius: '4px',
+                                            fontSize: '9px',
+                                            fontWeight: 'bold',
+                                            textTransform: 'uppercase',
+                                            backgroundColor: combatProgress.isFetching ? 'rgba(0, 229, 255, 0.12)' : combatProgress.error ? 'rgba(239, 68, 68, 0.12)' : hasCombatCache ? 'rgba(16, 185, 129, 0.12)' : 'rgba(164, 176, 190, 0.12)',
+                                            color: combatProgress.isFetching ? '#00e5ff' : combatProgress.error ? '#f87171' : hasCombatCache ? '#10b981' : '#a4b0be',
+                                            border: `1px solid ${combatProgress.isFetching ? 'rgba(0, 229, 255, 0.25)' : combatProgress.error ? 'rgba(239, 68, 68, 0.25)' : hasCombatCache ? 'rgba(16, 185, 129, 0.25)' : 'rgba(164, 176, 190, 0.25)'}`
+                                        }}>
+                                            {combatProgress.isFetching ? "Syncing" : combatProgress.error ? "Failed" : hasCombatCache ? "Synchronized" : "Ready"}
+                                        </span>
+                                        <h3 className="task-title" style={{ margin: 0, fontSize: '12px', fontWeight: 'bold', color: '#fff' }}>RTA Combat Database</h3>
+                                    </div>
+                                    {combatProgress.isFetching && (
+                                        <div className="progress-spinner" style={{
+                                            width: '12px',
+                                            height: '12px',
+                                            border: '1.5px solid rgba(0, 229, 255, 0.2)',
+                                            borderTop: '1.5px solid #00e5ff',
+                                            borderRadius: '50%',
+                                            animation: 'spin 1s linear infinite'
+                                        }}></div>
+                                    )}
                                 </div>
-                                {taskProgress.isFetching && (
-                                    <div className="progress-spinner" style={{
-                                        width: '12px',
-                                        height: '12px',
-                                        border: '1.5px solid rgba(0, 229, 255, 0.2)',
-                                        borderTop: '1.5px solid #00e5ff',
-                                        borderRadius: '50%',
-                                        animation: 'spin 1s linear infinite'
-                                    }}></div>
+
+                                <div className="progress-container" style={{ margin: '10px 0 4px 0' }}>
+                                    <div className="progress-bar-bg" style={{ height: '6px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden', position: 'relative' }}>
+                                        <div className="progress-bar-fill" style={{
+                                            height: '100%',
+                                            width: `${combatProgress.progress || (hasCombatCache ? 100 : 0)}%`,
+                                            background: combatProgress.error ? '#ef4444' : 'linear-gradient(90deg, #00e5ff 0%, #0088ff 100%)',
+                                            transition: 'width 0.4s ease',
+                                            boxShadow: combatProgress.error ? 'none' : '0 0 8px rgba(0, 229, 255, 0.4)'
+                                        }}></div>
+                                    </div>
+                                    <div className="progress-meta" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', marginTop: '5px', color: '#a4b0be' }}>
+                                        <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '80%' }}>
+                                            {combatProgress.isFetching ? combatProgress.message : (hasCombatCache ? 'Local combat database loaded and cached.' : 'Synchronize database to start RTA tracking.')}
+                                        </span>
+                                        <span style={{ fontWeight: 'bold', color: combatProgress.error ? '#f87171' : '#00e5ff' }}>
+                                            {combatProgress.isFetching ? `${combatProgress.progress}%` : (hasCombatCache ? '100%' : '0%')}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {combatProgress.error && (
+                                    <div className="task-error-alert" style={{
+                                        backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                                        border: '1px solid rgba(239, 68, 68, 0.2)',
+                                        color: '#f87171',
+                                        borderRadius: '6px',
+                                        padding: '8px 10px',
+                                        fontSize: '10.5px',
+                                        marginTop: '6px'
+                                    }}>
+                                        ❌ {combatProgress.error}
+                                    </div>
                                 )}
                             </div>
 
-                            <div className="progress-container" style={{ margin: '12px 0 6px 0' }}>
-                                <div className="progress-bar-bg" style={{ height: '6px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden', position: 'relative' }}>
-                                    <div className="progress-bar-fill" style={{
-                                        height: '100%',
-                                        width: `${taskProgress.progress || (hasMetadataCache ? 100 : 0)}%`,
-                                        background: taskProgress.error ? '#ef4444' : 'linear-gradient(90deg, #00e5ff 0%, #0088ff 100%)',
-                                        transition: 'width 0.4s ease',
-                                        boxShadow: taskProgress.error ? 'none' : '0 0 8px rgba(0, 229, 255, 0.4)'
-                                    }}></div>
+                            {/* RTA Metagame Database sync row */}
+                            <div>
+                                <div className="task-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div className="task-info" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <span className="task-badge" style={{
+                                            display: 'inline-block',
+                                            padding: '3px 6px',
+                                            borderRadius: '4px',
+                                            fontSize: '9px',
+                                            fontWeight: 'bold',
+                                            textTransform: 'uppercase',
+                                            backgroundColor: metagameProgress.isFetching ? 'rgba(0, 229, 255, 0.12)' : metagameProgress.error ? 'rgba(239, 68, 68, 0.12)' : hasMetagameCache ? 'rgba(16, 185, 129, 0.12)' : 'rgba(164, 176, 190, 0.12)',
+                                            color: metagameProgress.isFetching ? '#00e5ff' : metagameProgress.error ? '#f87171' : hasMetagameCache ? '#10b981' : '#a4b0be',
+                                            border: `1px solid ${metagameProgress.isFetching ? 'rgba(0, 229, 255, 0.25)' : metagameProgress.error ? 'rgba(239, 68, 68, 0.25)' : hasMetagameCache ? 'rgba(16, 185, 129, 0.25)' : 'rgba(164, 176, 190, 0.25)'}`
+                                        }}>
+                                            {metagameProgress.isFetching ? "Syncing" : metagameProgress.error ? "Failed" : hasMetagameCache ? "Synchronized" : "Ready"}
+                                        </span>
+                                        <h3 className="task-title" style={{ margin: 0, fontSize: '12px', fontWeight: 'bold', color: '#fff' }}>RTA Metagame Database</h3>
+                                    </div>
+                                    {metagameProgress.isFetching && (
+                                        <div className="progress-spinner" style={{
+                                            width: '12px',
+                                            height: '12px',
+                                            border: '1.5px solid rgba(0, 229, 255, 0.2)',
+                                            borderTop: '1.5px solid #00e5ff',
+                                            borderRadius: '50%',
+                                            animation: 'spin 1s linear infinite'
+                                        }}></div>
+                                    )}
                                 </div>
-                                <div className="progress-meta" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', marginTop: '5px', color: '#a4b0be' }}>
-                                    <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '80%' }}>
-                                        {taskProgress.isFetching ? taskProgress.message : (hasMetadataCache ? 'Local combat database loaded and cached.' : 'Synchronize database to start RTA tracking.')}
-                                    </span>
-                                    <span style={{ fontWeight: 'bold', color: taskProgress.error ? '#f87171' : '#00e5ff' }}>
-                                        {taskProgress.isFetching ? `${taskProgress.progress}%` : (hasMetadataCache ? '100%' : '0%')}
-                                    </span>
+
+                                <div className="progress-container" style={{ margin: '10px 0 4px 0' }}>
+                                    <div className="progress-bar-bg" style={{ height: '6px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden', position: 'relative' }}>
+                                        <div className="progress-bar-fill" style={{
+                                            height: '100%',
+                                            width: `${metagameProgress.progress || (hasMetagameCache ? 100 : 0)}%`,
+                                            background: metagameProgress.error ? '#ef4444' : 'linear-gradient(90deg, #00e5ff 0%, #0088ff 100%)',
+                                            transition: 'width 0.4s ease',
+                                            boxShadow: metagameProgress.error ? 'none' : '0 0 8px rgba(0, 229, 255, 0.4)'
+                                        }}></div>
+                                    </div>
+                                    <div className="progress-meta" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', marginTop: '5px', color: '#a4b0be' }}>
+                                        <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '80%' }}>
+                                            {metagameProgress.isFetching ? metagameProgress.message : (hasMetagameCache ? 'Local metagame database loaded and cached.' : 'Synchronize database to start RTA tracking.')}
+                                        </span>
+                                        <span style={{ fontWeight: 'bold', color: metagameProgress.error ? '#f87171' : '#00e5ff' }}>
+                                            {metagameProgress.isFetching ? `${metagameProgress.progress}%` : (hasMetagameCache ? '100%' : '0%')}
+                                        </span>
+                                    </div>
                                 </div>
+
+                                {metagameProgress.error && (
+                                    <div className="task-error-alert" style={{
+                                        backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                                        border: '1px solid rgba(239, 68, 68, 0.2)',
+                                        color: '#f87171',
+                                        borderRadius: '6px',
+                                        padding: '8px 10px',
+                                        fontSize: '10.5px',
+                                        marginTop: '6px'
+                                    }}>
+                                        ❌ {metagameProgress.error}
+                                    </div>
+                                )}
                             </div>
 
-                            {taskProgress.error && (
-                                <div className="task-error-alert" style={{
-                                    backgroundColor: 'rgba(239, 68, 68, 0.08)',
-                                    border: '1px solid rgba(239, 68, 68, 0.2)',
-                                    color: '#f87171',
-                                    borderRadius: '6px',
-                                    padding: '8px 10px',
-                                    fontSize: '10.5px',
-                                    marginTop: '8px'
-                                }}>
-                                    ❌ {taskProgress.error}
-                                </div>
-                            )}
-
-                            {!taskProgress.isFetching && (
+                            {!combatProgress.isFetching && !metagameProgress.isFetching && (
                                 <button
                                     onClick={async () => {
-                                        setTaskProgress({
+                                        setCombatProgress({
+                                            isFetching: true,
+                                            message: "Initializing manual sync request...",
+                                            progress: 0,
+                                            error: null
+                                        });
+                                        setMetagameProgress({
                                             isFetching: true,
                                             message: "Initializing manual sync request...",
                                             progress: 0,
                                             error: null
                                         });
                                         try {
-                                            const { CombatData: CD, DEFAULT_COMBAT_DATA_URL } = await import('../services/combatData');
-                                            await CD.fetchAndPartitionCombatData(DEFAULT_COMBAT_DATA_URL);
+                                            const { CombatData: CD, MetagameData: MD, DEFAULT_COMBAT_DATA_URL, DEFAULT_METAGAME_DATA_URL } = await import('../services/combatData');
+                                            
+                                            const combatPromise = CD.fetchAndPartitionCombatData(DEFAULT_COMBAT_DATA_URL).catch((err) => {
+                                                setCombatProgress({
+                                                    isFetching: false,
+                                                    error: err.message || String(err),
+                                                    progress: 0,
+                                                    message: "Sync failed."
+                                                });
+                                                throw err;
+                                            });
+
+                                            const metagamePromise = MD.fetchAndPartitionMetagameData(DEFAULT_METAGAME_DATA_URL).catch((err) => {
+                                                setMetagameProgress({
+                                                    isFetching: false,
+                                                    error: err.message || String(err),
+                                                    progress: 0,
+                                                    message: "Sync failed."
+                                                });
+                                                throw err;
+                                            });
+
+                                            await Promise.all([combatPromise, metagamePromise]);
                                             await checkMetadataCache();
                                         } catch (err: any) {
-                                            setTaskProgress({
-                                                isFetching: false,
-                                                error: err.message || String(err),
-                                                progress: 0,
-                                                message: "Sync failed."
-                                            });
+                                            console.error("Manual force sync failed:", err);
                                         }
                                     }}
                                     style={{
@@ -487,7 +620,7 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
                                     onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; }}
                                 >
-                                    Force Sync/Update RTA Database
+                                    Force Sync/Update RTA Databases
                                 </button>
                             )}
                         </div>
@@ -500,7 +633,48 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
                     <div className="tab-pane-logs" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexShrink: 0 }}>
                             <h2 className="section-title" style={{ margin: 0 }}>{t('controls.logsTitle')}</h2>
-                            <button className="clear-logs-btn" onClick={() => setLogs([])}>{t('controls.clear')}</button>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <span style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.6)', userSelect: 'none' }}>
+                                        {t('controls.autoscroll', 'Autoscroll')}
+                                    </span>
+                                    <label style={{
+                                        position: 'relative',
+                                        display: 'inline-block',
+                                        width: '28px',
+                                        height: '16px',
+                                        cursor: 'pointer'
+                                    }}>
+                                        <input 
+                                            type="checkbox" 
+                                            checked={autoscroll}
+                                            onChange={(e) => setAutoscroll(e.target.checked)}
+                                            style={{ opacity: 0, width: 0, height: 0 }}
+                                        />
+                                        <span style={{
+                                            position: 'absolute',
+                                            top: 0, left: 0, right: 0, bottom: 0,
+                                            backgroundColor: autoscroll ? '#00e5ff' : 'rgba(255,255,255,0.15)',
+                                            transition: '0.2s',
+                                            borderRadius: '16px',
+                                            boxShadow: autoscroll ? '0 0 6px rgba(0, 229, 255, 0.3)' : 'none'
+                                        }}>
+                                            <span style={{
+                                                position: 'absolute',
+                                                height: '10px',
+                                                width: '10px',
+                                                left: '3px',
+                                                bottom: '3px',
+                                                backgroundColor: '#fff',
+                                                transition: '0.2s',
+                                                borderRadius: '50%',
+                                                transform: autoscroll ? 'translateX(12px)' : 'translateX(0)'
+                                            }}></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <button className="clear-logs-btn" onClick={() => setLogs([])}>{t('controls.clear')}</button>
+                            </div>
                         </div>
                         <div className="terminal-logs-window" style={{ flex: 1, overflowY: 'auto' }}>
                             {logs.length === 0 ? (
@@ -641,6 +815,201 @@ export const ControlsView: React.FC<ControlsViewProps> = ({
                                     </label>
                                 </div>
                             )}
+                        </div>
+
+                        {/* 🎮 Game Client Type Selection */}
+                        <div className="settings-group-card" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <h3 className="group-title">{t('controls.gameClientType', 'Game Client Type')}</h3>
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                background: 'rgba(255, 255, 255, 0.02)',
+                                border: '1px solid rgba(255, 255, 255, 0.04)',
+                                borderRadius: '8px',
+                                padding: '12px'
+                            }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', maxWidth: '60%' }}>
+                                    <span style={{ fontSize: '12px', color: '#fff', fontWeight: 'bold' }}>
+                                        Active Client Profile
+                                    </span>
+                                    <span style={{ fontSize: '10.5px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.3 }}>
+                                        Select your game emulator or client type. The tracking coordinates and signatures will auto-adjust.
+                                    </span>
+                                </div>
+                                <select
+                                    value={settings.activeClient || 'default'}
+                                    onChange={(e) => updateSetting('activeClient', e.target.value)}
+                                    style={{
+                                        background: 'rgba(0, 0, 0, 0.4)',
+                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        borderRadius: '6px',
+                                        color: '#fff',
+                                        padding: '6px 12px',
+                                        fontSize: '11px',
+                                        outline: 'none',
+                                        cursor: 'pointer',
+                                        minWidth: '150px',
+                                        transition: 'border-color 0.2s'
+                                    }}
+                                    className="premium-select"
+                                >
+                                    <option value="default">Default / Dynamic</option>
+                                    <option value="ldplayer">LDPlayer</option>
+                                    <option value="bluestacks">BlueStacks</option>
+                                    <option value="mumu">MuMu Player</option>
+                                    <option value="pc_client">Epic Seven PC Client</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* 🎨 Overlay & Visual Customization */}
+                        <div className="settings-group-card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <h3 className="group-title">{t('controls.visualCustomization', 'Overlay & Visual Customization')}</h3>
+                            
+                            {/* 🎯 Overlay Radar Chart Customization */}
+                            <div className="visual-setting-row" style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '10px',
+                                background: 'rgba(255, 255, 255, 0.02)',
+                                border: '1px solid rgba(255, 255, 255, 0.04)',
+                                borderRadius: '8px',
+                                padding: '12px'
+                            }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                        <span style={{ fontSize: '11.5px', color: '#fff', fontWeight: 'bold' }}>
+                                            {t('controls.overlayRadarChart', 'Overlay Radar Chart')}
+                                        </span>
+                                        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)' }}>
+                                            Customize the visual overlay card showing build statistics.
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="setting-control-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.03)', paddingTop: '8px' }}>
+                                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>{t('controls.backdropBlur', 'Backdrop Blur')}</span>
+                                    <label className="startup-switch" style={{ position: 'relative', display: 'inline-block', width: '38px', height: '20px' }}>
+                                        <input 
+                                            type="checkbox" 
+                                            checked={settings.blurEnabledOverlay}
+                                            onChange={(e) => updateSetting('blurEnabledOverlay', e.target.checked)}
+                                            style={{ opacity: 0, width: 0, height: 0 }}
+                                        />
+                                        <span className="startup-slider" style={{
+                                            position: 'absolute',
+                                            cursor: 'pointer',
+                                            top: 0, left: 0, right: 0, bottom: 0,
+                                            backgroundColor: settings.blurEnabledOverlay ? '#00f2fe' : 'rgba(255,255,255,0.15)',
+                                            transition: '0.3s',
+                                            borderRadius: '20px',
+                                            boxShadow: settings.blurEnabledOverlay ? '0 0 6px #00f2fe' : 'none'
+                                        }}>
+                                            <span style={{
+                                                position: 'absolute',
+                                                height: '14px',
+                                                width: '14px',
+                                                left: '3px',
+                                                bottom: '3px',
+                                                backgroundColor: '#fff',
+                                                transition: '0.3s',
+                                                borderRadius: '50%',
+                                                transform: settings.blurEnabledOverlay ? 'translateX(18px)' : 'translateX(0)'
+                                            }}></span>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div className="setting-control-item" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>{t('controls.backgroundOpacity', 'Background Opacity')}</span>
+                                        <span style={{ fontSize: '10.5px', color: '#00f2fe', fontWeight: 'bold', fontFamily: 'monospace' }}>
+                                            {Math.round(settings.opacityOverlay * 100)}%
+                                        </span>
+                                    </div>
+                                    <input 
+                                        type="range" 
+                                        min="0" 
+                                        max="100" 
+                                        value={Math.round(settings.opacityOverlay * 100)} 
+                                        onChange={(e) => updateSetting('opacityOverlay', parseFloat(e.target.value) / 100)}
+                                        className="premium-slider"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* 🎭 Hero Details View Customization */}
+                            <div className="visual-setting-row" style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '10px',
+                                background: 'rgba(255, 255, 255, 0.02)',
+                                border: '1px solid rgba(255, 255, 255, 0.04)',
+                                borderRadius: '8px',
+                                padding: '12px'
+                            }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                        <span style={{ fontSize: '11.5px', color: '#fff', fontWeight: 'bold' }}>
+                                            {t('controls.heroDetailsView', 'Hero Details View')}
+                                        </span>
+                                        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)' }}>
+                                            Customize the visual analysis and calculator full screen dashboard.
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="setting-control-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.03)', paddingTop: '8px' }}>
+                                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>{t('controls.backdropBlur', 'Backdrop Blur')}</span>
+                                    <label className="startup-switch" style={{ position: 'relative', display: 'inline-block', width: '38px', height: '20px' }}>
+                                        <input 
+                                            type="checkbox" 
+                                            checked={settings.blurEnabledHeroDetails}
+                                            onChange={(e) => updateSetting('blurEnabledHeroDetails', e.target.checked)}
+                                            style={{ opacity: 0, width: 0, height: 0 }}
+                                        />
+                                        <span className="startup-slider" style={{
+                                            position: 'absolute',
+                                            cursor: 'pointer',
+                                            top: 0, left: 0, right: 0, bottom: 0,
+                                            backgroundColor: settings.blurEnabledHeroDetails ? '#00f2fe' : 'rgba(255,255,255,0.15)',
+                                            transition: '0.3s',
+                                            borderRadius: '20px',
+                                            boxShadow: settings.blurEnabledHeroDetails ? '0 0 6px #00f2fe' : 'none'
+                                        }}>
+                                            <span style={{
+                                                position: 'absolute',
+                                                height: '14px',
+                                                width: '14px',
+                                                left: '3px',
+                                                bottom: '3px',
+                                                backgroundColor: '#fff',
+                                                transition: '0.3s',
+                                                borderRadius: '50%',
+                                                transform: settings.blurEnabledHeroDetails ? 'translateX(18px)' : 'translateX(0)'
+                                            }}></span>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div className="setting-control-item" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>{t('controls.backgroundOpacity', 'Background Opacity')}</span>
+                                        <span style={{ fontSize: '10.5px', color: '#00f2fe', fontWeight: 'bold', fontFamily: 'monospace' }}>
+                                            {Math.round(settings.opacityHeroDetails * 100)}%
+                                        </span>
+                                    </div>
+                                    <input 
+                                        type="range" 
+                                        min="0" 
+                                        max="100" 
+                                        value={Math.round(settings.opacityHeroDetails * 100)} 
+                                        onChange={(e) => updateSetting('opacityHeroDetails', parseFloat(e.target.value) / 100)}
+                                        className="premium-slider"
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         <div className="settings-group-card">
