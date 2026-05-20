@@ -1,115 +1,117 @@
 {
-    "Hero_Detail": {
-        "identity": [
-            {
-                "image": "detail-signature.png",
-                "zone": {
-                    "x": 38.261,
-                    "y": 83.333,
-                    "w": 4.066,
-                    "h": 7.037
-                },
-                "threshold": 0.97
-            }
-        ],
-        "slots": [
-            {
-                "id": "selected_hero",
-                "detection": {
-                    "type": "ocr",
+    "1600x900": {
+        "Hero_Detail": {
+            "identity": [
+                {
+                    "image": "detail-signature.png",
                     "zone": {
-                        "x": 0.209,
-                        "y": 0.556,
-                        "w": 44.725,
+                        "x": 38.261,
+                        "y": 83.333,
+                        "w": 4.066,
                         "h": 7.037
+                    },
+                    "threshold": 0.97
+                }
+            ],
+            "slots": [
+                {
+                    "id": "selected_hero",
+                    "detection": {
+                        "type": "ocr",
+                        "zone": {
+                            "x": 0.209,
+                            "y": 0.556,
+                            "w": 44.725,
+                            "h": 7.037
+                        }
+                    },
+                    "display": {
+                        "x": 5,
+                        "y": 10,
+                        "w": 20,
+                        "h": 30
+                    }
+                }
+            ]
+        },
+        "Hero_Stats": {
+            "identity": [
+                {
+                    "image": "stats-signature.png",
+                    "zone": {
+                        "x": 42.848,
+                        "y": 83.889,
+                        "w": 4.066,
+                        "h": 6.296
+                    },
+                    "threshold": 0.97
+                }
+            ],
+            "slots": [
+                {
+                    "id": "selected_hero",
+                    "detection": {
+                        "type": "ocr",
+                        "zone": {
+                            "x": 0.209,
+                            "y": 0.556,
+                            "w": 44.725,
+                            "h": 7.037
+                        }
+                    },
+                    "display": {
+                        "x": 5,
+                        "y": 10,
+                        "w": 20,
+                        "h": 30
                     }
                 },
-                "display": {
-                    "x": 5,
-                    "y": 10,
-                    "w": 20,
-                    "h": 30
-                }
-            }
-        ]
-    },
-    "Hero_Stats": {
-        "identity": [
-            {
-                "image": "stats-signature.png",
-                "zone": {
-                    "x": 42.848,
-                    "y": 83.889,
-                    "w": 4.066,
-                    "h": 6.296
-                },
-                "threshold": 0.97
-            }
-        ],
-        "slots": [
-            {
-                "id": "selected_hero",
-                "detection": {
-                    "type": "ocr",
-                    "zone": {
-                        "x": 0.209,
-                        "y": 0.556,
-                        "w": 44.725,
-                        "h": 7.037
-                    }
-                },
-                "display": {
-                    "x": 5,
-                    "y": 10,
-                    "w": 20,
-                    "h": 30
-                }
-            },
-            {
-                "id": "hero_stats_panel",
-                "detection": {
-                    "type": "ocr",
-                    "zone": {
+                {
+                    "id": "hero_stats_panel",
+                    "detection": {
+                        "type": "ocr",
+                        "zone": {
+                            "x": 19.261,
+                            "y": 56.119,
+                            "w": 5.896,
+                            "h": 28.671
+                        }
+                    },
+                    "display": {
                         "x": 19.261,
                         "y": 56.119,
                         "w": 5.896,
                         "h": 28.671
                     }
-                },
-                "display": {
-                    "x": 19.261,
-                    "y": 56.119,
-                    "w": 5.896,
-                    "h": 28.671
                 }
-            }
-        ]
-    },
-    "Lobby": {
-        "identity": [
-            {
-                "image": "lobby-signature.png",
-                "zone": {
-                    "x": 3.4,
-                    "y": 22.472,
-                    "w": 1.285,
-                    "h": 3.336
-                },
-                "threshold": 0.97
-            }
-        ],
-        "slots": []
-    },
-    "Arena_Lobby": {
-        "identity": [],
-        "slots": []
-    },
-    "Preban": {
-        "identity": [],
-        "slots": []
-    },
-    "Ban_Pick": {
-        "identity": [],
-        "slots": []
+            ]
+        },
+        "Lobby": {
+            "identity": [
+                {
+                    "image": "lobby-signature.png",
+                    "zone": {
+                        "x": 3.4,
+                        "y": 22.472,
+                        "w": 1.285,
+                        "h": 3.336
+                    },
+                    "threshold": 0.97
+                }
+            ],
+            "slots": []
+        },
+        "Arena_Lobby": {
+            "identity": [],
+            "slots": []
+        },
+        "Preban": {
+            "identity": [],
+            "slots": []
+        },
+        "Ban_Pick": {
+            "identity": [],
+            "slots": []
+        }
     }
 }

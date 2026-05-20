@@ -88,6 +88,7 @@ pub struct AppState {
     pub tracked_hwnd: Mutex<Option<isize>>,
     pub mode: Mutex<OverlayMode>,
     pub active_client: Mutex<String>,
+    pub trigger_reload: Mutex<bool>,
 }
 
 // ── Window Enumeration ─────────────────────────────────────
@@ -147,6 +148,467 @@ fn set_overlay_mode(state: tauri::State<'_, AppState>, mode: OverlayMode) {
 #[tauri::command]
 fn log_selection(x: f64, y: f64, w: f64, h: f64) {
     log_message(&format!("{{ \"x\": {:.3}, \"y\": {:.3}, \"w\": {:.3}, \"h\": {:.3} }}", x, y, w, h));
+}
+
+#[tauri::command]
+async fn save_cropped_signature(
+    app: tauri::AppHandle,
+    client: String,
+    resolution: String,
+    screen: String,
+    signature_key: String,
+    x: f64,
+    y: f64,
+    w: f64,
+    h: f64,
+) -> Result<String, String> {
+    use crate::models::{ScreenDef, IdentityFeature, Zone};
+    use crate::AppState;
+    use tauri::Manager;
+    use tauri::Emitter;
+    use std::collections::HashMap;
+    use windows::Win32::Foundation::HWND;
+
+    crate::log_message(&format!(
+        "[Profile Editor Workflow] New request: client='{}', res='{}', screen='{}', key='{}' zone=({:.3}, {:.3}, {:.3}, {:.3})",
+        client, resolution, screen, signature_key, x, y, w, h
+    ));
+
+    // Resolve assets folder
+    let assets_dir = app.path()
+        .resolve("assets", tauri::path::BaseDirectory::Resource)
+        .unwrap_or_else(|_| {
+            if std::path::Path::new("src-tauri/assets").exists() {
+                std::path::PathBuf::from("src-tauri/assets")
+            } else {
+                std::path::PathBuf::from("assets")
+            }
+        });
+
+    // 1. Get current tracked window size to resolve the correct JSON profile
+    let hwnd_val = {
+        let state = app.state::<AppState>();
+        let val = *state.tracked_hwnd.lock().unwrap();
+        val
+    };
+
+    let hwnd = match hwnd_val {
+        Some(h) => HWND(h as *mut _),
+        None => return Err("No game window is currently tracked. Attach to Epic Seven first!".to_string()),
+    };
+
+    // Capture a quick frame to determine the exact window dimensions
+    let (_, win_w, win_h) = match crate::capture::capture_window_to_rgb(hwnd) {
+        Some(f) => f,
+        None => return Err("Failed to capture game window dimensions.".to_string()),
+    };
+
+    // 2. Update layout coordinates in the resolved JSON profile config file
+    let profile_name = resolve_profile_filename(&client);
+    let profile_path = assets_dir.join(&profile_name);
+
+    let mut resolution_map: HashMap<String, HashMap<String, ScreenDef>> = if profile_path.exists() {
+        let content = std::fs::read_to_string(&profile_path)
+            .map_err(|e| format!("Failed to read screen config: {}", e))?;
+        serde_json::from_str::<HashMap<String, HashMap<String, ScreenDef>>>(&content)
+            .or_else(|_| {
+                serde_json::from_str::<HashMap<String, ScreenDef>>(&content).map(|flat| {
+                    let mut nested = HashMap::new();
+                    nested.insert(resolution.clone(), flat);
+                    nested
+                })
+            })
+            .map_err(|e| format!("Failed to parse profile JSON: {}", e))?
+    } else {
+        // Fallback to default screens.json as template base
+        let default_path = assets_dir.join("screens.json");
+        if default_path.exists() {
+            let content = std::fs::read_to_string(&default_path)
+                .map_err(|e| format!("Failed to read base template: {}", e))?;
+            serde_json::from_str::<HashMap<String, HashMap<String, ScreenDef>>>(&content)
+                .or_else(|_| {
+                    serde_json::from_str::<HashMap<String, ScreenDef>>(&content).map(|flat| {
+                        let mut nested = HashMap::new();
+                        nested.insert(resolution.clone(), flat);
+                        nested
+                    })
+                })
+                .map_err(|e| format!("Failed to parse base template: {}", e))?
+        } else {
+            HashMap::new()
+        }
+    };
+
+    let target_resolution = format!("{}x{}", win_w, win_h);
+
+    let screens = resolution_map.entry(target_resolution.clone()).or_insert_with(HashMap::new);
+    let screen_def = screens.entry(screen.clone()).or_insert_with(|| ScreenDef {
+        identity: Vec::new(),
+        slots: Vec::new(),
+    });
+
+    let rounded_x = (x * 1000.0).round() / 1000.0;
+    let rounded_y = (y * 1000.0).round() / 1000.0;
+    let rounded_w = (w * 1000.0).round() / 1000.0;
+    let rounded_h = (h * 1000.0).round() / 1000.0;
+
+    if let Some(feat) = screen_def.identity.iter_mut().find(|f| f.image == signature_key) {
+        feat.zone = Zone { x: rounded_x, y: rounded_y, w: rounded_w, h: rounded_h };
+    } else {
+        screen_def.identity.push(IdentityFeature {
+            image: signature_key.clone(),
+            zone: Zone { x: rounded_x, y: rounded_y, w: rounded_w, h: rounded_h },
+            threshold: 0.92, // Default signature threshold
+        });
+    }
+
+    let serialized = serde_json::to_string_pretty(&resolution_map)
+        .map_err(|e| format!("Failed to serialize screens layout: {}", e))?;
+    std::fs::write(&profile_path, serialized)
+        .map_err(|e| format!("Failed to write updated JSON profile: {}", e))?;
+    crate::log_message(&format!("[Profile Editor Workflow] Updated coordinates in JSON profile: {:?}", profile_path));
+
+    // 3. Hide the selector overlay completely & notify frontend
+    {
+        let state = app.state::<AppState>();
+        *state.mode.lock().unwrap() = OverlayMode::Display;
+    }
+
+    if let Some(selector_win) = app.get_webview_window("selector") {
+        let _ = selector_win.hide();
+        let _ = selector_win.emit("mode-changed", OverlayMode::Display);
+    }
+
+    // Wait for 1 second to make sure that the overlay is completely hidden from the GDI screen buffer!
+    crate::log_message("[Profile Editor Workflow] Waiting 1.0s for overlay hide composition...");
+    tokio::time::sleep(tokio::time::Duration::from_millis(1000)).await;
+
+    // 4. Trigger first forced hot-reload so that the background tracking loop starts
+    // evaluating features using the new zone coordinates and outputs the fresh debug crop!
+    {
+        let state = app.state::<AppState>();
+        *state.trigger_reload.lock().unwrap() = true;
+    }
+
+    // 5. Poll for the newly saved debug crop image file (up to 3 seconds)
+    crate::log_message("[Profile Editor Workflow] Polling for fresh crop from detection capturer...");
+    let debug_dir = assets_dir.join("debug_crops").join(&screen);
+    let mut latest_crop: Option<std::path::PathBuf> = None;
+
+    // Check 15 times with 200ms sleep (3 seconds total)
+    for _ in 0..15 {
+        let mut latest_time = std::time::SystemTime::UNIX_EPOCH;
+        let mut found_any = false;
+        
+        for count in 0..3 {
+            let crop_path = debug_dir.join(format!("{}_{}.png", signature_key, count));
+            if crop_path.exists() {
+                found_any = true;
+                if let Ok(metadata) = std::fs::metadata(&crop_path) {
+                    if let Ok(modified) = metadata.modified() {
+                        if modified > latest_time {
+                            latest_time = modified;
+                            latest_crop = Some(crop_path.clone());
+                        }
+                    }
+                }
+            }
+        }
+        if found_any && latest_crop.is_some() {
+            break;
+        }
+        tokio::time::sleep(tokio::time::Duration::from_millis(200)).await;
+    }
+
+    let source_crop = match latest_crop {
+        Some(path) => path,
+        None => {
+            return Err("Capture timeout: The capturer loop did not output a debug crop file. Please make sure the emulator is visible, not minimized, and you have attached to Epic Seven!".to_string());
+        }
+    };
+    crate::log_message(&format!("[Profile Editor Workflow] Detected fresh debug crop asset at: {:?}", source_crop));
+
+    // 6. Copy the captured debug crop file into the final target signature folder
+    let folder_name = match (client.as_str(), resolution.as_str()) {
+        ("default", "default") | ("default", "unknown") | ("default", "") => "identity".to_string(),
+        ("default", res) => format!("identity_{}", res),
+        (cli, "default") | (cli, "unknown") | (cli, "") => format!("identity_{}", cli),
+        (cli, res) => format!("identity_{}_{}", cli, res),
+    };
+
+    let target_dir = assets_dir.join("screens").join(&screen).join(&folder_name);
+    std::fs::create_dir_all(&target_dir)
+        .map_err(|e| format!("Failed to create destination signature directory: {}", e))?;
+
+    let final_dest_path = target_dir.join(&signature_key);
+    std::fs::copy(&source_crop, &final_dest_path)
+        .map_err(|e| format!("Failed to copy cropped signature file to target asset path: {}", e))?;
+    crate::log_message(&format!("[Profile Editor Workflow] Successfully promoted crop to target template asset: {:?}", final_dest_path));
+
+    // 7. Trigger a second hot-reload to load the new template signature asset into the matching engine
+    {
+        let state = app.state::<AppState>();
+        *state.trigger_reload.lock().unwrap() = true;
+    }
+
+    Ok(format!(
+        "Perfect! Coordinates synced in '{}' and signature asset promoted successfully! E7Tracker is now active using the new config.",
+        profile_name
+    ))
+}
+
+#[tauri::command]
+fn update_ocr_zone(
+    app: tauri::AppHandle,
+    client: String,
+    resolution: String,
+    screen: String,
+    slot_id: String,
+    x: f64,
+    y: f64,
+    w: f64,
+    h: f64,
+) -> Result<String, String> {
+    use crate::models::{ScreenDef, HeroSlot, HeroDetection, Zone};
+    use crate::AppState;
+    use tauri::Manager;
+    use tauri::Emitter;
+    use std::collections::HashMap;
+
+    crate::log_message(&format!(
+        "[Profile Editor OCR] Update request: client='{}', res='{}', screen='{}', slot='{}' zone=({:.3}, {:.3}, {:.3}, {:.3})",
+        client, resolution, screen, slot_id, x, y, w, h
+    ));
+
+    // Resolve assets folder
+    let assets_dir = app.path()
+        .resolve("assets", tauri::path::BaseDirectory::Resource)
+        .unwrap_or_else(|_| {
+            if std::path::Path::new("src-tauri/assets").exists() {
+                std::path::PathBuf::from("src-tauri/assets")
+            } else {
+                std::path::PathBuf::from("assets")
+            }
+        });
+
+    // Update layout coordinates in the resolved JSON profile config file
+    let profile_name = resolve_profile_filename(&client);
+    let profile_path = assets_dir.join(&profile_name);
+
+    let mut resolution_map: HashMap<String, HashMap<String, ScreenDef>> = if profile_path.exists() {
+        let content = std::fs::read_to_string(&profile_path)
+            .map_err(|e| format!("Failed to read screen config: {}", e))?;
+        serde_json::from_str::<HashMap<String, HashMap<String, ScreenDef>>>(&content)
+            .or_else(|_| {
+                serde_json::from_str::<HashMap<String, ScreenDef>>(&content).map(|flat| {
+                    let mut nested = HashMap::new();
+                    nested.insert(resolution.clone(), flat);
+                    nested
+                })
+            })
+            .map_err(|e| format!("Failed to parse profile JSON: {}", e))?
+    } else {
+        // Fallback to default screens.json as template base
+        let default_path = assets_dir.join("screens.json");
+        if default_path.exists() {
+            let content = std::fs::read_to_string(&default_path)
+                .map_err(|e| format!("Failed to read base template: {}", e))?;
+            serde_json::from_str::<HashMap<String, HashMap<String, ScreenDef>>>(&content)
+                .or_else(|_| {
+                    serde_json::from_str::<HashMap<String, ScreenDef>>(&content).map(|flat| {
+                        let mut nested = HashMap::new();
+                        nested.insert(resolution.clone(), flat);
+                        nested
+                    })
+                })
+                .map_err(|e| format!("Failed to parse base template: {}", e))?
+        } else {
+            HashMap::new()
+        }
+    };
+
+    let hwnd_val = {
+        let state = app.state::<AppState>();
+        let val = *state.tracked_hwnd.lock().unwrap();
+        val
+    };
+
+    let target_resolution = if let Some(h_val) = hwnd_val {
+        let hwnd = HWND(h_val as *mut _);
+        if let Some((_, win_w, win_h)) = crate::capture::capture_window_to_rgb(hwnd) {
+            format!("{}x{}", win_w, win_h)
+        } else {
+            resolution.clone()
+        }
+    } else {
+        resolution.clone()
+    };
+
+    let screens = resolution_map.entry(target_resolution.clone()).or_insert_with(HashMap::new);
+    let screen_def = screens.entry(screen.clone()).or_insert_with(|| ScreenDef {
+        identity: Vec::new(),
+        slots: Vec::new(),
+    });
+
+    let rounded_x = (x * 1000.0).round() / 1000.0;
+    let rounded_y = (y * 1000.0).round() / 1000.0;
+    let rounded_w = (w * 1000.0).round() / 1000.0;
+    let rounded_h = (h * 1000.0).round() / 1000.0;
+
+    // Find slot or push a new one
+    if let Some(slot) = screen_def.slots.iter_mut().find(|s| s.id == slot_id) {
+        slot.detection = HeroDetection::OCR {
+            zone: Zone { x: rounded_x, y: rounded_y, w: rounded_w, h: rounded_h },
+        };
+        slot.display = Zone { x: rounded_x, y: rounded_y, w: rounded_w, h: rounded_h };
+    } else {
+        screen_def.slots.push(HeroSlot {
+            id: slot_id.clone(),
+            detection: HeroDetection::OCR {
+                zone: Zone { x: rounded_x, y: rounded_y, w: rounded_w, h: rounded_h },
+            },
+            display: Zone { x: rounded_x, y: rounded_y, w: rounded_w, h: rounded_h },
+        });
+    }
+
+    let serialized = serde_json::to_string_pretty(&resolution_map)
+        .map_err(|e| format!("Failed to serialize screens layout: {}", e))?;
+    std::fs::write(&profile_path, serialized)
+        .map_err(|e| format!("Failed to write updated JSON profile: {}", e))?;
+    crate::log_message(&format!("[Profile Editor OCR] Updated OCR zone inside JSON profile: {:?}", profile_path));
+
+    // Hide the selector overlay completely & notify frontend
+    {
+        let state = app.state::<AppState>();
+        *state.mode.lock().unwrap() = OverlayMode::Display;
+    }
+
+    if let Some(selector_win) = app.get_webview_window("selector") {
+        let _ = selector_win.hide();
+        let _ = selector_win.emit("mode-changed", OverlayMode::Display);
+    }
+
+    // Trigger forced hot-reload so that the tracking loop instantly loads the new OCR coordinates!
+    {
+        let state = app.state::<AppState>();
+        *state.trigger_reload.lock().unwrap() = true;
+    }
+
+    Ok(format!(
+        "Perfect! OCR Slot ID '{}' coordinates updated in '{}' successfully!",
+        slot_id, profile_name
+    ))
+}
+
+#[tauri::command]
+fn get_current_zone(
+    app: tauri::AppHandle,
+    client: String,
+    resolution: String,
+    screen: String,
+    edit_mode: String,
+    signature_key: String,
+    slot_id: String,
+) -> Result<Option<crate::models::Zone>, String> {
+    use crate::models::{ScreenDef, Zone};
+    use std::collections::HashMap;
+
+    // Resolve assets folder
+    let assets_dir = app.path()
+        .resolve("assets", tauri::path::BaseDirectory::Resource)
+        .unwrap_or_else(|_| {
+            if std::path::Path::new("src-tauri/assets").exists() {
+                std::path::PathBuf::from("src-tauri/assets")
+            } else {
+                std::path::PathBuf::from("assets")
+            }
+        });
+
+    // 1. Resolve JSON profile filename
+    let profile_name = resolve_profile_filename(&client);
+    let profile_path = assets_dir.join(&profile_name);
+    if !profile_path.exists() {
+        return Ok(None);
+    }
+
+    let content = std::fs::read_to_string(&profile_path)
+        .map_err(|e| format!("Failed to read screen config: {}", e))?;
+
+    let resolution_map: HashMap<String, HashMap<String, ScreenDef>> = serde_json::from_str::<HashMap<String, HashMap<String, ScreenDef>>>(&content)
+        .or_else(|_| {
+            serde_json::from_str::<HashMap<String, ScreenDef>>(&content).map(|flat| {
+                let mut nested = HashMap::new();
+                nested.insert(resolution.clone(), flat);
+                nested
+            })
+        })
+        .map_err(|e| format!("Failed to parse profile JSON: {}", e))?;
+
+    let hwnd_val = {
+        let state = app.state::<AppState>();
+        let val = *state.tracked_hwnd.lock().unwrap();
+        val
+    };
+
+    let target_resolution = if let Some(h_val) = hwnd_val {
+        let hwnd = HWND(h_val as *mut _);
+        if let Some((_, win_w, win_h)) = crate::capture::capture_window_to_rgb(hwnd) {
+            format!("{}x{}", win_w, win_h)
+        } else {
+            resolution.clone()
+        }
+    } else {
+        resolution.clone()
+    };
+
+    let target_w: u32;
+    let target_h: u32;
+    let parts: Vec<&str> = target_resolution.split('x').collect();
+    if parts.len() == 2 {
+        target_w = parts[0].parse::<u32>().unwrap_or(1600);
+        target_h = parts[1].parse::<u32>().unwrap_or(900);
+    } else {
+        target_w = 1600;
+        target_h = 900;
+    }
+
+    let empty_map = HashMap::new();
+    let screens = match resolution_map.get(&target_resolution) {
+        Some(s) => s,
+        None => {
+            // Find the closest available resolution setting in the map!
+            if let Some(closest_key) = find_closest_resolution_key(&resolution_map, target_w, target_h) {
+                resolution_map.get(&closest_key).unwrap_or(&empty_map)
+            } else {
+                match resolution_map.values().next() {
+                    Some(s) => s,
+                    None => return Ok(None),
+                }
+            }
+        }
+    };
+
+    let screen_def = match screens.get(&screen) {
+        Some(s) => s,
+        None => return Ok(None),
+    };
+
+    if edit_mode == "signature" {
+        // Find inside identity features
+        if let Some(feat) = screen_def.identity.iter().find(|f| f.image == signature_key) {
+            return Ok(Some(feat.zone.clone()));
+        }
+    } else {
+        // Find inside slots
+        if let Some(slot) = screen_def.slots.iter().find(|s| s.id == slot_id) {
+            match &slot.detection {
+                crate::models::HeroDetection::OCR { zone } => return Ok(Some(zone.clone())),
+                crate::models::HeroDetection::Image { zone, .. } => return Ok(Some(zone.clone())),
+            }
+        }
+    }
+
+    Ok(None)
 }
 
 #[tauri::command]
@@ -334,43 +796,110 @@ fn get_resolution_bucket(width: u32, height: u32) -> Option<&'static str> {
     None
 }
 
-fn resolve_profile_filename(assets_dir: &std::path::Path, active_client: &str, win_w: u32, win_h: u32) -> String {
-    if active_client == "default" {
-        return "screens.json".to_string();
+fn resolve_profile_filename(active_client: &str) -> String {
+    match active_client {
+        "pc_client" => "screens_pc_client.json".to_string(),
+        "bluestacks" => "screens_bluestacks.json".to_string(),
+        "mumu" => "screens_mumu.json".to_string(),
+        "ldplayer" => "screens_ldplayer.json".to_string(),
+        _ => "screens.json".to_string(),
     }
-
-    if let Some(bucket) = get_resolution_bucket(win_w, win_h) {
-        let specific_name = format!("screens_{}_{}.json", active_client, bucket);
-        if assets_dir.join(&specific_name).exists() {
-            return specific_name;
-        }
-    }
-
-    let generic_name = format!("screens_{}.json", active_client);
-    if assets_dir.join(&generic_name).exists() {
-        return generic_name;
-    }
-
-    "screens.json".to_string()
 }
 
-fn load_screens(assets_dir: &std::path::Path, profile: &str) -> HashMap<String, ScreenDef> {
+fn find_closest_resolution_key(
+    res_map: &HashMap<String, HashMap<String, ScreenDef>>,
+    target_w: u32,
+    target_h: u32,
+) -> Option<String> {
+    let mut closest_key: Option<String> = None;
+    let mut min_diff = u64::MAX;
+
+    for key in res_map.keys() {
+        let parts: Vec<&str> = key.split('x').collect();
+        if parts.len() == 2 {
+            if let (Ok(w), Ok(h)) = (parts[0].parse::<u32>(), parts[1].parse::<u32>()) {
+                let diff = (w as i32 - target_w as i32).abs() as u64 + (h as i32 - target_h as i32).abs() as u64;
+                if diff < min_diff {
+                    min_diff = diff;
+                    closest_key = Some(key.clone());
+                }
+            }
+        }
+    }
+    closest_key
+}
+
+fn load_screens(assets_dir: &std::path::Path, profile: &str, resolution: &str) -> HashMap<String, ScreenDef> {
     let path = assets_dir.join(profile);
     match std::fs::read_to_string(&path) {
         Ok(content) => {
+            // First try parsing as the new nested KV resolution map
+            if let Ok(res_map) = serde_json::from_str::<HashMap<String, HashMap<String, ScreenDef>>>(&content) {
+                if let Some(screens) = res_map.get(resolution) {
+                    log_message(&format!(
+                        "[e7tracker] Loaded {} screens for exact resolution '{}' from profile '{}'",
+                        screens.len(), resolution, profile
+                    ));
+                    return screens.clone();
+                }
+
+                // Fallback to the closest resolution key in the profile!
+                let parts: Vec<&str> = resolution.split('x').collect();
+                if parts.len() == 2 {
+                    if let (Ok(target_w), Ok(target_h)) = (parts[0].parse::<u32>(), parts[1].parse::<u32>()) {
+                        if let Some(closest_key) = find_closest_resolution_key(&res_map, target_w, target_h) {
+                            if let Some(screens) = res_map.get(&closest_key) {
+                                log_message(&format!(
+                                    "[e7tracker] Exact resolution '{}' not found in '{}'. Loaded closest matching setting '{}' ({} screens)",
+                                    resolution, profile, closest_key, screens.len()
+                                ));
+                                return screens.clone();
+                            }
+                        }
+                    }
+                }
+
+                // Fallback to "1600x900" default if resolution key doesn't exist
+                let fallback_res = "1600x900";
+                if let Some(screens) = res_map.get(fallback_res) {
+                    log_message(&format!(
+                        "[e7tracker] Resolution '{}' not found in '{}', falling back to '{}' ({} screens)",
+                        resolution, profile, fallback_res, screens.len()
+                    ));
+                    return screens.clone();
+                }
+                // Final map fallback to any first resolution key
+                if let Some(screens) = res_map.values().next() {
+                    log_message(&format!(
+                        "[e7tracker] Resolution '{}' not found in '{}', falling back to first resolution ({} screens)",
+                        resolution, profile, screens.len()
+                    ));
+                    return screens.clone();
+                }
+            }
+            // Parse as old flat map fallback
             match serde_json::from_str::<HashMap<String, ScreenDef>>(&content) {
                 Ok(screens) => {
-                    log_message(&format!("[e7tracker] Loaded {} screen definitions from {}", screens.len(), profile));
+                    log_message(&format!(
+                        "[e7tracker] Loaded {} screens directly (flat map) from profile '{}'",
+                        screens.len(), profile
+                    ));
                     screens
                 }
                 Err(e) => {
-                    log_message(&format!("[e7tracker] Error parsing screen profile '{}': {}", profile, e));
+                    log_message(&format!(
+                        "[e7tracker] Error parsing flat screen profile '{}': {}",
+                        profile, e
+                    ));
                     HashMap::new()
                 }
             }
         }
         Err(e) => {
-            log_message(&format!("[e7tracker] Could not read screen profile '{}': {}", profile, e));
+            log_message(&format!(
+                "[e7tracker] Could not read screen profile '{}': {}",
+                profile, e
+            ));
             HashMap::new()
         }
     }
@@ -515,6 +1044,7 @@ pub fn run() {
             tracked_hwnd: Mutex::new(None),
             mode: Mutex::new(OverlayMode::Display),
             active_client: Mutex::new("default".to_string()),
+            trigger_reload: Mutex::new(false),
         })
         .manage(CacheState(std::sync::OnceLock::new()))
         .plugin(tauri_plugin_opener::init())
@@ -540,7 +1070,10 @@ pub fn run() {
             is_autostart_silent,
             is_silent_launch,
             get_tracked_window,
-            is_cache_ready
+            is_cache_ready,
+            save_cropped_signature,
+            update_ocr_zone,
+            get_current_zone
         ])
         .setup(|app| {
             let handle = app.handle().clone();
@@ -624,11 +1157,11 @@ pub fn run() {
             *app.state::<AppState>().active_client.lock().unwrap() = initial_client.clone();
 
             // Sizing bucket guess for startup (1600x900 default)
-            let initial_profile = resolve_profile_filename(&assets_dir, &initial_client, 1600, 900);
+            let initial_profile = resolve_profile_filename(&initial_client);
             let resolution_bucket = get_resolution_bucket(1600, 900).unwrap_or("unknown");
             crate::log_message(&format!("[Startup] Resolved screen profile: {}", initial_profile));
 
-            let screens = load_screens(&assets_dir, &initial_profile);
+            let screens = load_screens(&assets_dir, &initial_profile, resolution_bucket);
             let heroes = load_heroes(&assets_dir);
             let identity_templates = load_identity_templates(&assets_dir, &screens, &initial_client, resolution_bucket);
             let hero_portraits = load_hero_portraits(&assets_dir, &heroes);
@@ -824,6 +1357,7 @@ pub fn run() {
             tauri::async_runtime::spawn(async move {
                 let mut last_auto_search = std::time::Instant::now();
                 let mut current_loaded_profile = loop_initial_profile;
+                let mut current_loaded_resolution = "1600x900".to_string();
                 loop {
                     tokio::time::sleep(std::time::Duration::from_millis(100)).await;
 
@@ -900,7 +1434,7 @@ pub fn run() {
                                                     tauri::PhysicalSize { width, height },
                                                 ));
                                                 let _ = selector_win.set_position(tauri::Position::Physical(
-                                                    tauri::PhysicalPosition { x: rect.left + x_offset, y: rect.top },
+                                                    tauri::PhysicalPosition { x: rect.left, y: rect.top },
                                                 ));
                                             }
                                         }
@@ -915,19 +1449,31 @@ pub fn run() {
                                                     guard.clone()
                                                 };
 
-                                                let resolved_profile = resolve_profile_filename(&engine.assets_dir, &active_client, w, h);
-                                                if resolved_profile != current_loaded_profile {
-                                                    let res_bucket = get_resolution_bucket(w, h).unwrap_or("unknown");
-                                                    crate::log_message(&format!(
-                                                        "[Tracking Loop] Resolution bucket changed (size: {}x{}, bucket: '{}'). Reloading screens configuration from '{}'...",
-                                                        w, h, res_bucket, resolved_profile
-                                                    ));
-                                                    let new_screens = load_screens(&engine.assets_dir, &resolved_profile);
-                                                    let new_templates = load_identity_templates(&engine.assets_dir, &new_screens, &active_client, res_bucket);
-                                                    engine.screens = new_screens;
-                                                    engine.identity_templates = new_templates;
-                                                    current_loaded_profile = resolved_profile;
-                                                }
+                                                 let resolved_profile = resolve_profile_filename(&active_client);
+                                                 let force_reload = {
+                                                      let state = handle.state::<AppState>();
+                                                      let mut guard = state.trigger_reload.lock().unwrap();
+                                                      let val = *guard;
+                                                      if val {
+                                                          *guard = false;
+                                                      }
+                                                      val
+                                                  };
+
+                                                 let res_bucket = get_resolution_bucket(w, h).unwrap_or("1600x900").to_string();
+
+                                                 if resolved_profile != current_loaded_profile || res_bucket != current_loaded_resolution || force_reload {
+                                                     crate::log_message(&format!(
+                                                         "[Tracking Loop] Configuration reload needed (client: '{}', resolution: '{}'). Reloading screens configuration from '{}'...",
+                                                         active_client, res_bucket, resolved_profile
+                                                     ));
+                                                     let new_screens = load_screens(&engine.assets_dir, &resolved_profile, &res_bucket);
+                                                     let new_templates = load_identity_templates(&engine.assets_dir, &new_screens, &active_client, &res_bucket);
+                                                     engine.screens = new_screens;
+                                                     engine.identity_templates = new_templates;
+                                                     current_loaded_profile = resolved_profile;
+                                                     current_loaded_resolution = res_bucket;
+                                                 }
 
                                                 let result = engine.process_frame(&frame, w, h);
                                                 // Emit results to frontend
