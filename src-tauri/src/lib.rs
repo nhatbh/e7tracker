@@ -18,6 +18,8 @@ use windows::Win32::UI::WindowsAndMessaging::{
     WindowFromPoint, GetCursorPos,
 };
 use windows::Win32::UI::Input::KeyboardAndMouse::GetAsyncKeyState;
+use windows::Win32::UI::Input::{RegisterRawInputDevices, GetRawInputData, RAWINPUT, RAWINPUTHEADER, RAWINPUTDEVICE, RIM_TYPEMOUSE, RIM_INPUT};
+use windows::Win32::UI::Input::KeyboardAndMouse::{MOUSE_MOVE_RELATIVE, RI_MOUSE_LEFT_BUTTON_DOWN, RI_MOUSE_LEFT_BUTTON_UP};
 use std::thread;
 use std::sync::Arc;
 
@@ -576,15 +578,16 @@ pub fn run() {
             // This thread monitors for mouse clicks on the tracked window and emits events
             let handle_for_mouse = handle.clone();
             thread::spawn(move || {
+                use device_query::{DeviceQuery, DeviceState, MouseButton};
                 
-                let mut last_click_time = 0u64;
+                let device_state = DeviceState::new();
                 let mut prev_left_button_state = false;
-                let mut last_heartbeat = 0u64;
+                let mut last_click_time = 0u64;
                 
                 loop {
-                    // Check for left mouse button press using GetAsyncKeyState
-                    // GetAsyncKeyState returns i16 where bit 15 (0x8000) indicates key is down
-                    let left_button_down = unsafe { GetAsyncKeyState(0x01) } < 0; // Negative value means key is down
+                    // Get current mouse button state using device_query (Raw Input)
+                    let mouse = device_state.query_mousebutton();
+                    let left_button_down = mouse.contains(&MouseButton::Left);
                     
                     if left_button_down && !prev_left_button_state {
                         // Left button was just pressed
@@ -592,33 +595,11 @@ pub fn run() {
                         if current_time - last_click_time > 500 {
                             // Debounce: only process if >500ms since last click
                             last_click_time = current_time;
-                            
-                            // Get cursor position
-                            let mut point = POINT { x: 0, y: 0 };
-                            if unsafe { GetCursorPos(&mut point) }.is_ok() {
-                                // Get window at cursor position
-                                let window_at_cursor = unsafe { WindowFromPoint(point) };
-                                
-                                // Check if this is our tracked window
-                                let tracked_hwnd_opt = {
-                                    let state = handle_for_mouse.state::<AppState>();
-                                    let hwnd_val = *state.tracked_hwnd.lock().unwrap();
-                                    hwnd_val.map(|h| HWND(h as *mut _))
-                                };
-                                
-                                // Always emit mouse-click event for every left-click
-                                log_message("[Mouse Monitor] Left click detected");
-                                let _ = handle_for_mouse.emit("mouse-click", ());
-                            }
+                            log_message("[Mouse Monitor] Left click detected (Raw Input)");
+                            let _ = handle_for_mouse.emit("mouse-click", ());
                         }
                     }
                     prev_left_button_state = left_button_down;
-                    
-                    // Periodic heartbeat log
-                    let current_time = get_tick_count();
-                    if current_time - last_heartbeat > 10000 {
-                        last_heartbeat = current_time;
-                    }
                     
                     // Sleep to reduce CPU usage
                     thread::sleep(std::time::Duration::from_millis(50));
