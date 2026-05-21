@@ -48,8 +48,7 @@ export class StaticHeroService implements IHeroMetadataService {
 
   getHeroByName(name: string): HeroMetadata | null {
     if (!this.heroData) return null;
-    const key = name.toLowerCase().replace(/[\s\-]+/g, '_');
-    return this.heroData[key] || null;
+    return this.heroData[name] || null;
   }
 
   getAllHeroes(): HeroMetadata[] {
@@ -60,11 +59,35 @@ export class StaticHeroService implements IHeroMetadataService {
     return this.heroData ? Object.keys(this.heroData).sort() : [];
   }
 
-  matchHeroName(ocrName: string): string | null {
+  matchHeroName(ocrName: string): HeroMetadata | null {
     if (!this.heroData) return null;
-    // Simple matching (Can elaborate with edit distance later)
-    const normalized = ocrName.toLowerCase().replace(/[\s\-]+/g, '_');
-    return Object.keys(this.heroData).find(k => k === normalized) || null;
+
+    const cleanedOcr = ocrName.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, ' ');
+    
+    // 1. Get all candidates that partially match
+    const candidates = Object.keys(this.heroData).filter(key => {
+        const cleanedKey = key.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, ' ');
+        return cleanedKey === cleanedOcr || cleanedKey.includes(cleanedOcr) || cleanedOcr.includes(cleanedKey);
+    });
+
+    if (candidates.length === 0) return null;
+
+    // 2. Rank candidates:
+    // - Exact matches (after cleaning) get priority
+    // - Then by length proximity (smallest difference in length)
+    const bestMatch = candidates.sort((a, b) => {
+        const cleanedA = a.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, ' ');
+        const cleanedB = b.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, ' ');
+
+        // Exact match is always best
+        if (cleanedA === cleanedOcr && cleanedB !== cleanedOcr) return -1;
+        if (cleanedB === cleanedOcr && cleanedA !== cleanedOcr) return 1;
+
+        // Otherwise, prefer length similarity
+        return Math.abs(cleanedA.length - cleanedOcr.length) - Math.abs(cleanedB.length - cleanedOcr.length);
+    })[0];
+
+    return bestMatch ? this.heroData[bestMatch] : null;
   }
 
   async refetchHeroData(): Promise<void> {

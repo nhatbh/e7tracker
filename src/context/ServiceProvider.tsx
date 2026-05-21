@@ -11,6 +11,7 @@ import { CombatAnalyticsServiceProvider } from './CombatAnalyticsServiceContext'
 import { MetagameServiceProvider } from './MetagameServiceContext';
 import { ScreenDetectionProvider } from './ScreenDetectionContext';
 import { OCRProvider } from './OCRContext';
+import { TickerProvider } from './TickerContext';
 import { KeybindServiceProvider } from './KeybindContext';
 
 export interface ServiceProviderProps {
@@ -30,11 +31,13 @@ export const ServiceProvider: React.FC<ServiceProviderProps> = ({ children, wind
           <CombatAnalyticsServiceProvider>
             <MetagameServiceProvider>
               <ScreenDetectionProvider windowLabel={windowLabel}>
-                <OCRProvider>
-                  <KeybindServiceProvider>
-                    {children}
-                  </KeybindServiceProvider>
-                </OCRProvider>
+                <TickerProvider>
+                  <OCRProvider>
+                    <KeybindServiceProvider>
+                      {children}
+                    </KeybindServiceProvider>
+                  </OCRProvider>
+                </TickerProvider>
               </ScreenDetectionProvider>
             </MetagameServiceProvider>
           </CombatAnalyticsServiceProvider>

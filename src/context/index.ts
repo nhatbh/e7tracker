@@ -11,4 +11,5 @@ export * from './MetagameServiceContext';
 export * from './ScreenDetectionContext';
 export * from './OCRContext';
 export * from './KeybindContext';
+export * from './TickerContext';
 export * from './ServiceProvider';

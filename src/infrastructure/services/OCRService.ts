@@ -3,7 +3,7 @@
  */
 
 import { invoke } from "@tauri-apps/api/core";
-import { DetectionSlot, ParsedStats } from "../../domain/models";
+import { DetectionSlot, ParsedStats, DetectionConfig, ScreenType } from "../../domain/models";
 import { IOCRService, IScreenDetectionService, IHeroMetadataService, SlotToStringRegistry } from "../../domain/services";
 
 export class OCRService implements IOCRService {
@@ -28,39 +28,50 @@ export class OCRService implements IOCRService {
         const rawName = detections[0].heroName;
         if (!rawName) return null;
 
-        return this.heroService.matchHeroName(rawName);
+        const heroData = this.heroService.matchHeroName(rawName);
+        return heroData ? heroData.name : null;
     }
 
     async performOCROnSlot(slot: DetectionSlot): Promise<string | null> {
         try {
             const currentScreen = this.screenDetection.getCurrentScreen();
+
             const zone = this.getZoneForSlot(currentScreen, slot);
-            
+
             if (!zone) {
-                console.warn(`[OCRService] No zone configured for ${currentScreen}/${slot}`);
                 return null;
             }
 
-            const result = await invoke<string>("perform_ocr_on_screen", {
-                slot_id: SlotToStringRegistry[slot],
+            // Backend returns DetectionResult object, not a string
+            const result = await invoke<any>("perform_ocr_on_screen", {
                 zone: zone,
             });
-            return result;
+
+            invoke("log_frontend_info", { msg: `[OCRService] Backend returned result: ${JSON.stringify(result)}` }).catch(() => { });
+            
+            // Extract hero_name from the DetectionResult object
+            if (result && result.hero_name) {
+                return result.hero_name;
+            }
+            
+            return null;
         } catch (e) {
-            console.error(`[OCRService] Failed to perform OCR on slot ${slot}`, e);
             return null;
         }
     }
 
     private getZoneForSlot(screen: string, slot: DetectionSlot): { x: number; y: number; w: number; h: number } | null {
-        // Import dynamically to avoid circular dependency issues
-        const { DetectionConfig } = require('../../domain/models/DetectionConfig');
-        const screenConfig = DetectionConfig[screen];
-        if (!screenConfig) return null;
-        
+        const screenKey = screen as ScreenType;
+        const screenConfig = DetectionConfig[screenKey];
+        if (!screenConfig) {
+            return null;
+        }
+
         const zoneConfig = screenConfig.zones[slot];
-        if (!zoneConfig) return null;
-        
+        if (!zoneConfig) {
+            return null;
+        }
+
         return {
             x: zoneConfig.x,
             y: zoneConfig.y,

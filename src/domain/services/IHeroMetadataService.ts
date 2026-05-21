@@ -32,9 +32,9 @@ export interface IHeroMetadataService {
   getHeroList(): string[];
 
   /**
-   * Match OCR hero name to canonical hero name
+   * Match OCR hero name to canonical hero metadata
    */
-  matchHeroName(ocrName: string): string | null;
+  matchHeroName(ocrName: string): HeroMetadata | null;
 
   /**
    * Refetch hero data from remote source

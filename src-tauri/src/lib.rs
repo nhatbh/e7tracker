@@ -213,9 +213,11 @@ async fn fetch_combat_data(url: String) -> Result<String, String> {
 #[tauri::command]
 async fn perform_ocr_on_screen(
     app: tauri::AppHandle,
-    slot_id: String,
     zone: models::Zone,
 ) -> Result<models::DetectionResult, String> {
+    log_message(&format!("[OCR Backend] perform_ocr_on_screen called"));
+    log_message(&format!("[OCR Backend] Zone coordinates: x={}, y={}, w={}, h={}", zone.x, zone.y, zone.w, zone.h));
+    
     // Get the tracked window
     let state = app.state::<AppState>();
     let tracked_hwnd = {
@@ -224,32 +226,45 @@ async fn perform_ocr_on_screen(
     };
     
     if tracked_hwnd.is_none() {
+        log_message("[OCR Backend] Error: No window is currently tracked");
         return Err("No window is currently tracked".to_string());
     }
     
     let hwnd = HWND(tracked_hwnd.unwrap() as *mut _);
+    log_message(&format!("[OCR Backend] Using tracked window HWND: {:?}", hwnd));
     
     // Capture the window
+    log_message("[OCR Backend] Capturing window to RGB...");
     let (frame, win_w, win_h) = match capture::capture_window_to_rgb(hwnd) {
-        Some(result) => result,
+        Some(result) => {
+            log_message(&format!("[OCR Backend] Window captured successfully: {}x{}", result.1, result.2));
+            result
+        }
         None => {
+            log_message("[OCR Backend] Error: Failed to capture window");
             return Err("Failed to capture window".to_string());
         }
     };
     
     // Get the detection engine
+    log_message("[OCR Backend] Acquiring detection engine...");
     let engine_state = app.state::<Arc<std::sync::Mutex<DetectionEngine>>>();
     let engine_guard = engine_state.lock().unwrap();
     
     // Create a temporary slot for OCR
     let temp_slot = models::HeroSlot {
-        id: slot_id.clone(),
+        id: "ocr_slot".to_string(),
         detection: models::HeroDetection::OCR { zone: zone.clone() },
         display: zone.clone(), // Use same zone for display
     };
     
+    log_message(&format!("[OCR Backend] Performing OCR detection"));
+    
     // Perform OCR
     let result = engine_guard.detect_slot(&frame, win_w, win_h, &temp_slot);
+    
+    log_message(&format!("[OCR Backend] Detection result: hero_name={:?}, confidence={}", result.hero_name, result.confidence));
+    
     Ok(result)
 }
 

@@ -7,7 +7,7 @@ import { MetagameHero } from '../../../domain/models/MetagameData';
 import { AverageStatsColumn } from './AverageStatsColumn';
 import { BuildStatsOverlay } from './BuildStatsOverlay';
 import { ScanStatusOverlay } from '../../ScanStatusOverlay';
-import { useScreenDetection, useHeroService, useOCRService } from '../../../context';
+import { useScreenDetection, useHeroService, useOCRService, useTickerService } from '../../../context';
 import { useBuildProfileService } from '../../../context/BuildProfileServiceContext';
 import { useCombatAnalyticsService } from '../../../context/CombatAnalyticsServiceContext';
 import { useMetagameService } from '../../../context/MetagameServiceContext';
@@ -20,6 +20,7 @@ interface HeroData {
 }
 
 export const HeroStatsOverlays: React.FC = () => {
+
     const [buildData, setBuildData] = useState<{ heroName: string; data: ProcessedBuildData } | null>(null);
     const [isFetchingBuild, setIsFetchingBuild] = useState(false);
     const [activeBuildSource, setActiveBuildSource] = useState<ActiveBuildSource>('avg');
@@ -37,68 +38,53 @@ export const HeroStatsOverlays: React.FC = () => {
     const screenDetection = useScreenDetection();
     const heroService = useHeroService();
     const ocrService = useOCRService();
-    const currentScreen = screenDetection.getCurrentScreen?.() || ScreenType.Unknown;
 
-    // ============================================================================
-    // OCR SCANNING LOOP: Run every 1 second when on HeroStats screen
-    // ============================================================================
+
+    let tickerService;
+    try {
+        tickerService = useTickerService();
+    } catch (error) {
+        return <div>Error: TickerService not available</div>;
+    }
     useEffect(() => {
-        // Only run scanner when on HeroStats screen
-        if (currentScreen !== ScreenType.HeroStats) {
-            // Clean up interval if we leave the screen
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-                intervalRef.current = null;
-            }
-            return;
-        }
+        const taskId = 'hero-stats-ocr-scan';
+        tickerService.registerTask({
+            id: taskId,
+            screenCondition: (screen) => screen === ScreenType.HeroStats,
+            execute: async () => {
+                try {
+                    const heroName = await ocrService.performOCROnSlot(DetectionSlot.SelectedHero);
 
-        // Prevent multiple instances of the interval
-        if (intervalRef.current) {
-            return;
-        }
+                    if (heroName) {
+                        setRawHeroName(heroName);
 
-        const runOCRScan = async () => {
-            try {
-                setStatsOcrStatus('scanning');
+                        // Try to match against hero database
+                        const heroData = heroService.matchHeroName(heroName);
 
-                // Perform OCR on Selected Hero slot
-                const heroName = await ocrService.performOCROnSlot(DetectionSlot.SelectedHero);
-
-                if (heroName) {
-                    setRawHeroName(heroName);
-
-                    // Try to match against hero database
-                    const matchedHeroName = heroService.matchHeroName(heroName);
-                    if (matchedHeroName) {
-                        // Set currentHero with matched data
-                        setCurrentHero({
-                            id: matchedHeroName.toLowerCase().replace(/\s+/g, '_'),
-                            name: matchedHeroName
-                        });
-                        setStatsOcrStatus('success');
+                        if (heroData) {
+                            // Only update if the hero actually changed
+                            setCurrentHero(prev => {
+                                if (prev && prev.code === heroData.code) {
+                                    return prev;
+                                }
+                                return {
+                                    code: heroData.code,
+                                    name: heroData.name,
+                                    id: heroData.code
+                                };
+                            });
+                        }
                     }
+                } catch (error) {
+                    invoke("log_frontend_info", { msg: `[HeroStatsOverlays] OCR scan error: ${error}` }).catch(() => { });
                 }
-            } catch (error) {
-                invoke("log_frontend_info", { msg: `[HeroStatsOverlays] OCR scan error: ${error}` }).catch(() => { });
-                setStatsOcrStatus('timeout');
             }
-        };
+        });
 
-        // Start the interval
-        intervalRef.current = setInterval(runOCRScan, 1000);
-
-        // Run once immediately
-        runOCRScan();
-
-        // Cleanup function
         return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-                intervalRef.current = null;
-            }
+            tickerService.unregisterTask(taskId);
         };
-    }, [currentScreen]);
+    }, [tickerService, ocrService, heroService]);
 
     // ============================================================================
     // DATA FETCHING: Fetch build, combat, and metagame data when hero changes
@@ -140,9 +126,7 @@ export const HeroStatsOverlays: React.FC = () => {
                     setMetagameHero(metagameResult);
                 }
 
-                invoke("log_frontend_info", { msg: `[HeroStatsOverlays] Successfully fetched data for hero: ${currentHero.name}` }).catch(() => { });
             } catch (error) {
-                invoke("log_frontend_info", { msg: `[HeroStatsOverlays] Failed to fetch hero data: ${error}` }).catch(() => { });
             } finally {
                 setIsFetchingBuild(false);
             }
@@ -172,8 +156,7 @@ export const HeroStatsOverlays: React.FC = () => {
             <div className="overlay-stats-radar-container">
                 {(() => {
                     // Extract hero name matching logic
-                    const matchedHeroName = rawHeroName ? heroService.matchHeroName(rawHeroName) : null;
-                    const displayHeroName = matchedHeroName || rawHeroName || "Hero";
+                    const displayHeroName = currentHero?.name || "Hero";
 
                     // Render based on state
                     if (isFetchingBuild) {
@@ -198,8 +181,8 @@ export const HeroStatsOverlays: React.FC = () => {
                     // Waiting for detection or data
                     return (
                         <div className="overlay-message-card">
-                            {matchedHeroName
-                                ? t('overlay.fetchPrompt', { hero: matchedHeroName })
+                            {currentHero?.name
+                                ? t('overlay.fetchPrompt', { hero: currentHero.name })
                                 : t('overlay.waitingForDetection')}
                         </div>
                     );
