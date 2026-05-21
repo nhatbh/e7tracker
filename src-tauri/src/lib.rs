@@ -12,14 +12,10 @@ use std::collections::HashMap;
 use tauri::{Manager, Emitter};
 use tauri::menu::{Menu, MenuItem};
 use tauri::tray::TrayIconBuilder;
-use windows::Win32::Foundation::{HWND, LPARAM, RECT, POINT};
+use windows::Win32::Foundation::{HWND, LPARAM, RECT};
 use windows::Win32::UI::WindowsAndMessaging::{
     EnumWindows, GetForegroundWindow, GetWindowTextW, IsWindowVisible,
-    WindowFromPoint, GetCursorPos,
 };
-use windows::Win32::UI::Input::KeyboardAndMouse::GetAsyncKeyState;
-use windows::Win32::UI::Input::{RegisterRawInputDevices, GetRawInputData, RAWINPUT, RAWINPUTHEADER, RAWINPUTDEVICE, RIM_TYPEMOUSE, RIM_INPUT};
-use windows::Win32::UI::Input::KeyboardAndMouse::{MOUSE_MOVE_RELATIVE, RI_MOUSE_LEFT_BUTTON_DOWN, RI_MOUSE_LEFT_BUTTON_UP};
 use std::thread;
 use std::sync::Arc;
 
@@ -574,37 +570,7 @@ pub fn run() {
             // Manage the detection engine
             app.manage(detection_engine.clone());
 
-            // Start mouse click monitoring thread
-            // This thread monitors for mouse clicks on the tracked window and emits events
-            let handle_for_mouse = handle.clone();
-            thread::spawn(move || {
-                use device_query::{DeviceQuery, DeviceState, MouseButton};
-                
-                let device_state = DeviceState::new();
-                let mut prev_left_button_state = false;
-                let mut last_click_time = 0u64;
-                
-                loop {
-                    // Get current mouse button state using device_query (Raw Input)
-                    let mouse = device_state.query_mousebutton();
-                    let left_button_down = mouse.contains(&MouseButton::Left);
-                    
-                    if left_button_down && !prev_left_button_state {
-                        // Left button was just pressed
-                        let current_time = get_tick_count();
-                        if current_time - last_click_time > 500 {
-                            // Debounce: only process if >500ms since last click
-                            last_click_time = current_time;
-                            log_message("[Mouse Monitor] Left click detected (Raw Input)");
-                            let _ = handle_for_mouse.emit("mouse-click", ());
-                        }
-                    }
-                    prev_left_button_state = left_button_down;
-                    
-                    // Sleep to reduce CPU usage
-                    thread::sleep(std::time::Duration::from_millis(50));
-                }
-            });
+// Mouse click monitoring thread removed.
 
             // Mark our overlay windows as excluded from screen capture (Commented out to show on screenshots/OBS)
             // WDA_EXCLUDEFROMCAPTURE (0x11) makes them invisible to BitBlt/PrintWindow
@@ -847,6 +813,7 @@ pub fn run() {
                                     }
                                 });
 
+
                                 if foreground_hwnd == hwnd || mode == OverlayMode::Selection || mode == OverlayMode::HeroDetails || is_own_window {
                                     if let Some(rect) = get_visible_window_rect(hwnd) {
                                         let width = (rect.right - rect.left) as u32;
@@ -878,6 +845,7 @@ pub fn run() {
                                             if let Some((frame, w, h)) = capture::capture_window_to_rgb(hwnd) {
                                                 let mut engine_guard = engine_clone.lock().unwrap();
                                                 let result = engine_guard.process_frame(&frame, w, h);
+                                                
                                                 // Note: OCR is on-demand only (via perform_ocr_on_screen command). 
                                                 // This detection loop only does screen classification, not OCR.
                                                 // Emit results to frontend
@@ -886,7 +854,7 @@ pub fn run() {
                                                     
                                                     // Also send to selector window if it's in Selection mode (OCR monitoring)
                                                     if let Some(selector_win) = handle.get_webview_window("selector") {
-                                                        let emit_result = selector_win.emit("detection-result", &result);
+                                                        let _ = selector_win.emit("detection-result", &result);
                                                     }
                                                 }
                                             }

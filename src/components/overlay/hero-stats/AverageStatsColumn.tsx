@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ProcessedBuildData } from '../services/buildAssist';
-import { getSetIconUrl } from '../services/setAssets';
+import { ProcessedBuildData } from '../../../services/buildAssist';
+import { getSetIconUrl } from '../../../services/setAssets';
 import './AverageStatsColumn.css';
 
 interface AverageStatsColumnProps {
@@ -81,7 +81,7 @@ export const AverageStatsColumn: React.FC<AverageStatsColumnProps> = ({ buildDat
                     {val}
                 </div>
             ))}
-            
+
             <div className="build-identifier-badge">
                 <span className="badge-text">{badgeText}</span>
                 {popularSet && (

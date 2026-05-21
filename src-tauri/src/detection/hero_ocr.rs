@@ -7,13 +7,13 @@ use crate::models::BuildStats;
 pub fn detect_hero_by_ocr(region: &image::GrayImage) -> Option<(String, f64)> {
     // Save to temp directory for OCR processing
     let temp_dir = std::env::temp_dir().join("e7tracker");
-    if let Err(e) = std::fs::create_dir_all(&temp_dir) {
+    if let Err(_e) = std::fs::create_dir_all(&temp_dir) {
         return None;
     }
 
     let temp_path = temp_dir.join("ocr_temp.png");
 
-    if let Err(e) = region.save(&temp_path) {
+    if let Err(_e) = region.save(&temp_path) {
         return None;
     }
 
@@ -28,7 +28,7 @@ pub fn detect_hero_by_ocr(region: &image::GrayImage) -> Option<(String, f64)> {
             let cleaned_joined = cleaned.split_whitespace().collect::<Vec<&str>>().join(" ");
             cleaned_joined
         }
-        Err(e) => String::new(),
+        Err(_e) => String::new(),
     };
 
     if text.is_empty() {

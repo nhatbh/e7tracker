@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { ProcessedBuildData, BuildStats } from '../services/buildAssist';
-import { HeroAnalysis, MetagameHero } from '../services/combatData';
-import { getSetIconUrl } from '../services/setAssets';
-import { SettingsService, AppSettings, DEFAULT_SETTINGS } from '../services/settingsService';
+import { getSetIconUrl } from '../../../services/setAssets';
+import { SettingsService, AppSettings, DEFAULT_SETTINGS } from '../../../services/settingsService';
 import './BuildStatsOverlay.css';
+import { BuildStats, HeroAnalysis, MetagameHero, ProcessedBuildData, ActiveBuildSource } from '../../../domain/models';
 
 interface BuildStatsOverlayProps {
     buildData: ProcessedBuildData;
-    activeSource: 'avg' | 'set1' | 'set2' | 'set3' | 'pro' | 'pro_set1' | 'pro_set2' | 'pro_set3';
+    activeSource: ActiveBuildSource;
     combatAnalysis?: HeroAnalysis | null;
     metagameHero?: MetagameHero | null;
 }
@@ -26,8 +25,8 @@ const STAT_MAX: BuildStats = {
     efr: 300
 };
 
-export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({ 
-    buildData: initialBuildData, 
+export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({
+    buildData: initialBuildData,
     activeSource,
     combatAnalysis = null,
     metagameHero = null
@@ -62,26 +61,26 @@ export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({
     const combatStats = useMemo(() => {
         if (!combatAnalysis && !metagameHero) return null;
 
-        const wr = metagameHero?.win_rate !== undefined 
-            ? metagameHero.win_rate 
+        const wr = metagameHero?.win_rate !== undefined
+            ? metagameHero.win_rate
             : (combatAnalysis?.win_rate || 0);
 
-        const pr = metagameHero?.pick_rate !== undefined 
-            ? metagameHero.pick_rate 
+        const pr = metagameHero?.pick_rate !== undefined
+            ? metagameHero.pick_rate
             : (combatAnalysis ? (combatAnalysis.total_appearances / (combatAnalysis.total_matches || 1)) * 100 : 0);
 
-        const br = metagameHero?.ban_rate !== undefined 
-            ? metagameHero.ban_rate 
-            : (combatAnalysis 
-                ? ((combatAnalysis as any).ban_rate !== undefined 
-                    ? (combatAnalysis as any).ban_rate 
-                    : (combatAnalysis as any).ban_count !== undefined 
-                        ? ((combatAnalysis as any).ban_count / (combatAnalysis.total_matches || 1)) * 100 
+        const br = metagameHero?.ban_rate !== undefined
+            ? metagameHero.ban_rate
+            : (combatAnalysis
+                ? ((combatAnalysis as any).ban_rate !== undefined
+                    ? (combatAnalysis as any).ban_rate
+                    : (combatAnalysis as any).ban_count !== undefined
+                        ? ((combatAnalysis as any).ban_count / (combatAnalysis.total_matches || 1)) * 100
                         : (pr * 0.6))
                 : 0);
 
-        const pbrTotal = metagameHero?.pick_ban_rate !== undefined 
-            ? metagameHero.pick_ban_rate 
+        const pbrTotal = metagameHero?.pick_ban_rate !== undefined
+            ? metagameHero.pick_ban_rate
             : (pr + br);
 
         const score = ((wr - 50) * 10) + pbrTotal + (br * 0.5);
@@ -333,11 +332,11 @@ export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({
                     <div className="combat-stats-overlay-section">
                         <div className="combat-stats-title">
                             {t('chart.combatInfoTitle')}
-                            <span 
+                            <span
                                 className="combat-badge-tag"
-                                style={{ 
-                                    color: combatStats.tierColor, 
-                                    borderColor: combatStats.tierColor, 
+                                style={{
+                                    color: combatStats.tierColor,
+                                    borderColor: combatStats.tierColor,
                                     background: `${combatStats.tierColor}1a`, // Translucent 10% opacity hex
                                     boxShadow: `0 0 6px ${combatStats.tierColor}40`
                                 }}

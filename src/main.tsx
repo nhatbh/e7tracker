@@ -1,22 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import "./i18n/index";
 import { BuildAssist } from "./services/buildAssist";
+import { ServiceProvider } from "./context";
+import { App } from "./App";
 
 const initAndRender = async () => {
-  try {
-    // Pre-initialize native disk cache before mounting React tree to avoid race conditions with OCR frames
-    await BuildAssist.init();
-  } catch (e) {
-    console.error("Failed to pre-initialize BuildAssist cache:", e);
-  }
+    try {
+        // Pre-initialize native disk cache before mounting React tree to avoid race conditions with OCR frames
+        await BuildAssist.init();
+    } catch (e) {
+        console.error("Failed to pre-initialize BuildAssist cache:", e);
+    }
 
-  ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  );
+    // Get window label from URL params (e.g., ?label=main or ?label=controls)
+    const urlParams = new URLSearchParams(window.location.search);
+    const windowLabel = urlParams.get("label") || "main";
+
+    ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+        <React.StrictMode>
+            <ServiceProvider windowLabel={windowLabel}>
+                <App />
+            </ServiceProvider>
+        </React.StrictMode>,
+    );
 };
 
 initAndRender();
