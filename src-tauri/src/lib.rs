@@ -98,7 +98,6 @@ pub enum OverlayMode {
 pub struct AppState {
     pub tracked_hwnd: Mutex<Option<isize>>,
     pub mode: Mutex<OverlayMode>,
-    pub ocr_zones: Mutex<HashMap<String, models::OcrZoneConfig>>,
 }
 
 
@@ -145,13 +144,6 @@ unsafe extern "system" fn enum_window_callback(
 }
 
 // ── Commands ───────────────────────────────────────────────
-
-#[tauri::command]
-fn get_ocr_zones_for_screen(screen_name: String, state: tauri::State<'_, AppState>) -> Option<models::OcrZoneConfig> {
-    let zones = state.ocr_zones.lock().unwrap();
-    log_message(&format!("[e7tracker] get_ocr_zones_for_screen called with: '{}', available screens: {:?}", screen_name, zones.keys().collect::<Vec<_>>()));
-    zones.get(&screen_name).cloned()
-}
 
 #[tauri::command]
 fn set_tracked_window(state: tauri::State<'_, AppState>, hwnd: isize) {
@@ -424,7 +416,6 @@ pub fn run() {
         .manage(AppState {
             tracked_hwnd: Mutex::new(None),
             mode: Mutex::new(OverlayMode::Display),
-            ocr_zones: Mutex::new(HashMap::new()),
         })
         .manage(CacheState(std::sync::OnceLock::new()))
         .plugin(tauri_plugin_opener::init())
@@ -453,7 +444,6 @@ pub fn run() {
             get_tracked_window,
             is_cache_ready,
             perform_ocr_on_screen,
-            get_ocr_zones_for_screen
         ])
         .setup(|app| {
             let handle = app.handle().clone();
@@ -549,8 +539,8 @@ pub fn run() {
             
             log_message(&format!("[e7tracker] Resolved assets directory to: {:?}", assets_dir));
 
-            // Load OCR zones and screen definitions for AI OCR
-            let ocr_zones = load_ocr_zones(&assets_dir);
+            // Load screen definitions for AI OCR
+            // OCR zones are now defined in the frontend and passed per-request
             let screens = load_screens(&assets_dir);
             let heroes = load_heroes(&assets_dir);
 
@@ -559,13 +549,6 @@ pub fn run() {
                 screens,
                 heroes,
             )));
-
-            // Store OCR zones in app state
-            {
-                let state = app.state::<AppState>();
-                let mut zones_lock = state.ocr_zones.lock().unwrap();
-                *zones_lock = ocr_zones;
-            }
 
             // Manage the detection engine
             app.manage(detection_engine.clone());

@@ -9,3 +9,4 @@ export * from './BuildProfile';
 export * from './CombatAnalytics';
 export * from './MetagameData';
 export * from './DetectionSchema';
+export * from './DetectionConfig';

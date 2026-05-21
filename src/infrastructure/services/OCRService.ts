@@ -33,14 +33,40 @@ export class OCRService implements IOCRService {
 
     async performOCROnSlot(slot: DetectionSlot): Promise<string | null> {
         try {
+            const currentScreen = this.screenDetection.getCurrentScreen();
+            const zone = this.getZoneForSlot(currentScreen, slot);
+            
+            if (!zone) {
+                console.warn(`[OCRService] No zone configured for ${currentScreen}/${slot}`);
+                return null;
+            }
+
             const result = await invoke<string>("perform_ocr_on_screen", {
                 slot_id: SlotToStringRegistry[slot],
+                zone: zone,
             });
             return result;
         } catch (e) {
             console.error(`[OCRService] Failed to perform OCR on slot ${slot}`, e);
             return null;
         }
+    }
+
+    private getZoneForSlot(screen: string, slot: DetectionSlot): { x: number; y: number; w: number; h: number } | null {
+        // Import dynamically to avoid circular dependency issues
+        const { DetectionConfig } = require('../../domain/models/DetectionConfig');
+        const screenConfig = DetectionConfig[screen];
+        if (!screenConfig) return null;
+        
+        const zoneConfig = screenConfig.zones[slot];
+        if (!zoneConfig) return null;
+        
+        return {
+            x: zoneConfig.x,
+            y: zoneConfig.y,
+            w: zoneConfig.w,
+            h: zoneConfig.h,
+        };
     }
 
     parseOCRStats(text: string): ParsedStats | null {
