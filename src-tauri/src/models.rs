@@ -129,8 +129,40 @@ pub struct DebugZone {
     pub confidence: f64,
 }
 
+/// Layout dimension configuration (pixels + percent-based)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct LayoutDimension {
+    pub pixels: i32,
+    pub percent: f32,
+}
+
+/// Client layout configuration
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct LayoutConfig {
+    pub offset: OffsetConfig,
+    pub size: SizeConfig,
+}
+
+/// Offset configuration with X and Y dimensions
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OffsetConfig {
+    pub x: LayoutDimension,
+    pub y: LayoutDimension,
+}
+
+/// Size configuration with width and height dimensions
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SizeConfig {
+    pub width: LayoutDimension,
+    pub height: LayoutDimension,
+}
+
 /// Client profile configuration for multi-client support.
-/// Each client (Epic Seven PC, BlueStack, etc.) has specific offset settings.
+/// Each client (Epic Seven PC, BlueStacks, etc.) has specific layout settings.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ClientProfile {
@@ -139,25 +171,25 @@ pub struct ClientProfile {
     /// Exact window title to match for auto-detection
     pub window_title_pattern: String,
     
-    /// Fixed pixel offset for X-axis (can be negative)
-    pub offset_pixels_x: i32,
-    /// Percentage-based offset for X-axis (0-100, scales with window width)
-    pub offset_percentage_x: f32,
-    
-    /// Fixed pixel offset for Y-axis (can be negative)
-    pub offset_pixels_y: i32,
-    /// Percentage-based offset for Y-axis (0-100, scales with window height)
-    pub offset_percentage_y: f32,
+    /// Layout configuration for positioning and sizing
+    pub layout: LayoutConfig,
     
     pub enabled: bool,
 }
 
 impl ClientProfile {
-    /// Calculate total X-Y offsets for a given window size
-    /// total_offset = offset_pixels + (dimension * offset_percentage / 100)
-    pub fn calculate_total_offsets(&self, window_width: u32, window_height: u32) -> (i32, i32) {
-        let offset_x = self.offset_pixels_x + (window_width as f32 * self.offset_percentage_x / 100.0) as i32;
-        let offset_y = self.offset_pixels_y + (window_height as f32 * self.offset_percentage_y / 100.0) as i32;
-        (offset_x, offset_y)
+    /// Calculate actual pixel value for a layout dimension
+    pub fn calculate_dimension(dim: &LayoutDimension, base: u32) -> i32 {
+        dim.pixels + (base as f32 * dim.percent / 100.0) as i32
+    }
+
+    /// Calculate total X-Y layout (position and size) for a given window size
+    /// total = pixels + (dimension * percent / 100)
+    pub fn calculate_layout(&self, window_width: u32, window_height: u32) -> (i32, i32, i32, i32) {
+        let x = Self::calculate_dimension(&self.layout.offset.x, window_width);
+        let y = Self::calculate_dimension(&self.layout.offset.y, window_height);
+        let width = Self::calculate_dimension(&self.layout.size.width, window_width);
+        let height = Self::calculate_dimension(&self.layout.size.height, window_height);
+        (x, y, width, height)
     }
 }

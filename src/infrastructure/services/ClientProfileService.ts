@@ -1,4 +1,4 @@
-import { ClientProfile, WindowInfo } from '../../domain/models';
+import { ClientProfile, WindowInfo, calculateClientLayout } from '../../domain/models';
 import { CLIENT_PROFILES, DEFAULT_CLIENT_PROFILE_ID } from '../../domain/constants/ClientProfiles';
 
 class ClientProfileServiceImpl {
@@ -94,9 +94,8 @@ class ClientProfileServiceImpl {
    */
   calculateTotalOffsets(windowWidth: number, windowHeight: number): { x: number; y: number } {
     const profile = this.getActiveProfile();
-    const offsetX = profile.offsetPixelsX + (windowWidth * profile.offsetPercentageX) / 100;
-    const offsetY = profile.offsetPixelsY + (windowHeight * profile.offsetPercentageY) / 100;
-    return { x: offsetX, y: offsetY };
+    const { x, y } = calculateClientLayout(profile, windowWidth, windowHeight);
+    return { x, y };
   }
 
   /**

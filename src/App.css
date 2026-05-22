@@ -223,6 +223,8 @@ kbd {
   align-items: flex-start;
   justify-content: flex-start;
   pointer-events: none;
+  border: 2px solid red;
+  box-sizing: border-box;
 }
 
 .tracker-content {

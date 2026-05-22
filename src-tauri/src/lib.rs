@@ -238,13 +238,36 @@ async fn perform_ocr_on_screen(
     }
     
     let hwnd = HWND(tracked_hwnd.unwrap() as *mut _);
-    let (frame, win_w, win_h) = match capture::capture_window_to_rgb(hwnd) {
+    
+    // Get the active client profile's layout for OCR capture
+    let client_profile = {
+        let state = app.state::<AppState>();
+        let profile = state.active_client_profile.lock().unwrap().clone();
+        profile
+    };
+    
+    let layout = if let Some(ref profile) = client_profile {
+        profile.layout.clone()
+    } else {
+        // Fallback to default layout (0% offset, 100% size)
+        models::LayoutConfig {
+            offset: models::OffsetConfig {
+                x: models::LayoutDimension { pixels: 0, percent: 0.0 },
+                y: models::LayoutDimension { pixels: 0, percent: 0.0 },
+            },
+            size: models::SizeConfig {
+                width: models::LayoutDimension { pixels: 0, percent: 100.0 },
+                height: models::LayoutDimension { pixels: 0, percent: 100.0 },
+            },
+        }
+    };
+    
+    // Use the layout to capture the window (respects client offsets)
+    let (frame, win_w, win_h) = match capture::capture_window_with_layout(hwnd, &layout) {
         Some(result) => {
-            // log_message(&format!("[OCR Backend] Window captured successfully: {}x{}", result.1, result.2));
             result
         }
         None => {
-            // log_message("[OCR Backend] Error: Failed to capture window");
             return Err("Failed to capture window".to_string());
         }
     };
@@ -783,9 +806,9 @@ pub fn run() {
                         let match_result = if let Some(ref profile) = client_profile {
                             wins.into_iter().find(|w| w.title.trim() == profile.window_title_pattern)
                         } else {
-                            // Default fallback: try Epic Seven first, then Bluestack App Player
+                            // Default fallback: try Epic Seven first, then BlueStacks App Player
                             wins.into_iter().find(|w| {
-                                w.title.trim() == "Epic Seven" || w.title.trim() == "Bluestack App Player"
+                                w.title.trim() == "Epic Seven" || w.title.trim() == "BlueStacks App Player"
                             })
                         };
                         
@@ -834,18 +857,22 @@ pub fn run() {
                                         let width = (rect.right - rect.left) as u32;
                                         let height = (rect.bottom - rect.top) as u32;
 
-                                        let _ = main_win.set_size(tauri::Size::Physical(
-                                            tauri::PhysicalSize { width, height },
-                                        ));
-                                        
-                                        // Get client profile and calculate total X-Y offsets
+                                        // Get client profile and calculate total X-Y layout (position and size)
                                         let state = handle.state::<AppState>();
                                         let client_profile = state.active_client_profile.lock().unwrap().clone();
-                                        let (offset_x, offset_y) = if let Some(ref profile) = client_profile {
-                                            profile.calculate_total_offsets(width, height)
+                                        let (offset_x, offset_y, layout_width, layout_height) = if let Some(ref profile) = client_profile {
+                                            profile.calculate_layout(width, height)
                                         } else {
-                                            (0, 0)  // Default: no offset
+                                            (0, 0, width as i32, height as i32)  // Default: no adjustment
                                         };
+                                        
+                                        // Ensure dimensions are positive
+                                        let final_width = layout_width.max(1) as u32;
+                                        let final_height = layout_height.max(1) as u32;
+                                        
+                                        let _ = main_win.set_size(tauri::Size::Physical(
+                                            tauri::PhysicalSize { width: final_width, height: final_height },
+                                        ));
                                         
                                         let _ = main_win.set_position(tauri::Position::Physical(
                                             tauri::PhysicalPosition { 

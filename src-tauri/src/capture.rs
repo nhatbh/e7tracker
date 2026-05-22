@@ -1,3 +1,4 @@
+use crate::models;
 use image::{RgbImage, Rgb};
 use windows::Win32::Foundation::{HWND, RECT};
 use windows::Win32::Graphics::Gdi::{
@@ -28,32 +29,28 @@ fn get_visible_rect(hwnd: HWND) -> Option<RECT> {
     }
 }
 
-/// Capture window content with dual X-Y offsets (pixels + percentage)
-/// total_offset = offset_pixels + (dimension * offset_percentage / 100)
-pub fn capture_window_with_offsets(
+/// Capture window content with layout configuration (offset and size)
+pub fn capture_window_with_layout(
     hwnd: HWND,
-    offset_pixels_x: i32,
-    offset_percentage_x: f32,
-    offset_pixels_y: i32,
-    offset_percentage_y: f32,
+    layout: &models::LayoutConfig,
 ) -> Option<(RgbImage, u32, u32)> {
     unsafe {
         let rect = get_visible_rect(hwnd)?;
-        let window_width = (rect.right - rect.left) as f32;
-        let window_height = (rect.bottom - rect.top) as f32;
+        let window_width = (rect.right - rect.left) as u32;
+        let window_height = (rect.bottom - rect.top) as u32;
         
-        // Calculate total X-Y offsets
-        let percentage_offset_x = (window_width * offset_percentage_x / 100.0) as i32;
-        let percentage_offset_y = (window_height * offset_percentage_y / 100.0) as i32;
-        let total_offset_x = offset_pixels_x + percentage_offset_x;
-        let total_offset_y = offset_pixels_y + percentage_offset_y;
+        // Calculate total X-Y layout (position and size)
+        let offset_x = models::ClientProfile::calculate_dimension(&layout.offset.x, window_width);
+        let offset_y = models::ClientProfile::calculate_dimension(&layout.offset.y, window_height);
+        let layout_width = models::ClientProfile::calculate_dimension(&layout.size.width, window_width);
+        let layout_height = models::ClientProfile::calculate_dimension(&layout.size.height, window_height);
         
-        // Apply X-Y offsets to capture area
+        // Apply layout to capture area
         let capture_rect = RECT {
-            left: rect.left + total_offset_x,
-            top: rect.top + total_offset_y,
-            right: rect.right,
-            bottom: rect.bottom,
+            left: rect.left + offset_x,
+            top: rect.top + offset_y,
+            right: rect.left + offset_x + layout_width,
+            bottom: rect.top + offset_y + layout_height,
         };
         
         let width = capture_rect.right - capture_rect.left;
@@ -143,5 +140,15 @@ pub fn crop_zone(img: &RgbImage, win_w: u32, win_h: u32, zone: &crate::models::Z
 /// Uses desktop DC at the window's visible screen coordinates (DWM-aware).
 /// Our overlay windows are marked WDA_EXCLUDEFROMCAPTURE so they won't appear.
 pub fn capture_window_to_rgb(hwnd: HWND) -> Option<(RgbImage, u32, u32)> {
-    capture_window_with_offsets(hwnd, 0, 0.0, 0, 0.0)
+    let default_layout = models::LayoutConfig {
+        offset: models::OffsetConfig {
+            x: models::LayoutDimension { pixels: 0, percent: 0.0 },
+            y: models::LayoutDimension { pixels: 0, percent: 0.0 },
+        },
+        size: models::SizeConfig {
+            width: models::LayoutDimension { pixels: 0, percent: 100.0 },
+            height: models::LayoutDimension { pixels: 0, percent: 100.0 },
+        },
+    };
+    capture_window_with_layout(hwnd, &default_layout)
 }

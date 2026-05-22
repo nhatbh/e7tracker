@@ -3,35 +3,54 @@
  * Defines configuration for different game clients with offset settings
  */
 
+export interface LayoutDimension {
+  pixels: number;
+  percent: number;
+}
+
+export interface LayoutConfig {
+  offset: {
+    x: LayoutDimension;
+    y: LayoutDimension;
+  };
+  size: {
+    width: LayoutDimension;
+    height: LayoutDimension;
+  };
+}
+
 export interface ClientProfile {
   id: string;
   name: string;
   /** Exact window title to match for auto-detection */
   windowTitlePattern: string;
 
-  /** Fixed pixel offset for X-axis (can be negative) */
-  offsetPixelsX: number;
-  /** Percentage-based offset for X-axis (0-100, scales with window width) */
-  offsetPercentageX: number;
-
-  /** Fixed pixel offset for Y-axis (can be negative) */
-  offsetPixelsY: number;
-  /** Percentage-based offset for Y-axis (0-100, scales with window height) */
-  offsetPercentageY: number;
+  layout: LayoutConfig;
 
   enabled: boolean;
 }
 
 /**
- * Calculate total X-Y offsets for a given window size
- * total_offset = offsetPixels + (dimension * offsetPercentage / 100)
+ * Calculate actual pixel value for a layout dimension
  */
-export function calculateClientOffsets(
+export function calculateDimension(dim: LayoutDimension, base: number): number {
+  return dim.pixels + (base * dim.percent) / 100;
+}
+
+/**
+ * Calculate total X-Y layout (position and size) for a given window size
+ */
+export function calculateClientLayout(
   profile: ClientProfile,
   windowWidth: number,
   windowHeight: number
-): { x: number; y: number } {
-  const x = profile.offsetPixelsX + (windowWidth * profile.offsetPercentageX) / 100;
-  const y = profile.offsetPixelsY + (windowHeight * profile.offsetPercentageY) / 100;
-  return { x, y };
+): { x: number; y: number; width: number; height: number } {
+  const { offset, size } = profile.layout;
+  
+  return {
+    x: calculateDimension(offset.x, windowWidth),
+    y: calculateDimension(offset.y, windowHeight),
+    width: calculateDimension(size.width, windowWidth),
+    height: calculateDimension(size.height, windowHeight),
+  };
 }
