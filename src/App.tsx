@@ -22,11 +22,11 @@ export function App() {
         }
     });
 
+    // Default behavior: main window ignores cursor events (passes through to game)
     const manageCursorEvents = async () => {
         try {
-            if (windowLabel == "main") {
-                const shouldIgnoreCursor = true;
-                await getCurrentWindow().setIgnoreCursorEvents(shouldIgnoreCursor);
+            if (windowLabel === "main") {
+                await getCurrentWindow().setIgnoreCursorEvents(true);
             }
         } catch (error) {
             // Silently fail if not in Tauri context

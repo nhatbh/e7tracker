@@ -73,7 +73,38 @@ e7tracker/
 
 ---
 
-### 2. AI Screen Detection System
+### 2. Client Profile System
+
+**Purpose**: Manage active client profiles for resolution-aware layout calculations. Handles automatic client detection based on window titles and provides layout offsets for UI positioning.
+
+**Key Components**:
+- **ClientProfileService** (`src/infrastructure/services/ClientProfileService.ts`)
+  - `getProfiles()`: Get all available client profiles
+  - `detectClient(windows)`: Auto-detect client by matching window titles
+  - `getActiveProfile()`: Get currently active profile
+  - `calculateTotalOffsets(width, height)`: Calculate X/Y offsets for a given resolution
+  - Syncs with backend via `set_active_client_profile`
+
+- **ClientProfileContext** (`src/context/ClientProfileContext.tsx`)
+  - React context provider for client profile management
+  - Manages active profile state and auto-detection
+  - Listens for backend window tracking events
+  - Syncs profile changes to backend
+
+**Auto-Detection Flow**:
+```
+[App Start] → [Enumerate Windows] → [Match Window Title] → [Activate Profile]
+```
+
+**Client Profile Structure**:
+- `id`: Unique identifier
+- `windowTitlePattern`: Title to match for auto-detection
+- `layout`: Resolution-aware layout configuration (offsets and sizes)
+- `enabled`: Whether the profile is active for detection
+
+---
+
+### 3. AI Screen Detection System
 
 **Purpose**: Identify which screen the player is currently viewing (Hero Stats, Guild War, Lobby, etc.) using AI classification.
 
@@ -120,7 +151,7 @@ enum ScreenType {
 
 ---
 
-### 3. OCR (Optical Character Recognition) System
+### 4. OCR (Optical Character Recognition) System
 
 **Purpose**: Extract hero names and stats from game screenshots using AI-based OCR.
 
@@ -172,7 +203,7 @@ Game Window Frame
 
 ---
 
-### 4. Build Profile & Build Assist System
+### 5. Build Profile & Build Assist System
 
 **Purpose**: Fetch, cache, and analyze hero build data from external API; provide build recommendations.
 
@@ -224,7 +255,7 @@ interface ProcessedBuildData {
 
 ---
 
-### 5. Caching System
+### 6. Caching System
 
 **Purpose**: Persistent storage for hero data, build data, and user settings using SQLite.
 
@@ -251,7 +282,7 @@ interface ProcessedBuildData {
 
 ---
 
-### 6. Hero Metadata System
+### 7. Hero Metadata System
 
 **Purpose**: Manage hero database, match OCR text to actual hero names, provide hero information.
 
@@ -284,7 +315,7 @@ OCR Text (e.g., "Sigret")
 
 ---
 
-### 7. Combat Analytics System
+### 8. Combat Analytics System
 
 **Purpose**: Track and analyze combat performance, synergies, and counter-threats.
 
@@ -302,7 +333,7 @@ OCR Text (e.g., "Sigret")
 
 ---
 
-### 8. Metagame System
+### 9. Metagame System
 
 **Purpose**: Track current meta trends, popular builds, and strategic information.
 
@@ -315,14 +346,6 @@ OCR Text (e.g., "Sigret")
 ---
 
 ## Frontend Architecture
-
-> [!WARNING]
-> **REFACTORING NEEDED**: The frontend component hierarchy and context provider structure requires refactoring. Current issues include:
-> - Deep nesting of context providers (11+ levels) causing potential performance issues
-> - Component coupling between overlay and controls windows
-> - Opportunity to consolidate related contexts and reduce provider depth
-> - Consider implementing a more efficient state management pattern
-> - Review component re-render patterns and memoization opportunities
 
 ### Component Hierarchy
 
@@ -355,17 +378,20 @@ App.tsx
 
 All services are provided via React Context:
 
-1. **WindowServiceContext**: Window tracking and management
-2. **HeroServiceContext**: Hero metadata and matching
-3. **ArtifactServiceContext**: Artifact data
-4. **BuildProfileServiceContext**: Build profiles and data
-5. **CombatAnalyticsServiceContext**: Combat analytics
-6. **MetagameServiceContext**: Metagame data
-7. **ScreenDetectionContext**: Screen detection state
-8. **OCRContext**: OCR operations
-9. **TickerContext**: Periodic updates
-10. **KeybindContext**: Keyboard shortcuts
-11. **CacheManager**: Cache operations
+1. **OverlayServiceProvider**: Consolidated root provider for all services
+2. **WindowServiceContext**: Window tracking and management
+3. **HeroServiceContext**: Hero metadata and matching
+4. **ArtifactServiceContext**: Artifact data
+5. **BuildProfileServiceContext**: Build profiles and data
+6. **CombatAnalyticsServiceContext**: Combat analytics
+7. **MetagameServiceContext**: Metagame data
+8. **ScreenDetectionContext**: Screen detection state
+9. **OCRContext**: OCR operations
+10. **TickerContext**: Periodic updates
+11. **KeybindContext**: Keyboard shortcuts
+12. **ClientProfileContext**: Active client profile and layout management
+13. **CacheManager**: Cache operations
+14. **ControlsScreenServiceProvider**: Context provider for the controls window
 
 ---
 
@@ -496,6 +522,7 @@ interface IHeroMetadataService {
 
 ### Overlay Control
 - `set_overlay_mode(mode)`: Set overlay mode (Display/Selection/HeroDetails)
+- `set_active_client_profile(profile)`: Sync active client profile with backend
 - `log_selection(x, y, w, h)`: Log selection coordinates
 
 ### OCR & Detection
