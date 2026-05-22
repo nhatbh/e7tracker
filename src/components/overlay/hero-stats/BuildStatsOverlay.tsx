@@ -119,11 +119,17 @@ export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({
 
     const usePro = activeSource.startsWith('pro') && !!localBuildData.proStats;
     const statsSource = usePro ? localBuildData.proStats! : localBuildData;
-    const { averageStats, setStats } = statsSource;
+    const actualStatsSource = (statsSource as any).data || statsSource;
+    const { averageStats, setStats = [] } = actualStatsSource;
 
     const cachedDateStr = localBuildData.cachedAt
         ? new Date(localBuildData.cachedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
         : null;
+
+    if (!averageStats) {
+        console.error('[BuildStatsOverlay] statsSource is missing averageStats:', actualStatsSource);
+        return <div className="build-stats-container">No stats available</div>;
+    }
 
     // Prepare data for Radar Chart
     const data = [

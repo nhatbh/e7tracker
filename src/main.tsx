@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./i18n/index";
 import { BuildAssist } from "./services/buildAssist";
-import { ServiceProvider } from "./context";
+import { OverlayServiceProvider } from "./context";
 import { App } from "./App";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 
 const initAndRender = async () => {
     try {
@@ -16,12 +17,9 @@ const initAndRender = async () => {
     // Get window label from URL params (e.g., ?label=main or ?label=controls)
     const urlParams = new URLSearchParams(window.location.search);
     const windowLabel = urlParams.get("label") || "main";
-
     ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <React.StrictMode>
-            <ServiceProvider windowLabel={windowLabel}>
-                <App />
-            </ServiceProvider>
+            <App />
         </React.StrictMode>,
     );
 };

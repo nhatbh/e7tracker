@@ -89,12 +89,7 @@ impl DetectionEngine {
             let mut current = self.current_screen.lock().unwrap();
             if screen_name != *current {
                 if let Some(ref name) = screen_name {
-                    // Only log if changing from stats to other screen types
-                    if !name.contains("Stats")
-                        || current.as_ref().map_or(false, |c| c.contains("Stats"))
-                    {
-                        crate::log_message(&format!("[e7tracker] Screen detected: {}", name));
-                    }
+                    crate::log_message(&format!("[e7tracker] Screen detected: {}", name));
                 } else if current.as_ref().map_or(false, |c| c.contains("Stats")) {
                     crate::log_message("[e7tracker] Screen lost — no match");
                 }

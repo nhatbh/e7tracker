@@ -47,7 +47,7 @@ export class OCRService implements IOCRService {
                 zone: zone,
             });
 
-            invoke("log_frontend_info", { msg: `[OCRService] Backend returned result: ${JSON.stringify(result)}` }).catch(() => { });
+            invoke("log_frontend_info", { msg: `Backend returned result: ${JSON.stringify(result)}` }).catch(() => { });
             
             // Extract hero_name from the DetectionResult object
             if (result && result.hero_name) {

@@ -29,7 +29,7 @@ export class MetagameService implements IMetagameService {
 
   private async emitProgress(message: string, progress: number, isFetching = true, error: string | null = null): Promise<void> {
     try {
-      await emit("metagame-fetch-progress", { isFetching, message, progress, error });
+      await emit("fetch-progress", { type: "metagame", isFetching, message, progress, error });
     } catch (e) {
       console.error("Failed to emit metagame fetch progress event:", e);
     }

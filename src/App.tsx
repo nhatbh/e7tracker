@@ -1,18 +1,13 @@
-import { useState, useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
+import { useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import "./App.css";
 
 import { OverlayView } from "./components/overlay/OverlayView";
-import { ControlsView, WindowInfo } from "./components/ControlsView";
+import { ControlsView } from "./components/ControlsView";
+import { OverlayServiceProvider, ControlsScreenServiceProvider, CacheManagerProvider } from "./context";
 
-// New DI-based services
 
 export function App() {
-
-    // ============================================================================
-    // WINDOW LABEL DETECTION: Determine which window this is
-    // ============================================================================
     const [windowLabel, setWindowLabel] = useState<string>(() => {
         // Check URL query param first (for Tauri windows)
         const queryParams = new URLSearchParams(window.location.search);
@@ -27,44 +22,34 @@ export function App() {
         }
     });
 
-    // Log which window type this is
-    useEffect(() => {
-        invoke("log_frontend_info", { msg: `[App] Window initialized as: ${windowLabel}` }).catch(() => { });
-    }, []);
+    const manageCursorEvents = async () => {
+        try {
+            if (windowLabel == "main") {
+                const shouldIgnoreCursor = true;
+                await getCurrentWindow().setIgnoreCursorEvents(shouldIgnoreCursor);
+            }
+        } catch (error) {
+            // Silently fail if not in Tauri context
+        }
+    };
+    manageCursorEvents();
 
-    // UI State
-    const [windows, setWindows] = useState<WindowInfo[]>([]);
-    const [selectedHwnd, setSelectedHwnd] = useState<number | null>(null);
-    const [isTracking, setIsTracking] = useState(false);
-    const [cacheWipedMsg, setCacheWipedMsg] = useState(false);
-
-    // ============================================================================
-    // RENDER
-    // ============================================================================
     return (
         <>
             {/* Control Window: Render ControlsView only */}
             {windowLabel === "controls" && (
-                <ControlsView
-                    windows={windows}
-                    selectedHwnd={selectedHwnd}
-                    setSelectedHwnd={setSelectedHwnd}
-                    isTracking={isTracking}
-                    cacheWipedMsg={cacheWipedMsg}
-                    refreshWindows={async () => { }}
-                    startTracking={async () => { }}
-                    handleWipeCache={async () => { }}
-                />
+                <CacheManagerProvider>
+                    <ControlsScreenServiceProvider>
+                        <ControlsView />
+                    </ControlsScreenServiceProvider>
+                </CacheManagerProvider>
             )}
 
             {/* Overlay Window: Render OverlayView only */}
             {windowLabel === "main" && (
-                <OverlayView
-                    onTrackingChange={(isTracking, hwnd) => {
-                        setIsTracking(isTracking);
-                        setSelectedHwnd(hwnd);
-                    }}
-                />
+                <OverlayServiceProvider windowLabel={windowLabel}>
+                    <OverlayView />
+                </OverlayServiceProvider>
             )}
         </>
     );

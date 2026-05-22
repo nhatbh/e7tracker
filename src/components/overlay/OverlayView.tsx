@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useScreenDetection } from '../../context';
 import { ScreenType } from '../../domain/models/DetectionSchema';
 import { HeroStatsOverlays } from './hero-stats/HeroStatsOverlays';
-import { listen } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api/core';
-import { getCurrentWindow } from '@tauri-apps/api/window';
+import { useWindowService } from '../../context/WindowServiceContext';
 import './OverlayView.css';
 
 interface WindowInfo {
@@ -18,6 +17,7 @@ interface OverlayViewProps {
 
 export const OverlayView: React.FC<OverlayViewProps> = ({ onTrackingChange }) => {
     const screenDetection = useScreenDetection();
+    const windowService = useWindowService();
     const [currentScreen, setCurrentScreen] = useState<ScreenType>(ScreenType.Unknown);
 
     useEffect(() => {
@@ -31,18 +31,10 @@ export const OverlayView: React.FC<OverlayViewProps> = ({ onTrackingChange }) =>
     useEffect(() => {
         const setupWindowTracking = async () => {
             try {
-                const unlistenAutoTrack = await listen<WindowInfo>("auto-tracked-window", (event) => {
-                    onTrackingChange?.(true, event.payload.hwnd);
+                const unsubscribe = await windowService.onTrackedWindowChanged((isTracking, hwnd) => {
+                    onTrackingChange?.(isTracking, hwnd);
                 });
-
-                const unlistenLostTrack = await listen("tracked-window-lost", () => {
-                    onTrackingChange?.(false, null);
-                });
-
-                return () => {
-                    unlistenAutoTrack();
-                    unlistenLostTrack();
-                };
+                return unsubscribe;
             } catch (error) {
                 invoke("log_frontend_info", { msg: `[OverlayView] Failed to setup window tracking: ${error}` }).catch(() => { });
             }
@@ -53,18 +45,6 @@ export const OverlayView: React.FC<OverlayViewProps> = ({ onTrackingChange }) =>
             cleanup.then(fn => fn?.());
         };
     }, [onTrackingChange]);
-
-    useEffect(() => {
-        const manageCursorEvents = async () => {
-            try {
-                const shouldIgnoreCursor = true;
-                await getCurrentWindow().setIgnoreCursorEvents(shouldIgnoreCursor);
-            } catch (error) {
-                // Silently fail if not in Tauri context
-            }
-        };
-        manageCursorEvents();
-    }, []);
 
     return (
         <main className="overlay-view overlay-view-wrapper">

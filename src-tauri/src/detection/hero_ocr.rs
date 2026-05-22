@@ -35,8 +35,6 @@ pub fn detect_hero_by_ocr(region: &image::GrayImage) -> Option<(String, f64)> {
         return None;
     }
 
-    crate::log_message(&format!("[AI OCR] Success: Extracted '{}'", text));
-
     // For now, return with full confidence - the fuzzy matching happens in the caller
     Some((text, 1.0))
 }

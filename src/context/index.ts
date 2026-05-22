@@ -12,4 +12,8 @@ export * from './ScreenDetectionContext';
 export * from './OCRContext';
 export * from './KeybindContext';
 export * from './TickerContext';
+export * from './WindowServiceContext';
 export * from './ServiceProvider';
+export * from './ControlsScreenServiceProvider';
+export * from './CacheManager';
+export * from './ClientProfileContext';

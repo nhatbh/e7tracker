@@ -4,6 +4,7 @@
  */
 
 import { invoke } from "@tauri-apps/api/core";
+import { emit } from "@tauri-apps/api/event";
 import { HeroMetadata } from '../../domain/models/Hero';
 import { IHeroMetadataService } from '../../domain/services/IHeroMetadataService';
 
@@ -91,14 +92,17 @@ export class StaticHeroService implements IHeroMetadataService {
   }
 
   async refetchHeroData(): Promise<void> {
+    await emit("fetch-progress", { type: "hero", progress: 10, isFetching: true, message: "Fetching hero data..." });
     const res = await fetch(HERO_DATA_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     
+    await emit("fetch-progress", { type: "hero", progress: 50, isFetching: true, message: "Parsing hero data..." });
     this.heroData = await res.json();
     const hStr = JSON.stringify(this.heroData);
     
     await invoke("cache_set", { key: CACHE_KEY_HERO, value: hStr });
     await invoke("cache_set", { key: CACHE_KEY_TIME, value: Date.now().toString() });
+    await emit("fetch-progress", { type: "hero", progress: 100, isFetching: false, message: "Hero data cached successfully" });
   }
 
   isInitialized(): boolean {

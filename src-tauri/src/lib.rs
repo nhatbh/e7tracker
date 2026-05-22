@@ -98,6 +98,7 @@ pub enum OverlayMode {
 pub struct AppState {
     pub tracked_hwnd: Mutex<Option<isize>>,
     pub mode: Mutex<OverlayMode>,
+    pub active_client_profile: Mutex<Option<ClientProfile>>,
 }
 
 
@@ -154,6 +155,12 @@ fn set_tracked_window(state: tauri::State<'_, AppState>, hwnd: isize) {
 fn set_overlay_mode(state: tauri::State<'_, AppState>, mode: OverlayMode) {
     *state.mode.lock().unwrap() = mode;
     log_message(&format!("[Backend Mode Changed] {:?}", mode));
+}
+
+#[tauri::command]
+fn set_active_client_profile(state: tauri::State<'_, AppState>, profile: ClientProfile) {
+    *state.active_client_profile.lock().unwrap() = Some(profile.clone());
+    log_message(&format!("[Client Profile] Set to: {} ({})", profile.name, profile.id));
 }
 
 #[tauri::command]
@@ -215,8 +222,8 @@ async fn perform_ocr_on_screen(
     app: tauri::AppHandle,
     zone: models::Zone,
 ) -> Result<models::DetectionResult, String> {
-    log_message(&format!("[OCR Backend] perform_ocr_on_screen called"));
-    log_message(&format!("[OCR Backend] Zone coordinates: x={}, y={}, w={}, h={}", zone.x, zone.y, zone.w, zone.h));
+    // log_message(&format!("[OCR Backend] perform_ocr_on_screen called"));
+    // log_message(&format!("[OCR Backend] Zone coordinates: x={}, y={}, w={}, h={}", zone.x, zone.y, zone.w, zone.h));
     
     // Get the tracked window
     let state = app.state::<AppState>();
@@ -226,28 +233,24 @@ async fn perform_ocr_on_screen(
     };
     
     if tracked_hwnd.is_none() {
-        log_message("[OCR Backend] Error: No window is currently tracked");
+        // log_message("[OCR Backend] Error: No window is currently tracked");
         return Err("No window is currently tracked".to_string());
     }
     
     let hwnd = HWND(tracked_hwnd.unwrap() as *mut _);
-    log_message(&format!("[OCR Backend] Using tracked window HWND: {:?}", hwnd));
-    
-    // Capture the window
-    log_message("[OCR Backend] Capturing window to RGB...");
     let (frame, win_w, win_h) = match capture::capture_window_to_rgb(hwnd) {
         Some(result) => {
-            log_message(&format!("[OCR Backend] Window captured successfully: {}x{}", result.1, result.2));
+            // log_message(&format!("[OCR Backend] Window captured successfully: {}x{}", result.1, result.2));
             result
         }
         None => {
-            log_message("[OCR Backend] Error: Failed to capture window");
+            // log_message("[OCR Backend] Error: Failed to capture window");
             return Err("Failed to capture window".to_string());
         }
     };
     
     // Get the detection engine
-    log_message("[OCR Backend] Acquiring detection engine...");
+    // log_message("[OCR Backend] Acquiring detection engine...");
     let engine_state = app.state::<Arc<std::sync::Mutex<DetectionEngine>>>();
     let engine_guard = engine_state.lock().unwrap();
     
@@ -258,12 +261,12 @@ async fn perform_ocr_on_screen(
         display: zone.clone(), // Use same zone for display
     };
     
-    log_message(&format!("[OCR Backend] Performing OCR detection"));
+    // log_message(&format!("[OCR Backend] Performing OCR detection"));
     
     // Perform OCR
     let result = engine_guard.detect_slot(&frame, win_w, win_h, &temp_slot);
     
-    log_message(&format!("[OCR Backend] Detection result: hero_name={:?}, confidence={}", result.hero_name, result.confidence));
+    // log_message(&format!("[OCR Backend] Detection result: hero_name={:?}, confidence={}", result.hero_name, result.confidence));
     
     Ok(result)
 }
@@ -431,6 +434,7 @@ pub fn run() {
         .manage(AppState {
             tracked_hwnd: Mutex::new(None),
             mode: Mutex::new(OverlayMode::Display),
+            active_client_profile: Mutex::new(None),
         })
         .manage(CacheState(std::sync::OnceLock::new()))
         .plugin(tauri_plugin_opener::init())
@@ -459,6 +463,7 @@ pub fn run() {
             get_tracked_window,
             is_cache_ready,
             perform_ocr_on_screen,
+            set_active_client_profile,
         ])
         .setup(|app| {
             let handle = app.handle().clone();
@@ -765,20 +770,32 @@ pub fn run() {
                         x
                     };
 
-                    // Auto-detect "Epic Seven" window every 1.5 seconds if none is currently tracked
+                    // Auto-detect client window every 1.5 seconds if none is currently tracked
                     if tracked_hwnd.is_none() && last_auto_search.elapsed().as_millis() > 1500 {
                         last_auto_search = std::time::Instant::now();
                         let wins = get_windows();
-                        if let Some(epic_win) = wins.into_iter().find(|w| {
-                            w.title.trim() == "Epic Seven"
-                        }) {
-                            crate::log_message(&format!("[Auto-Tracker] Successfully detected and attached to Epic Seven window: '{}' (HWND: {})", epic_win.title, epic_win.hwnd));
-                            let state = handle.state::<AppState>();
-                            *state.tracked_hwnd.lock().unwrap() = Some(epic_win.hwnd);
-                            tracked_hwnd = Some(epic_win.hwnd);
+                        
+                        // Get active client profile patterns to match
+                        let state = handle.state::<AppState>();
+                        let client_profile = state.active_client_profile.lock().unwrap().clone();
+                        
+                        // Find matching window based on client profile or use default Epic Seven pattern
+                        let match_result = if let Some(ref profile) = client_profile {
+                            wins.into_iter().find(|w| w.title.trim() == profile.window_title_pattern)
+                        } else {
+                            // Default fallback: try Epic Seven first, then Bluestack App Player
+                            wins.into_iter().find(|w| {
+                                w.title.trim() == "Epic Seven" || w.title.trim() == "Bluestack App Player"
+                            })
+                        };
+                        
+                        if let Some(found_win) = match_result {
+                            crate::log_message(&format!("[Auto-Tracker] Successfully detected and attached to window: '{}' (HWND: {})", found_win.title, found_win.hwnd));
+                            *state.tracked_hwnd.lock().unwrap() = Some(found_win.hwnd);
+                            tracked_hwnd = Some(found_win.hwnd);
                             
                             // Notify frontend
-                            let _ = handle.emit("auto-tracked-window", epic_win.clone());
+                            let _ = handle.emit("auto-tracked-window", found_win.clone());
                         }
                     }
 
@@ -820,9 +837,21 @@ pub fn run() {
                                         let _ = main_win.set_size(tauri::Size::Physical(
                                             tauri::PhysicalSize { width, height },
                                         ));
-                                        let x_offset = -8; // Shift left a bit as requested
+                                        
+                                        // Get client profile and calculate total X-Y offsets
+                                        let state = handle.state::<AppState>();
+                                        let client_profile = state.active_client_profile.lock().unwrap().clone();
+                                        let (offset_x, offset_y) = if let Some(ref profile) = client_profile {
+                                            profile.calculate_total_offsets(width, height)
+                                        } else {
+                                            (0, 0)  // Default: no offset
+                                        };
+                                        
                                         let _ = main_win.set_position(tauri::Position::Physical(
-                                            tauri::PhysicalPosition { x: rect.left + x_offset, y: rect.top },
+                                            tauri::PhysicalPosition { 
+                                                x: rect.left + offset_x, 
+                                                y: rect.top + offset_y 
+                                            },
                                         ));
                                         let _ = main_win.show();
 

@@ -10,3 +10,5 @@ export * from './CombatAnalytics';
 export * from './MetagameData';
 export * from './DetectionSchema';
 export * from './DetectionConfig';
+export * from './ClientProfile';
+export * from './Window';

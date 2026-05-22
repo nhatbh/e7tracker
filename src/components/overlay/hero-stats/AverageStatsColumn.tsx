@@ -24,10 +24,11 @@ export const AverageStatsColumn: React.FC<AverageStatsColumnProps> = ({ buildDat
         return null; // Return null if independent copy is not prepared yet
     }
 
-    const { averageStats, setStats, proStats } = localBuildData;
+    const statsSource = (localBuildData as any).data || localBuildData;
+    const { averageStats, setStats, proStats } = statsSource;
 
     // Resolve which stats and labels/icons to use based on activeSource
-    let statsToUse = averageStats;
+    let statsToUse = averageStats || { atk: 0, def: 0, hp: 0, spd: 0, chc: 0, chd: 0, eff: 0, efr: 0 };
     let badgeText = 'Avg';
     let popularSet: string | null = null;
 

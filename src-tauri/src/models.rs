@@ -128,3 +128,36 @@ pub struct DebugZone {
     pub screen_name: String,
     pub confidence: f64,
 }
+
+/// Client profile configuration for multi-client support.
+/// Each client (Epic Seven PC, BlueStack, etc.) has specific offset settings.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ClientProfile {
+    pub id: String,
+    pub name: String,
+    /// Exact window title to match for auto-detection
+    pub window_title_pattern: String,
+    
+    /// Fixed pixel offset for X-axis (can be negative)
+    pub offset_pixels_x: i32,
+    /// Percentage-based offset for X-axis (0-100, scales with window width)
+    pub offset_percentage_x: f32,
+    
+    /// Fixed pixel offset for Y-axis (can be negative)
+    pub offset_pixels_y: i32,
+    /// Percentage-based offset for Y-axis (0-100, scales with window height)
+    pub offset_percentage_y: f32,
+    
+    pub enabled: bool,
+}
+
+impl ClientProfile {
+    /// Calculate total X-Y offsets for a given window size
+    /// total_offset = offset_pixels + (dimension * offset_percentage / 100)
+    pub fn calculate_total_offsets(&self, window_width: u32, window_height: u32) -> (i32, i32) {
+        let offset_x = self.offset_pixels_x + (window_width as f32 * self.offset_percentage_x / 100.0) as i32;
+        let offset_y = self.offset_pixels_y + (window_height as f32 * self.offset_percentage_y / 100.0) as i32;
+        (offset_x, offset_y)
+    }
+}

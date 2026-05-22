@@ -3,6 +3,7 @@
  */
 
 import { invoke } from "@tauri-apps/api/core";
+import { emit } from "@tauri-apps/api/event";
 import { ArtifactMetadata } from '../../domain/models/Artifact';
 import { IArtifactMetadataService } from '../../domain/services/IArtifactMetadataService';
 
@@ -62,14 +63,17 @@ export class StaticArtifactService implements IArtifactMetadataService {
   }
 
   async refetchArtifactData(): Promise<void> {
+    await emit("fetch-progress", { type: "artifact", progress: 10, isFetching: true, message: "Fetching artifact data..." });
     const res = await fetch(ARTIFACT_DATA_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
+    await emit("fetch-progress", { type: "artifact", progress: 50, isFetching: true, message: "Parsing artifact data..." });
     this.artifactData = await res.json();
     const aStr = JSON.stringify(this.artifactData);
 
     await invoke("cache_set", { key: CACHE_KEY_ARTIFACT, value: aStr });
     await invoke("cache_set", { key: CACHE_KEY_TIME, value: Date.now().toString() });
+    await emit("fetch-progress", { type: "artifact", progress: 100, isFetching: false, message: "Artifact data cached successfully" });
   }
 
   isInitialized(): boolean {

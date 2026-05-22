@@ -50,16 +50,22 @@ export class TickerService implements ITickerService {
   }
 
   private async tick(): Promise<void> {
-    const currentScreen = this.screenDetection.getCurrentScreen?.() || ScreenType.Unknown;
+    try {
+      const currentScreen = this.screenDetection.getCurrentScreen?.() || ScreenType.Unknown;
 
-    for (const [taskId, task] of this.tasks) {
-      try {
-        if (task.screenCondition(currentScreen)) {
-          await task.execute();
+      for (const [taskId, task] of this.tasks) {
+        try {
+          if (task.screenCondition(currentScreen)) {
+            await task.execute();
+          }
+        } catch (error) {
+          invoke("log_frontend_info", { msg: `[TickerService] Task ${taskId} failed: ${error}` }).catch(() => {});
         }
-      } catch (error) {
-        invoke("log_frontend_info", { msg: `[TickerService] Task ${taskId} failed: ${error}` }).catch(() => {});
       }
+    } catch (error) {
+      // Catch any errors that occur outside of individual task execution
+      // This ensures the ticker continues running even if something unexpected happens
+      invoke("log_frontend_info", { msg: `[TickerService] Tick cycle failed: ${error}` }).catch(() => {});
     }
   }
 }
