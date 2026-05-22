@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { listen } from '@tauri-apps/api/event';
 import { ClientProfile, WindowInfo } from '../domain/models';
 import { ClientProfileService } from '../infrastructure/services/ClientProfileService';
 import { useWindowService } from './WindowServiceContext';
@@ -68,6 +69,26 @@ export const ClientProfileProvider: React.FC<ClientProfileProviderProps> = ({ ch
 
     fetchWindows();
   }, [detectClient, windowService]);
+
+  // Listen for auto-tracked-window events from backend
+  useEffect(() => {
+    let unlisten: () => void;
+    
+    const initListener = async () => {
+        const unlistenFn = await listen('auto-tracked-window', (event: any) => {
+            const foundWin = event.payload as WindowInfo;
+            detectClient([foundWin]);
+        });
+        unlisten = unlistenFn;
+    };
+    
+    initListener();
+    
+    return () => {
+        if (unlisten) unlisten();
+    };
+  }, [detectClient]);
+
 
   // Sync profile with backend when activeProfile changes
   useEffect(() => {
