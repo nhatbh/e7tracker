@@ -9,8 +9,8 @@ import {
     ColumnDef,
     SortingState
 } from '@tanstack/react-table';
-import { BuildAssist, ProcessedBuildData, BuildData } from '../services/buildAssist';
-import { getSetIconUrl } from '../services/setAssets';
+import { BuildAssist, ProcessedBuildData, BuildData } from '../../../services/buildAssist';
+import { getSetIconUrl } from '../../../services/setAssets';
 
 interface DashboardBuildsTableProps {
     localBuildData: ProcessedBuildData | null;
@@ -56,9 +56,13 @@ export const DashboardBuildsTable: React.FC<DashboardBuildsTableProps> = React.m
                 setIsArtDropdownOpen(false);
             }
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+        
+        // Only add listener if dropdown is open to avoid unnecessary event handling
+        if (isArtDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [isArtDropdownOpen]);
 
     // Filter builds
     const filteredBuilds = useMemo(() => {
@@ -215,7 +219,7 @@ export const DashboardBuildsTable: React.FC<DashboardBuildsTableProps> = React.m
         <div className="dashboard-card details-bottom-table-panel">
             <div className="panel-table-header">
                 <h3 className="panel-table-title">{t('heroDetails.buildDetails')}</h3>
-                
+
                 <div className="filters-bar-unified">
                     <div className="filter-group">
                         <span className="filter-label">{t('heroDetails.filterBySet')}:</span>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ProcessedBuildData } from '../../../services/buildAssist';
-import { getSetIconUrl } from '../../../services/setAssets';
+import { SetIconsGroup } from '../../common/SetIconsGroup';
 import './AverageStatsColumn.css';
 
 interface AverageStatsColumnProps {
@@ -86,20 +86,7 @@ export const AverageStatsColumn: React.FC<AverageStatsColumnProps> = ({ buildDat
             <div className="build-identifier-badge">
                 <span className="badge-text">{badgeText}</span>
                 {popularSet && (
-                    <div className="badge-set-icons">
-                        {popularSet.split(' / ').map((setPart) => {
-                            const cleanPart = setPart.trim();
-                            const isChase = cleanPart.toLowerCase() === 'chase' || cleanPart.toLowerCase() === 'set_chase';
-                            return (
-                                <img
-                                    key={cleanPart}
-                                    src={getSetIconUrl(cleanPart)}
-                                    alt={cleanPart}
-                                    className={`badge-set-icon ${isChase ? 'no-scale' : ''}`}
-                                />
-                            );
-                        })}
-                    </div>
+                    <SetIconsGroup setName={popularSet} className="badge-set-icons" iconClassName="badge-set-icon" />
                 )}
             </div>
         </div>

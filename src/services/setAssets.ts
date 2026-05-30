@@ -45,6 +45,7 @@ export const mapSetNameToFile = (setName: string): string => {
         case 'shield':
             return 'setprotection';
         case 'opener':
+            return 'setopener';
         case 'revenant':
             return 'setrevenant';
         case 'chase':

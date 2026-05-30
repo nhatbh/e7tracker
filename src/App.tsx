@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import "./App.css";
 
 import { OverlayView } from "./components/overlay/OverlayView";
 import { ControlsView } from "./components/ControlsView";
 import { OverlayServiceProvider, ControlsScreenServiceProvider, CacheManagerProvider } from "./context";
+import { CombatData, MetagameData } from "./services/combatData";
+import { OverlayManagerService } from "./overlay/services/OverlayManagerService";
+import { Keybind } from "./domain/models/KeybindSchema";
+import { InteractivePageType } from "./domain/models/InteractiveOverlay";
 
 
 export function App() {
@@ -33,6 +37,17 @@ export function App() {
         }
     };
     manageCursorEvents();
+
+    // Initialize Combat and Metagame data services when overlay launches
+    useEffect(() => {
+        if (windowLabel === "main") {
+            CombatData.init();
+            MetagameData.init();
+
+            // Register keybind listeners with overlay manager
+            const overlayManager = OverlayManagerService.getInstance();
+        }
+    }, [windowLabel]);
 
     return (
         <>

@@ -15,11 +15,16 @@ import { DetectionSlot, ScreenType } from '../../../domain/models/DetectionSchem
 
 interface HeroData {
     id: string;
+    code: string;
     name: string;
     [key: string]: any;
 }
 
-export const HeroStatsOverlays: React.FC = () => {
+interface HeroStatsOverlaysProps {
+    onHeroChange?: (heroName: string | null) => void;
+}
+
+export const HeroStatsOverlays: React.FC<HeroStatsOverlaysProps> = ({ onHeroChange }) => {
 
     const [buildData, setBuildData] = useState<{ heroName: string; data: ProcessedBuildData } | null>(null);
     const [isFetchingBuild, setIsFetchingBuild] = useState(false);
@@ -63,7 +68,7 @@ export const HeroStatsOverlays: React.FC = () => {
 
                         if (heroData) {
                             // Only update if the hero actually changed
-                            setCurrentHero(prev => {
+                            setCurrentHero((prev: HeroData | null) => {
                                 if (prev && prev.code === heroData.code) {
                                     return prev;
                                 }
@@ -133,7 +138,8 @@ export const HeroStatsOverlays: React.FC = () => {
         };
 
         fetchHeroData();
-    }, [currentHero, buildProfileService, combatAnalyticsService, metagameService]);
+        onHeroChange?.(currentHero.name);
+    }, [currentHero, buildProfileService, combatAnalyticsService, metagameService, onHeroChange]);
 
     return (
         <>

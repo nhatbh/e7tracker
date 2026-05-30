@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import { CombatData } from '../services/combatData';
+import { CombatAnalyticsServiceContext } from '../context/CombatAnalyticsServiceContext';
 
 interface HeroMiniPortraitProps {
     heroName?: string;
@@ -18,28 +18,38 @@ export const HeroMiniPortrait: React.FC<HeroMiniPortraitProps> = React.memo(({
     style
 }) => {
     const [portraitUrl, setPortraitUrl] = useState<string | null>(null);
+    const [isPortraitLoading, setIsPortraitLoading] = useState(false);
+    const combatService = useContext(CombatAnalyticsServiceContext) as any;
 
     useEffect(() => {
         let isMounted = true;
         const fetchPortrait = async () => {
             let targetCode = heroCode || '';
             if (!targetCode && heroName) {
-                const meta = CombatData.getMetadata();
-                const matched = meta?.hero_list.find(h => h.hero_name.toLowerCase() === heroName.toLowerCase());
+                // Use the context-based service which is properly initialized
+                const meta = combatService?.getMetadata();
+                const matched = meta?.hero_list.find((h: any) => h.hero_name.toLowerCase() === heroName.toLowerCase());
                 if (matched) {
                     targetCode = matched.hero;
                 }
             }
 
-            if (!targetCode) return;
+            if (!targetCode) {
+                if (isMounted) setPortraitUrl(null);
+                return;
+            }
 
+            setIsPortraitLoading(true);
             try {
                 const base64Data = await invoke<string>("get_or_download_portrait", { heroCode: targetCode });
                 if (isMounted) {
                     setPortraitUrl(base64Data);
                 }
             } catch (e) {
-                // Fallback silently to text avatar
+                console.error("[HeroMiniPortrait] Failed to fetch portrait:", e);
+                if (isMounted) setPortraitUrl(null);
+            } finally {
+                if (isMounted) setIsPortraitLoading(false);
             }
         };
 
@@ -47,7 +57,7 @@ export const HeroMiniPortrait: React.FC<HeroMiniPortraitProps> = React.memo(({
         return () => {
             isMounted = false;
         };
-    }, [heroName, heroCode]);
+    }, [heroName, heroCode, combatService]);
 
     const displayInitials = (heroName || 'H').substring(0, 2).toUpperCase();
 
@@ -92,16 +102,3 @@ export const HeroMiniPortrait: React.FC<HeroMiniPortraitProps> = React.memo(({
         </div>
     );
 });
-
-export const getLegitMatchups = (list: any[]) => {
-    if (!list) return [];
-    const minCount = 10;
-    let filtered = list.filter(item => item.count >= minCount);
-    if (filtered.length === 0) {
-        filtered = list.filter(item => item.count >= 5);
-    }
-    if (filtered.length === 0) {
-        filtered = list.filter(item => item.count >= 2);
-    }
-    return filtered.sort((a, b) => b.win_rate - a.win_rate);
-};

@@ -17,3 +17,4 @@ export * from './ServiceProvider';
 export * from './ControlsScreenServiceProvider';
 export * from './CacheManager';
 export * from './ClientProfileContext';
+export * from './DamageCalculatorContext';

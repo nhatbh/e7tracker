@@ -136,10 +136,10 @@ export class UserBuildProfileService implements IBuildProfileService {
       const averageStats = calculateStats(builds);
       const setStats = calculateTopSets(builds);
 
-      // 2. Top 5% Pro builds
+      // 2. Top 10% Pro builds (matching legacy BuildAssist behavior)
       const sortedByGs = [...builds].sort((a: any,b: any) => (b.gs || 0) - (a.gs || 0));
-      const top5PercentCount = Math.max(1, Math.floor(builds.length * 0.05));
-      const proBuilds = sortedByGs.slice(0, top5PercentCount);
+      const top10PercentCount = Math.max(1, Math.round(builds.length * 0.1));
+      const proBuilds = sortedByGs.slice(0, top10PercentCount);
       
       const proStats = {
           averageStats: calculateStats(proBuilds),
@@ -158,7 +158,18 @@ export class UserBuildProfileService implements IBuildProfileService {
         cachedAt: Date.now(),
       };
 
-      await invoke("cache_set", { key: `buildassist_build_${heroName}`, value: JSON.stringify({ data: processedData }) });
+      // Cache with timestamp and requestData (matching legacy format)
+      const cacheValue = JSON.stringify({
+        data: processedData,
+        timestamp: Date.now(),
+        requestData: {
+          url: GET_BUILDS_URL,
+          method: "POST",
+          body: heroName
+        }
+      });
+
+      await invoke("cache_set", { key: `buildassist_build_${heroName}`, value: cacheValue });
       return processedData;
     } catch (e) {
       console.error(`[UserBuildProfileService] Error fetching builds for ${heroName}:`, e);

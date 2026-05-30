@@ -1,0 +1,4632 @@
+{
+  "D:\\e7tracker\\e7tracker\\package.json": {
+    "mtime": 1779063654.8964505,
+    "ast_hash": "5db67ee305605a284929c774fa764091",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\tsconfig.json": {
+    "mtime": 1779066155.6991804,
+    "ast_hash": "ec2dd28e01d3f02afc819fdcdf00537d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\tsconfig.node.json": {
+    "mtime": 1778743733.6491492,
+    "ast_hash": "281e378713152cccc7860c818db55849",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\vite.config.ts": {
+    "mtime": 1778743733.6491492,
+    "ast_hash": "23eb495142fc7ca62b218d172cb93f0a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\.vscode\\extensions.json": {
+    "mtime": 1778743733.6451087,
+    "ast_hash": "d1846e92ceedfa6eb08a69cbb38c190a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\public\\combatdata.json": {
+    "mtime": 1779033431.1272416,
+    "ast_hash": "dfc785d79e3d3d7340b92f748638a495",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\scripts\\update_calculator_library.js": {
+    "mtime": 1779065889.0058677,
+    "ast_hash": "b7bb12937b578a153cdbc2c255c4d895",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\App.tsx": {
+    "mtime": 1779728476.8073616,
+    "ast_hash": "1ec0c568dd51b44e25d5eb4ac07e6180",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\main.tsx": {
+    "mtime": 1779388682.788237,
+    "ast_hash": "71c595050ba9a311a4147950cfb61a13",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\vite-env.d.ts": {
+    "mtime": 1778743733.6481493,
+    "ast_hash": "8f68c27c3fc38817b2726b20e2d4f1ee",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\ControlsView.tsx": {
+    "mtime": 1779566062.4603806,
+    "ast_hash": "a15d81683771f5e179b8b68f1dcb6b97",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\DashboardCombatDetails.tsx": {
+    "mtime": 1779564456.772612,
+    "ast_hash": "202ebbded3c73000247d2111ffc30026",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\DashboardDraftPerformance.tsx": {
+    "mtime": 1779532469.3720672,
+    "ast_hash": "e631944b8af9454b005fe376f347b690",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\HeroDetailsView.tsx": {
+    "mtime": 1779565374.9801447,
+    "ast_hash": "ddeecaa93e4570ed59c4e384c1d02742",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\HeroMiniPortrait.tsx": {
+    "mtime": 1779534896.262059,
+    "ast_hash": "1b77dcd1acc9f43749bc0d8e8d233d06",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\LogsView.tsx": {
+    "mtime": 1779107283.3562372,
+    "ast_hash": "3d31320cbd34803aca73702330293c9a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\OcrMonitorView.tsx": {
+    "mtime": 1779293101.8222704,
+    "ast_hash": "26fe5818c8bc9db69af0f604bf3441c2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\ScanStatusOverlay.tsx": {
+    "mtime": 1779132355.4111228,
+    "ast_hash": "d0172f5b6d9bb16f7e279cc80bde111e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\controls\\ClientProfileSelector.tsx": {
+    "mtime": 1779408153.398618,
+    "ast_hash": "2fc4067c54446fda99c2e267affb324b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\CompareTab.tsx": {
+    "mtime": 1779421843.6556928,
+    "ast_hash": "6ba4e6cdeecc09ca8c2c8dd88ca85cc3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\DamageCalculatorTab.tsx": {
+    "mtime": 1779421731.1020215,
+    "ast_hash": "1dbf46f6fb61dc778afceb56b2a7a472",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\ImportStatsModal.tsx": {
+    "mtime": 1779132928.015031,
+    "ast_hash": "1d70811f53cb0c0be1590f0de6205d07",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\SavedBuildsTab.tsx": {
+    "mtime": 1779420286.2625506,
+    "ast_hash": "cc4e358f2c153c2753817948280bd013",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\ActiveCastersPane.tsx": {
+    "mtime": 1779196346.0713353,
+    "ast_hash": "6650ad5d2b742211352eb9edae38db97",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\CasterPresetsPopup.tsx": {
+    "mtime": 1779195561.2025137,
+    "ast_hash": "956de8811816e6f2a30ab3d9fb24df31",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\CustomDialog.tsx": {
+    "mtime": 1779195875.35931,
+    "ast_hash": "1e612ed5e1d3a134f21e1799abee2a5d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\ResultsComparisonPane.tsx": {
+    "mtime": 1779421859.383135,
+    "ast_hash": "08f2a6824a03475aae02790453908d66",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\sandboxUtils.ts": {
+    "mtime": 1779194070.9731245,
+    "ast_hash": "b1227fe6e188e2c7c4b3fae580ea9e58",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\SavedBuildsLibrary.tsx": {
+    "mtime": 1779195223.1527832,
+    "ast_hash": "ed864fc7c1094aa919cf6b107ea6ff14",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\SingleResultPane.tsx": {
+    "mtime": 1779194708.3577218,
+    "ast_hash": "f8343a38d777b2c9f0ef4db3c994cd22",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\TargetPresetsPopup.tsx": {
+    "mtime": 1779195569.8315134,
+    "ast_hash": "cd3a80466a55c6d4121bed777c49a111",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\damageCalc\\sandbox\\TargetProfilePane.tsx": {
+    "mtime": 1779194105.9487348,
+    "ast_hash": "8f5336c4f52889f5ff2de61f827bc203",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\AnalyticsTab.tsx": {
+    "mtime": 1779565740.1919546,
+    "ast_hash": "f825b0f66e2f7baa0ebda65352f83242",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\overlay\\OverlayView.tsx": {
+    "mtime": 1779421106.3603706,
+    "ast_hash": "ae34b5d192bc3e2926a46ac2346050e3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\overlay\\hero-stats\\AverageStatsColumn.tsx": {
+    "mtime": 1779410074.8921576,
+    "ast_hash": "6c79a5e59648145ac3c36434d1e716c6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\overlay\\hero-stats\\BuildStatsOverlay.tsx": {
+    "mtime": 1779409970.303733,
+    "ast_hash": "cfc85184a6e4ee12f495a84a4e84a24f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\overlay\\hero-stats\\HeroStatsOverlays.tsx": {
+    "mtime": 1779421303.8389316,
+    "ast_hash": "427521cb676224e6aa9e6dc32589a06f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\overlay\\interactive\\InteractiveOverlay.tsx": {
+    "mtime": 1779421122.5849166,
+    "ast_hash": "8b9afa201d457c6490daaead0e9a3a82",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\ArtifactServiceContext.tsx": {
+    "mtime": 1779319497.524379,
+    "ast_hash": "fb3dd1be7dcc07ac45fcbfe20f8b8d28",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\BuildProfileServiceContext.tsx": {
+    "mtime": 1779319505.8876817,
+    "ast_hash": "b329931c8b92286065c3929429cb3353",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\CacheManager.tsx": {
+    "mtime": 1779566158.9866862,
+    "ast_hash": "f7ed9c266fc7a733590af834df16ff6e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\ClientProfileContext.tsx": {
+    "mtime": 1779413605.9989433,
+    "ast_hash": "b620867d2547381a17f8e3294d82ad10",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\CombatAnalyticsServiceContext.tsx": {
+    "mtime": 1779534445.8736336,
+    "ast_hash": "ce510df486b4382155c1b342f25810c5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\ControlsScreenServiceProvider.tsx": {
+    "mtime": 1779408824.526016,
+    "ast_hash": "86fa3356ce30cf3aaced46c1b11c86bc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\DamageCalculatorContext.tsx": {
+    "mtime": 1779419097.8152711,
+    "ast_hash": "fd49fa84a26a15207edf8fe7b1da4699",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\HeroServiceContext.tsx": {
+    "mtime": 1779319522.6699238,
+    "ast_hash": "e97aaeacae68b53aea0fd1f1eff5fa2c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\index.ts": {
+    "mtime": 1779419119.0286918,
+    "ast_hash": "bf7fbb73c4e45b2576740f22cd7b2599",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\KeybindContext.tsx": {
+    "mtime": 1779323407.023112,
+    "ast_hash": "c02062ccc25eec2009866b40cd8324d7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\MetagameServiceContext.tsx": {
+    "mtime": 1779319532.8956172,
+    "ast_hash": "f26afb1587d03bf362ca85767cb39460",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\OCRContext.tsx": {
+    "mtime": 1779320603.393377,
+    "ast_hash": "b52d91d13f349f060c4c7d04c9a1e699",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\ScreenDetectionContext.tsx": {
+    "mtime": 1779327507.973315,
+    "ast_hash": "03a4c5020d7bb1126d2eac59f4e36707",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\ServiceProvider.tsx": {
+    "mtime": 1779419318.9221606,
+    "ast_hash": "bca8d59fdb0d7aeee8c976e6eb6262c7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\TickerContext.tsx": {
+    "mtime": 1779332707.7707238,
+    "ast_hash": "e61963a5d867fd599a42aaaafbfa6360",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\context\\WindowServiceContext.tsx": {
+    "mtime": 1779361342.6030684,
+    "ast_hash": "fe720580bc8ced1b98dbc2287bdf53a9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\constants\\ClientProfiles.ts": {
+    "mtime": 1779413382.5791755,
+    "ast_hash": "b47b58707746cbc65c411f6915b780b8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\Artifact.ts": {
+    "mtime": 1779318948.982909,
+    "ast_hash": "038d8a904f4c29255d1a90fad76b400b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\BuildProfile.ts": {
+    "mtime": 1779330271.3272698,
+    "ast_hash": "6e549e6cec825e8d869bcfaaba80cbaf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\CacheType.ts": {
+    "mtime": 1779402578.297285,
+    "ast_hash": "7693a6647e517879e77e80b9dc44c38e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\ClientProfile.ts": {
+    "mtime": 1779411685.032575,
+    "ast_hash": "766c1a0cec9d2a77eaddf54d774632c4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\CombatAnalytics.ts": {
+    "mtime": 1779318953.0116377,
+    "ast_hash": "267a74c0bf5929a2e949ea115992a200",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\DetectionConfig.ts": {
+    "mtime": 1779331473.14091,
+    "ast_hash": "2ab082b74f01fb735f2b8a33d673a55f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\DetectionSchema.ts": {
+    "mtime": 1779320585.6860547,
+    "ast_hash": "592771c87dfe4bfb7f5fbcc8584ac143",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\Hero.ts": {
+    "mtime": 1779318946.9644842,
+    "ast_hash": "94b5a6d71c96497a2a3389d87d3f745f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\index.ts": {
+    "mtime": 1779407750.3171384,
+    "ast_hash": "37015b32b93465eabd76a84b1776041c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\KeybindSchema.ts": {
+    "mtime": 1779323346.5458975,
+    "ast_hash": "7c5317c035a158d93d8ae9ecc128d491",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\MetagameData.ts": {
+    "mtime": 1779318955.0226607,
+    "ast_hash": "ae6a02f4c3ba5da4185da8a9c20d6f22",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\models\\Window.ts": {
+    "mtime": 1779407743.1417668,
+    "ast_hash": "d7a6a1a394d39bfeb832ba3a3335cc28",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IArtifactMetadataService.ts": {
+    "mtime": 1779318976.8084712,
+    "ast_hash": "e228ec0b9b6f53c7eab811bcf8fedd71",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IBuildProfileService.ts": {
+    "mtime": 1779318978.8267539,
+    "ast_hash": "85e95482ccfc1d5251a89116bff79393",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\ICombatAnalyticsService.ts": {
+    "mtime": 1779318980.8413556,
+    "ast_hash": "e60afab80ddd9223e8115d5790ca9d66",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IDamageCalculatorService.ts": {
+    "mtime": 1779420387.7470467,
+    "ast_hash": "d7db56fc72af64dae203f49ccf86f859",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IHeroMetadataService.ts": {
+    "mtime": 1779334597.8438315,
+    "ast_hash": "f7a698f5aee4edbbc9e1e31a300385fa",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IKeybindService.ts": {
+    "mtime": 1779323353.485356,
+    "ast_hash": "40815b4cdeb5514c9612c893ba7b485b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IMetagameService.ts": {
+    "mtime": 1779318982.8601959,
+    "ast_hash": "cc91f9d27badce88156399d8822ad6d8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\index.ts": {
+    "mtime": 1779419112.264223,
+    "ast_hash": "71e24be7e79a9ca4ce5a8aa434f564b8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IOCRService.ts": {
+    "mtime": 1779320591.7252858,
+    "ast_hash": "94086484376ba93abe481071fa0d307c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IScreenDetectionService.ts": {
+    "mtime": 1779320589.7129984,
+    "ast_hash": "5d81da450b96a55a1a2387eaba5ec8d7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\ITickerService.ts": {
+    "mtime": 1779332173.5450134,
+    "ast_hash": "ea0bda2c116705e9d599b440e80accfb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\IWindowService.ts": {
+    "mtime": 1779408455.1641328,
+    "ast_hash": "67475db2930a573349c26f9c46205ec0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\domain\\services\\OCRRegistry.ts": {
+    "mtime": 1779320587.6997142,
+    "ast_hash": "556e4caea4cfd5b843c5ada4291e621a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\hooks\\useCursorEvents.ts": {
+    "mtime": 1779416459.6504757,
+    "ast_hash": "b0267ecc78584e9d2a7960eb5bf0e758",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\i18n\\index.ts": {
+    "mtime": 1779025834.3080604,
+    "ast_hash": "555c36efea2695e3677494de0cb003bc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\i18n\\locales\\en.json": {
+    "mtime": 1779107265.433602,
+    "ast_hash": "1714f37f6b6b8f0b2dd0bdf02ce2c666",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\i18n\\locales\\vi.json": {
+    "mtime": 1779107270.8032646,
+    "ast_hash": "f57fb8e110a31a4ba4ba96115ef03804",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\ClientProfileService.ts": {
+    "mtime": 1779411892.65441,
+    "ast_hash": "c8a9e1eecca67d9adb664991db696e95",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\CombatAnalyticsService.ts": {
+    "mtime": 1779402691.9390223,
+    "ast_hash": "d747a112339963a26f750427cae14f9b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\DamageCalculatorService.ts": {
+    "mtime": 1779421715.928177,
+    "ast_hash": "589913578deb3a6c2530934e3fd6596f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\index.ts": {
+    "mtime": 1779323487.917754,
+    "ast_hash": "c1a8b1b9c27efa5878da3d0315f75d94",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\KeybindService.ts": {
+    "mtime": 1779323499.6844423,
+    "ast_hash": "f330ff93ef8aafa8432efee0d64faa84",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\MetagameService.ts": {
+    "mtime": 1779402693.9488914,
+    "ast_hash": "be4010ca1ce201a22b15d810d313da90",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\OCRService.ts": {
+    "mtime": 1779414686.268687,
+    "ast_hash": "ea27b85a7a357829568c06654ba5edf8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\ScreenDetectionService.ts": {
+    "mtime": 1779326270.2420664,
+    "ast_hash": "23fb397e7880e436144a1830040d031c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\StaticArtifactService.ts": {
+    "mtime": 1779402707.0254374,
+    "ast_hash": "9762903a647e074d33e97f6fa50d282c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\StaticHeroService.ts": {
+    "mtime": 1779402705.0100734,
+    "ast_hash": "9ff667c8ad5d50fc9a8a5dc9c69fcf45",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\TickerService.ts": {
+    "mtime": 1779409604.5581367,
+    "ast_hash": "9921b440826b7b5664881f9309ab4a03",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\UserBuildProfileService.ts": {
+    "mtime": 1779702728.0578656,
+    "ast_hash": "ee44b999f725e6ca89fdaf7235d4ce3f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\infrastructure\\services\\WindowService.ts": {
+    "mtime": 1779408180.6851494,
+    "ast_hash": "d7f70eb58047ed31c91e9729a18cc980",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\buildAssist.ts": {
+    "mtime": 1779308344.9224718,
+    "ast_hash": "a5231391b08fac80469469b882b69e8e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\combatData.ts": {
+    "mtime": 1779106417.4384687,
+    "ast_hash": "9e7d4b036f2a1dea6a95286ce3db8380",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\setAssets.ts": {
+    "mtime": 1779062523.5943172,
+    "ast_hash": "7162f7c04d73cbb59d1831c7a28e8b01",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\settingsService.ts": {
+    "mtime": 1779256578.094075,
+    "ast_hash": "e492ed3459727f6c1f0eaff233dc18dd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\damageService.ts": {
+    "mtime": 1779127268.2859359,
+    "ast_hash": "d37d2cc7fc8fc0a2167615bfd0d38663",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\profileCalc.ts": {
+    "mtime": 1779129883.363279,
+    "ast_hash": "f5d48dc87550d4ecebe4182421686521",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\artifact.ts": {
+    "mtime": 1779066153.860698,
+    "ast_hash": "8274241a0efa8e1aad32250efdd6a324",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\attack-presets.ts": {
+    "mtime": 1779066153.8653698,
+    "ast_hash": "34c08a37173cc37fbea5ae84f64048c1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\forms.ts": {
+    "mtime": 1779066153.8627062,
+    "ast_hash": "24b69cf4586301a017862b84ea295651",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\hero.ts": {
+    "mtime": 1779066153.8597102,
+    "ast_hash": "c1de710192640389f234399212c2f8af",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\languages.ts": {
+    "mtime": 1779066153.8643742,
+    "ast_hash": "da758b5af329e81e12aa23d720688464",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\skill.ts": {
+    "mtime": 1779066153.8617108,
+    "ast_hash": "fd04f44eaf21c58dcf47a160512c546e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\target-presets.ts": {
+    "mtime": 1779066153.8663685,
+    "ast_hash": "94e321e2a0c300489cdb544687c900e6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\models\\target.ts": {
+    "mtime": 1779066153.860698,
+    "ast_hash": "df66051ae076f301d3d57d958ab5795b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\services\\angular_stubs.ts": {
+    "mtime": 1779066153.85807,
+    "ast_hash": "5dbf82e09d779905480f1cd753a22c80",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\services\\damage.service.ts": {
+    "mtime": 1779066731.2007604,
+    "ast_hash": "2b3eea27eacea06dbbebf47081452afa",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\services\\data.service.ts": {
+    "mtime": 1779066153.8683715,
+    "ast_hash": "07bd18bd3a238943d685e3ae10279dbc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\app\\services\\language.service.ts": {
+    "mtime": 1779066153.8693676,
+    "ast_hash": "af64a44497e641f20e9811088240a380",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\assets\\data\\artifacts.ts": {
+    "mtime": 1779066153.8763719,
+    "ast_hash": "5c68ee690c617191799f96da3fb55d96",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\assets\\data\\constants.ts": {
+    "mtime": 1779066153.8774104,
+    "ast_hash": "812f7a828dee503e2d7451f25c13c5bb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\services\\damageCalc\\original\\src\\assets\\data\\heroes.ts": {
+    "mtime": 1779066153.874436,
+    "ast_hash": "64529c7d6da63b23476a4f4a9d00d03d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\build.rs": {
+    "mtime": 1778743733.6333382,
+    "ast_hash": "667702979da61fdc96948886b7cd7a33",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\tauri.conf.json": {
+    "mtime": 1779388353.9383712,
+    "ast_hash": "a8cc87428f35a0546233befd88250b1a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\heroes.json": {
+    "mtime": 1778960204.3988955,
+    "ast_hash": "58e0494c51d30eb3494f7c9198986bb9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\ocr_zones.json": {
+    "mtime": 1779303064.7071095,
+    "ast_hash": "b69311520b49aaf77a0984e4fbf24c42",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens.json": {
+    "mtime": 1779261751.6522741,
+    "ast_hash": "3934a7a270e5ea8de6def88c90b5ac69",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens_bluestacks.json": {
+    "mtime": 1779261761.933469,
+    "ast_hash": "3934a7a270e5ea8de6def88c90b5ac69",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens_ldplayer.json": {
+    "mtime": 1779261770.997699,
+    "ast_hash": "3934a7a270e5ea8de6def88c90b5ac69",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens_mumu.json": {
+    "mtime": 1779261766.914237,
+    "ast_hash": "3934a7a270e5ea8de6def88c90b5ac69",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens_pc_client.json": {
+    "mtime": 1779261756.3198476,
+    "ast_hash": "3934a7a270e5ea8de6def88c90b5ac69",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\capabilities\\default.json": {
+    "mtime": 1778961096.897325,
+    "ast_hash": "6ed6e867d59f085436efdaa0938e148a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\gen\\schemas\\acl-manifests.json": {
+    "mtime": 1778955899.638942,
+    "ast_hash": "abb91749e51e48de2859e9695d98a4b6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\gen\\schemas\\capabilities.json": {
+    "mtime": 1778961197.9167144,
+    "ast_hash": "6304aa6f2e7cc5e83af6097cdbef40d7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\gen\\schemas\\desktop-schema.json": {
+    "mtime": 1778955899.6585786,
+    "ast_hash": "119b2f727959b7cb74e823cdf2c95aa4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\gen\\schemas\\windows-schema.json": {
+    "mtime": 1778955899.6585786,
+    "ast_hash": "119b2f727959b7cb74e823cdf2c95aa4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\src\\cache_service.rs": {
+    "mtime": 1779301174.9313762,
+    "ast_hash": "8c27ce4f51c64e414166de911731e8a0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\src\\capture.rs": {
+    "mtime": 1779412068.960366,
+    "ast_hash": "6db590ff0433cc8787c5fd773c16a8cd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\src\\lib.rs": {
+    "mtime": 1779413095.8227909,
+    "ast_hash": "79f935a8093eeccddad71fbc8fd45479",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\src\\main.rs": {
+    "mtime": 1778743733.6451087,
+    "ast_hash": "57a552e90aa8d0758c68a9cd35038498",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\src\\models.rs": {
+    "mtime": 1779411737.8156464,
+    "ast_hash": "03204e9d2713318fd0bb659f675a39ee",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\src\\detection\\hero_ocr.rs": {
+    "mtime": 1779410695.6004753,
+    "ast_hash": "ff19308843c190ef8618f3ad5f7c50f1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\src\\detection\\mod.rs": {
+    "mtime": 1779388582.1956038,
+    "ast_hash": "bae4d751b9948c88343faf3561d31aa5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\e7tracker_architecture.md": {
+    "mtime": 1779415773.0986018,
+    "ast_hash": "c0e988412ab513f762c837545894b929",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\index.html": {
+    "mtime": 1778743733.646633,
+    "ast_hash": "980adb7f3b362d9e0f299bece26cf44c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\README.md": {
+    "mtime": 1778743733.6451087,
+    "ast_hash": "070911911a8e1ac32796e78bff4a30c0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\RELEASE_NOTES.md": {
+    "mtime": 1779106089.7051985,
+    "ast_hash": "357e8525032d91b90740300cd83b2eda",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\.agents\\rules\\graphify.md": {
+    "mtime": 1779529541.8029616,
+    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\.agents\\workflows\\graphify.md": {
+    "mtime": 1779529541.8039615,
+    "ast_hash": "84de69efd46ab0b8430393bd4188f8f2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\app-icon.png": {
+    "mtime": 1779104974.2627587,
+    "ast_hash": "c8275ef3f0a19fa8ffd8ea89a3b13974",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\public\\app-icon.png": {
+    "mtime": 1779105116.700557,
+    "ast_hash": "e9141501732e06b3eb4b9b7ca79d1328",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\public\\tauri.svg": {
+    "mtime": 1778743733.6501515,
+    "ast_hash": "f0966ff85db99f2d00771f92d18c9e7f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\public\\vite.svg": {
+    "mtime": 1778743733.6501515,
+    "ast_hash": "8e3a10e157f75ada21ab742c022d5430",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\react.svg": {
+    "mtime": 1778743733.6511507,
+    "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\adamant_shield.png": {
+    "mtime": 1779063212.202688,
+    "ast_hash": "c4f289e14b9de549fbd3c7ec33d6019b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\air_to_surface_missile_misha.png": {
+    "mtime": 1779063212.202688,
+    "ast_hash": "9ca145fd5f56b1c145212d0894de71d8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\ambrote.png": {
+    "mtime": 1779063212.2036853,
+    "ast_hash": "4da7c0baaef57b1b82b02277077dcc93",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\ancient_sheath.png": {
+    "mtime": 1779063212.204684,
+    "ast_hash": "d81eafa9a7c43ede112fa0b7fa5ced92",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\an_assassins_pledge.png": {
+    "mtime": 1779063212.2036853,
+    "ast_hash": "0718fafd6b5913982d10c095b387151d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\an_offer_you_cant_refuse.png": {
+    "mtime": 1779063212.2036853,
+    "ast_hash": "2d4d977c02ca099ef4c8f3078d597fb3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\aurius.png": {
+    "mtime": 1779063212.204684,
+    "ast_hash": "09247a2e764a317fe9df9b37c404289c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\a_little_queens_crown.png": {
+    "mtime": 1779063212.2016845,
+    "ast_hash": "d6ee9edcb794a83bc7489ed424c36a5f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\a_precious_connection.png": {
+    "mtime": 1779063212.2016845,
+    "ast_hash": "4406350ffa26b4be5c36d9b74431e193",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\a_symbol_of_unity.png": {
+    "mtime": 1779063212.202688,
+    "ast_hash": "85fc9f776f732689dd3ee4e579d144b7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\black_hand_of_the_goddess.png": {
+    "mtime": 1779063212.204684,
+    "ast_hash": "99eb551fca3f26bebf7625839a7f81b4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\border_coin.png": {
+    "mtime": 1779063212.2056854,
+    "ast_hash": "4aa3e4fdc79f3acce3ecdc49608de872",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\broken_will_of_the_high_priest.png": {
+    "mtime": 1779063212.2056854,
+    "ast_hash": "143139d62c1c517bd84f2c162ae67051",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\butterfly_hair_ornament.png": {
+    "mtime": 1779063212.2056854,
+    "ast_hash": "0f238297a4b6179de470e725f3aabdad",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\cruel_mischief.png": {
+    "mtime": 1779063212.2066867,
+    "ast_hash": "0574df1bd123da38e1ad42e0362c5e3a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\dark_blood_keeper.png": {
+    "mtime": 1779063212.2066867,
+    "ast_hash": "df1dced0c18d56e9b7606a96db8bc8c6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\daydream_joker.png": {
+    "mtime": 1779063212.2066867,
+    "ast_hash": "5869fd7e704ce66aca43b198d3f51c89",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\dignus_orb.png": {
+    "mtime": 1779063212.2076857,
+    "ast_hash": "9974049cdbb0c826bdfbc7e4304e61ee",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\discreet_hands.png": {
+    "mtime": 1779063212.2076857,
+    "ast_hash": "e588622ca438b85197a3da27be026058",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\double_edged_decrescent.png": {
+    "mtime": 1779063212.2076857,
+    "ast_hash": "3bd49dd4e7068c6c34ed09aef11027f4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\draco_plate.png": {
+    "mtime": 1779063212.2086859,
+    "ast_hash": "b5a2fb0c89ce2cf4ba20dfea86faea08",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\dreamlike_holiday.png": {
+    "mtime": 1779063212.2086859,
+    "ast_hash": "5c6e1c5ccb775b9cd01a8b28183b6234",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\dux_noctis.png": {
+    "mtime": 1779063212.2086859,
+    "ast_hash": "9f84d8768401d2a56b53f765bd5b9528",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\els_fist.png": {
+    "mtime": 1779063212.2086859,
+    "ast_hash": "c996edf06ab65c9377131e85d3d5d85f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\elyha_knife.png": {
+    "mtime": 1779063212.2096848,
+    "ast_hash": "19141f5d49d3ed3270918aa365c00575",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\exorcist_tonfa.png": {
+    "mtime": 1779063212.2096848,
+    "ast_hash": "54c6e109eadca6dfd6411045f0a7c910",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\fairy_tale_for_a_nightmare.png": {
+    "mtime": 1779063212.210685,
+    "ast_hash": "477c15f6ef97791010cf93074feda0b6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\feed_of_criticism.png": {
+    "mtime": 1779063212.210685,
+    "ast_hash": "47fc802d42f4923365af04d458488249",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\frame_of_light.png": {
+    "mtime": 1779063212.211273,
+    "ast_hash": "0e5bae2c27be16ae95b03cfb15762ece",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\frantic_flight.png": {
+    "mtime": 1779063212.211273,
+    "ast_hash": "be814cadbe32fa96caec5eedab4b5699",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\fullmetals_automail.png": {
+    "mtime": 1779063212.211273,
+    "ast_hash": "543919c59e51da4775ec05733c883ed0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\golden_rose.png": {
+    "mtime": 1779063212.212287,
+    "ast_hash": "92424c21df295bb242bad793c6663874",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\hell_cutter.png": {
+    "mtime": 1779063212.212287,
+    "ast_hash": "1ba8077c78169281493791571abe429c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\hostess_of_the_banquet.png": {
+    "mtime": 1779063212.212287,
+    "ast_hash": "d424aade5ddbb4667d25e627bfd241a2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\ignition_cloth_gloves.png": {
+    "mtime": 1779063212.212287,
+    "ast_hash": "8e85828420989f3d8f4df4b98dc1a097",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\indestructible_gaiters.png": {
+    "mtime": 1779063212.213284,
+    "ast_hash": "d5ead08fe5edc0c007830b31a5fe7e15",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\iron_fan.png": {
+    "mtime": 1779063212.213284,
+    "ast_hash": "9db3f0874c637ac3bb067290bd14b252",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\jack_o_symbol.png": {
+    "mtime": 1779063212.213284,
+    "ast_hash": "3659d4389a8703859ec3ce1dc555322b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\jumbo_berry_special.png": {
+    "mtime": 1779063212.214372,
+    "ast_hash": "6a7ee7646a028e1deb47f7a5f88c91c4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\junkyard_dog.png": {
+    "mtime": 1779063212.214372,
+    "ast_hash": "eb48d04b374ff67fd32e7ae9d22b1695",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\kaladra.png": {
+    "mtime": 1779063212.214372,
+    "ast_hash": "e98c0227704357f969fbb02720cd2e15",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\last_teatime.png": {
+    "mtime": 1779063212.214372,
+    "ast_hash": "707d08023b0e3de34ade287c6fa4cba2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\master_of_the_nightmare.png": {
+    "mtime": 1779063212.2153676,
+    "ast_hash": "f1ab35c0cc5c1f4ac89d4e9a65444183",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\mature_sunglasses.png": {
+    "mtime": 1779063212.2153676,
+    "ast_hash": "bff8155865903444bbcf8f39b2df3bfd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\merciless_glutton.png": {
+    "mtime": 1779063212.2153676,
+    "ast_hash": "cbe185483b13bd896f2d95e91fbea5ab",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\moas.png": {
+    "mtime": 1779063212.2163644,
+    "ast_hash": "b7d105d7d8843106a66e696200433167",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\noble_oath.png": {
+    "mtime": 1779063212.2163644,
+    "ast_hash": "20e8c2c812183f368b71592b5080712f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\noProc.png": {
+    "mtime": 1779063212.2163644,
+    "ast_hash": "841c6edaa131dcbb236afb170fb399a9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\otherworldly_machinery.png": {
+    "mtime": 1779063212.2173638,
+    "ast_hash": "cb0a0852f15300d6363add210361e095",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\our_beautiful_seasons.png": {
+    "mtime": 1779063212.2173638,
+    "ast_hash": "c49c0ede5c593d9e91d49df2bb4ff41b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\pipette_lance.png": {
+    "mtime": 1779063212.218366,
+    "ast_hash": "a362435df34aba557538349896bf345b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\portrait_of_the_saviors.png": {
+    "mtime": 1779063212.218366,
+    "ast_hash": "37b8c444711e841145028efcd7a4ad0c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\prayer_of_solitude.png": {
+    "mtime": 1779063212.218366,
+    "ast_hash": "74e0914bfe6f5c6615bf6c27f14ffe67",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\prelude_to_a_new_era.png": {
+    "mtime": 1779063212.2193644,
+    "ast_hash": "9ba9d542bf84aa92813c81e6561c4615",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\proof_of_friendship.png": {
+    "mtime": 1779063212.2193644,
+    "ast_hash": "170af4a292bf28a5945a53e136bba558",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\proof_of_valor.png": {
+    "mtime": 1779063212.2193644,
+    "ast_hash": "fb0e4c3a2fe67a9a64acbc43871084ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\pure_white_trust.png": {
+    "mtime": 1779063212.2203648,
+    "ast_hash": "060e6234c113f3048508e5fbaa0b9310",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\p_o_s.png": {
+    "mtime": 1779063212.2173638,
+    "ast_hash": "d9b3662e66dbecf9b5885ea5af0dc09c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\radiant_forever.png": {
+    "mtime": 1779063212.2203648,
+    "ast_hash": "a6e1909dde89296a1c6e5b73d54d11aa",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\reingar_special_drink.png": {
+    "mtime": 1779063212.2203648,
+    "ast_hash": "a8aed640886a8ae45789bfe618bb47c1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\renewed_will.png": {
+    "mtime": 1779063212.2213683,
+    "ast_hash": "3a19611de3bb0998960d930454969d2e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\ritual_of_sealing_flames.png": {
+    "mtime": 1779063212.2213683,
+    "ast_hash": "1b4ba988ae4107c7cea6abb2eb5d6e4f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\rocket_punch_gauntlet.png": {
+    "mtime": 1779063212.2213683,
+    "ast_hash": "89ef6a47188866e71c26e61d5bd0844f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\samsara_prayer_beads.png": {
+    "mtime": 1779063212.2213683,
+    "ast_hash": "1f606570a9f9164f031c220d65d89db4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\scroll_of_shadows.png": {
+    "mtime": 1779063212.2223654,
+    "ast_hash": "bbad0c66e14034cdbe52a5b808719d6c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\seal_of_capture.png": {
+    "mtime": 1779063212.2223654,
+    "ast_hash": "3caaaf6ebeb3363fb198286fb63ff1fc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sepulcrum.png": {
+    "mtime": 1779063212.2233343,
+    "ast_hash": "e984adaba20867065e68b3b136f8546a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\severed_horn_wand.png": {
+    "mtime": 1779063212.2233343,
+    "ast_hash": "093ff708a1343175daa2a8593ca9d7ac",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\shadow_winds_7.png": {
+    "mtime": 1779063212.2233343,
+    "ast_hash": "67658a12ba7797677b8b730f9c3fbbdf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\shepherd_of_the_hollow.png": {
+    "mtime": 1779063212.2233343,
+    "ast_hash": "f3bf2a1218c3d7bbc750843198814c40",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sigurd_scythe.png": {
+    "mtime": 1779063212.2243357,
+    "ast_hash": "ed763a23daf3289a10031fdd227b1de1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\spear_of_a_new_dawn.png": {
+    "mtime": 1779063212.2243357,
+    "ast_hash": "47b891260ea165cf5b291ecde1328bf7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\spear_of_purification.png": {
+    "mtime": 1779063212.2243357,
+    "ast_hash": "02e685597ea8bcc7802dadbb8a38e250",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\special_strawberry_cake.png": {
+    "mtime": 1779063212.2253385,
+    "ast_hash": "cf7eca7edfa9c8a4ce61cdd7476baade",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sphere_of_sadism.png": {
+    "mtime": 1779063212.2253385,
+    "ast_hash": "5db620955d9767e6277db44c424314bf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\star_of_the_deep_sea.png": {
+    "mtime": 1779063212.2253385,
+    "ast_hash": "d60c4f1a54fcbff1199d1d0245263864",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\summer_photogenic.png": {
+    "mtime": 1779063212.2253385,
+    "ast_hash": "50673dda17aed264b216ba3f07103cde",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sweet_miracle.png": {
+    "mtime": 1779063212.2263877,
+    "ast_hash": "2cc1e0355ec2c221efa6e901a7ba9c62",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sword_of_autumn_eclipse.png": {
+    "mtime": 1779063212.226916,
+    "ast_hash": "ce2b01c9b22214dcd15eb155d8db3e6c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sword_of_cycling_seasons.png": {
+    "mtime": 1779063212.226916,
+    "ast_hash": "8007d8bef1a26ba19c63f7dcc529703a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sword_of_summer_twilight.png": {
+    "mtime": 1779063212.2274454,
+    "ast_hash": "ffde12ffc909bfa26a7fa6136b079972",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sword_of_the_morning.png": {
+    "mtime": 1779063212.2274454,
+    "ast_hash": "ac63d1b91cef5812473ff2ba43121166",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\sword_of_winter_shadow.png": {
+    "mtime": 1779063212.2274454,
+    "ast_hash": "d0247a462a119cafaca3bfceeedc7fd3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\tear_of_the_desert.png": {
+    "mtime": 1779063212.2274454,
+    "ast_hash": "b94f6a81a997890e16cfc3a4e6a78614",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\thorn_of_the_blue_rose.png": {
+    "mtime": 1779063212.2284386,
+    "ast_hash": "93773b0c73d8691e9f381f1da341006b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\three_f.png": {
+    "mtime": 1779063212.2284386,
+    "ast_hash": "89ad4efefe433f98f6644709a581af80",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\time_matter.png": {
+    "mtime": 1779063212.2284386,
+    "ast_hash": "ee1dbec084dbc0b8acf47da414b0fda8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\tome_of_lifes_end.png": {
+    "mtime": 1779063212.229438,
+    "ast_hash": "08a279fabdbffe49aa65b8f3f1da8727",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\torn_sleeve.png": {
+    "mtime": 1779063212.229438,
+    "ast_hash": "b5e69196dee725ed7b24f3e93b6e9866",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\tyrants_descent.png": {
+    "mtime": 1779063212.229438,
+    "ast_hash": "473d3500289950ba57dd5e819a45783c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\uberius_tooth.png": {
+    "mtime": 1779063212.230441,
+    "ast_hash": "6ed07706b031eefb8c5b3a9723efdc8a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\victorious_flag.png": {
+    "mtime": 1779063212.230441,
+    "ast_hash": "6565989b4cd29353bea8ef62bb439879",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\violet_talisman.png": {
+    "mtime": 1779063212.2314663,
+    "ast_hash": "9e68be1d02b6f47212a8034c493ccc85",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\wind_rider.png": {
+    "mtime": 1779063212.2314663,
+    "ast_hash": "8db9f0ccaf37e4939dca50cad1b62090",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\wings_of_light_and_shadow.png": {
+    "mtime": 1779063212.2314663,
+    "ast_hash": "e3d6d77d21c73db9caba42c9d8e2b227",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\with_a_little_friend.png": {
+    "mtime": 1779063212.2314663,
+    "ast_hash": "37f668765baee53e06555b6d22714027",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\xiii_death.png": {
+    "mtime": 1779063212.2324667,
+    "ast_hash": "ac534bdc27274bf51b56e5ae4d45b96a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\adamant_shield.png": {
+    "mtime": 1779063211.425409,
+    "ast_hash": "c4f289e14b9de549fbd3c7ec33d6019b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\air_to_surface_missile_misha.png": {
+    "mtime": 1779063211.425409,
+    "ast_hash": "9ca145fd5f56b1c145212d0894de71d8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\ambrote.png": {
+    "mtime": 1779063211.425409,
+    "ast_hash": "4da7c0baaef57b1b82b02277077dcc93",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\ancient_sheath.png": {
+    "mtime": 1779063211.4264073,
+    "ast_hash": "d81eafa9a7c43ede112fa0b7fa5ced92",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\an_assassins_pledge.png": {
+    "mtime": 1779063211.4264073,
+    "ast_hash": "0718fafd6b5913982d10c095b387151d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\an_offer_you_cant_refuse.png": {
+    "mtime": 1779063211.4264073,
+    "ast_hash": "2d4d977c02ca099ef4c8f3078d597fb3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\aurius.png": {
+    "mtime": 1779063211.4274065,
+    "ast_hash": "09247a2e764a317fe9df9b37c404289c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\a_little_queens_crown.png": {
+    "mtime": 1779063211.4244087,
+    "ast_hash": "d6ee9edcb794a83bc7489ed424c36a5f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\a_precious_connection.png": {
+    "mtime": 1779063211.4245026,
+    "ast_hash": "4406350ffa26b4be5c36d9b74431e193",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\a_symbol_of_unity.png": {
+    "mtime": 1779063211.4245026,
+    "ast_hash": "85fc9f776f732689dd3ee4e579d144b7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\black_hand_of_the_goddess.png": {
+    "mtime": 1779063211.4274065,
+    "ast_hash": "99eb551fca3f26bebf7625839a7f81b4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\border_coin.png": {
+    "mtime": 1779063211.4274065,
+    "ast_hash": "4aa3e4fdc79f3acce3ecdc49608de872",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\broken_will_of_the_high_priest.png": {
+    "mtime": 1779063211.4274065,
+    "ast_hash": "143139d62c1c517bd84f2c162ae67051",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\butterfly_hair_ornament.png": {
+    "mtime": 1779063211.4284074,
+    "ast_hash": "0f238297a4b6179de470e725f3aabdad",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\cruel_mischief.png": {
+    "mtime": 1779063211.4284074,
+    "ast_hash": "0574df1bd123da38e1ad42e0362c5e3a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\dark_blood_keeper.png": {
+    "mtime": 1779063211.4284074,
+    "ast_hash": "df1dced0c18d56e9b7606a96db8bc8c6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\daydream_joker.png": {
+    "mtime": 1779063211.4284074,
+    "ast_hash": "5869fd7e704ce66aca43b198d3f51c89",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\dignus_orb.png": {
+    "mtime": 1779063211.4294086,
+    "ast_hash": "9974049cdbb0c826bdfbc7e4304e61ee",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\discreet_hands.png": {
+    "mtime": 1779063211.4294086,
+    "ast_hash": "e588622ca438b85197a3da27be026058",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\double_edged_decrescent.png": {
+    "mtime": 1779063211.4304073,
+    "ast_hash": "3bd49dd4e7068c6c34ed09aef11027f4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\draco_plate.png": {
+    "mtime": 1779063211.4304073,
+    "ast_hash": "b5a2fb0c89ce2cf4ba20dfea86faea08",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\dreamlike_holiday.png": {
+    "mtime": 1779063211.4304073,
+    "ast_hash": "5c6e1c5ccb775b9cd01a8b28183b6234",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\dux_noctis.png": {
+    "mtime": 1779063211.4304073,
+    "ast_hash": "9f84d8768401d2a56b53f765bd5b9528",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\els_fist.png": {
+    "mtime": 1779063211.4314065,
+    "ast_hash": "c996edf06ab65c9377131e85d3d5d85f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\elyha_knife.png": {
+    "mtime": 1779063211.4314065,
+    "ast_hash": "19141f5d49d3ed3270918aa365c00575",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\exorcist_tonfa.png": {
+    "mtime": 1779063211.4314065,
+    "ast_hash": "54c6e109eadca6dfd6411045f0a7c910",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\fairy_tale_for_a_nightmare.png": {
+    "mtime": 1779063211.4324076,
+    "ast_hash": "477c15f6ef97791010cf93074feda0b6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\feed_of_criticism.png": {
+    "mtime": 1779063211.4324076,
+    "ast_hash": "47fc802d42f4923365af04d458488249",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\frame_of_light.png": {
+    "mtime": 1779063211.4324076,
+    "ast_hash": "0e5bae2c27be16ae95b03cfb15762ece",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\frantic_flight.png": {
+    "mtime": 1779063211.4334078,
+    "ast_hash": "be814cadbe32fa96caec5eedab4b5699",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\fullmetals_automail.png": {
+    "mtime": 1779063211.4334078,
+    "ast_hash": "543919c59e51da4775ec05733c883ed0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\golden_rose.png": {
+    "mtime": 1779063211.4334078,
+    "ast_hash": "92424c21df295bb242bad793c6663874",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\hell_cutter.png": {
+    "mtime": 1779063211.4344118,
+    "ast_hash": "1ba8077c78169281493791571abe429c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\hostess_of_the_banquet.png": {
+    "mtime": 1779063211.4344118,
+    "ast_hash": "d424aade5ddbb4667d25e627bfd241a2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\ignition_cloth_gloves.png": {
+    "mtime": 1779063211.4344118,
+    "ast_hash": "8e85828420989f3d8f4df4b98dc1a097",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\indestructible_gaiters.png": {
+    "mtime": 1779063211.4354074,
+    "ast_hash": "d5ead08fe5edc0c007830b31a5fe7e15",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\iron_fan.png": {
+    "mtime": 1779063211.4354074,
+    "ast_hash": "9db3f0874c637ac3bb067290bd14b252",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\jack_o_symbol.png": {
+    "mtime": 1779063211.4354074,
+    "ast_hash": "3659d4389a8703859ec3ce1dc555322b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\jumbo_berry_special.png": {
+    "mtime": 1779063211.436407,
+    "ast_hash": "6a7ee7646a028e1deb47f7a5f88c91c4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\junkyard_dog.png": {
+    "mtime": 1779063211.436407,
+    "ast_hash": "eb48d04b374ff67fd32e7ae9d22b1695",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\kaladra.png": {
+    "mtime": 1779063211.436407,
+    "ast_hash": "e98c0227704357f969fbb02720cd2e15",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\last_teatime.png": {
+    "mtime": 1779063211.4374106,
+    "ast_hash": "707d08023b0e3de34ade287c6fa4cba2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\master_of_the_nightmare.png": {
+    "mtime": 1779063211.4374106,
+    "ast_hash": "f1ab35c0cc5c1f4ac89d4e9a65444183",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\mature_sunglasses.png": {
+    "mtime": 1779063211.4374106,
+    "ast_hash": "bff8155865903444bbcf8f39b2df3bfd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\merciless_glutton.png": {
+    "mtime": 1779063211.4384096,
+    "ast_hash": "cbe185483b13bd896f2d95e91fbea5ab",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\moas.png": {
+    "mtime": 1779063211.4384096,
+    "ast_hash": "b7d105d7d8843106a66e696200433167",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\noble_oath.png": {
+    "mtime": 1779063211.4394078,
+    "ast_hash": "20e8c2c812183f368b71592b5080712f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\noProc.png": {
+    "mtime": 1779063211.4394078,
+    "ast_hash": "841c6edaa131dcbb236afb170fb399a9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\otherworldly_machinery.png": {
+    "mtime": 1779063211.4394078,
+    "ast_hash": "cb0a0852f15300d6363add210361e095",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\our_beautiful_seasons.png": {
+    "mtime": 1779063211.440407,
+    "ast_hash": "c49c0ede5c593d9e91d49df2bb4ff41b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\pipette_lance.png": {
+    "mtime": 1779063211.440407,
+    "ast_hash": "a362435df34aba557538349896bf345b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\portrait_of_the_saviors.png": {
+    "mtime": 1779063211.4414074,
+    "ast_hash": "37b8c444711e841145028efcd7a4ad0c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\prayer_of_solitude.png": {
+    "mtime": 1779063211.4414074,
+    "ast_hash": "74e0914bfe6f5c6615bf6c27f14ffe67",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\prelude_to_a_new_era.png": {
+    "mtime": 1779063211.44241,
+    "ast_hash": "9ba9d542bf84aa92813c81e6561c4615",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\proof_of_friendship.png": {
+    "mtime": 1779063211.44241,
+    "ast_hash": "170af4a292bf28a5945a53e136bba558",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\proof_of_valor.png": {
+    "mtime": 1779063211.44241,
+    "ast_hash": "fb0e4c3a2fe67a9a64acbc43871084ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\pure_white_trust.png": {
+    "mtime": 1779063211.4434123,
+    "ast_hash": "060e6234c113f3048508e5fbaa0b9310",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\p_o_s.png": {
+    "mtime": 1779063211.440407,
+    "ast_hash": "d9b3662e66dbecf9b5885ea5af0dc09c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\radiant_forever.png": {
+    "mtime": 1779063211.4434123,
+    "ast_hash": "a6e1909dde89296a1c6e5b73d54d11aa",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\reingar_special_drink.png": {
+    "mtime": 1779063211.4434123,
+    "ast_hash": "a8aed640886a8ae45789bfe618bb47c1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\renewed_will.png": {
+    "mtime": 1779063211.4434123,
+    "ast_hash": "3a19611de3bb0998960d930454969d2e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\ritual_of_sealing_flames.png": {
+    "mtime": 1779063211.4444087,
+    "ast_hash": "1b4ba988ae4107c7cea6abb2eb5d6e4f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\rocket_punch_gauntlet.png": {
+    "mtime": 1779063211.4444087,
+    "ast_hash": "89ef6a47188866e71c26e61d5bd0844f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\samsara_prayer_beads.png": {
+    "mtime": 1779063211.4444087,
+    "ast_hash": "1f606570a9f9164f031c220d65d89db4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\scroll_of_shadows.png": {
+    "mtime": 1779063211.4454064,
+    "ast_hash": "bbad0c66e14034cdbe52a5b808719d6c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\seal_of_capture.png": {
+    "mtime": 1779063211.4454064,
+    "ast_hash": "3caaaf6ebeb3363fb198286fb63ff1fc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sepulcrum.png": {
+    "mtime": 1779063211.4454064,
+    "ast_hash": "e984adaba20867065e68b3b136f8546a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\severed_horn_wand.png": {
+    "mtime": 1779063211.4454064,
+    "ast_hash": "093ff708a1343175daa2a8593ca9d7ac",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\shadow_winds_7.png": {
+    "mtime": 1779063211.446406,
+    "ast_hash": "67658a12ba7797677b8b730f9c3fbbdf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\shepherd_of_the_hollow.png": {
+    "mtime": 1779063211.446406,
+    "ast_hash": "f3bf2a1218c3d7bbc750843198814c40",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sigurd_scythe.png": {
+    "mtime": 1779063211.446406,
+    "ast_hash": "ed763a23daf3289a10031fdd227b1de1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\spear_of_a_new_dawn.png": {
+    "mtime": 1779063211.4474056,
+    "ast_hash": "47b891260ea165cf5b291ecde1328bf7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\spear_of_purification.png": {
+    "mtime": 1779063211.4474056,
+    "ast_hash": "02e685597ea8bcc7802dadbb8a38e250",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\special_strawberry_cake.png": {
+    "mtime": 1779063211.4474056,
+    "ast_hash": "cf7eca7edfa9c8a4ce61cdd7476baade",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sphere_of_sadism.png": {
+    "mtime": 1779063211.4484074,
+    "ast_hash": "5db620955d9767e6277db44c424314bf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\star_of_the_deep_sea.png": {
+    "mtime": 1779063211.4484074,
+    "ast_hash": "d60c4f1a54fcbff1199d1d0245263864",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\summer_photogenic.png": {
+    "mtime": 1779063211.4484074,
+    "ast_hash": "50673dda17aed264b216ba3f07103cde",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sweet_miracle.png": {
+    "mtime": 1779063211.4494073,
+    "ast_hash": "2cc1e0355ec2c221efa6e901a7ba9c62",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sword_of_autumn_eclipse.png": {
+    "mtime": 1779063211.4494073,
+    "ast_hash": "ce2b01c9b22214dcd15eb155d8db3e6c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sword_of_cycling_seasons.png": {
+    "mtime": 1779063211.4494073,
+    "ast_hash": "8007d8bef1a26ba19c63f7dcc529703a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sword_of_summer_twilight.png": {
+    "mtime": 1779063211.4494073,
+    "ast_hash": "ffde12ffc909bfa26a7fa6136b079972",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sword_of_the_morning.png": {
+    "mtime": 1779063211.4504075,
+    "ast_hash": "ac63d1b91cef5812473ff2ba43121166",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\sword_of_winter_shadow.png": {
+    "mtime": 1779063211.4504075,
+    "ast_hash": "d0247a462a119cafaca3bfceeedc7fd3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\tear_of_the_desert.png": {
+    "mtime": 1779063211.4504075,
+    "ast_hash": "b94f6a81a997890e16cfc3a4e6a78614",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\thorn_of_the_blue_rose.png": {
+    "mtime": 1779063211.4514062,
+    "ast_hash": "93773b0c73d8691e9f381f1da341006b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\three_f.png": {
+    "mtime": 1779063211.4514062,
+    "ast_hash": "89ad4efefe433f98f6644709a581af80",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\time_matter.png": {
+    "mtime": 1779063211.4514062,
+    "ast_hash": "ee1dbec084dbc0b8acf47da414b0fda8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\tome_of_lifes_end.png": {
+    "mtime": 1779063211.4524071,
+    "ast_hash": "08a279fabdbffe49aa65b8f3f1da8727",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\torn_sleeve.png": {
+    "mtime": 1779063211.4524071,
+    "ast_hash": "b5e69196dee725ed7b24f3e93b6e9866",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\tyrants_descent.png": {
+    "mtime": 1779063211.453408,
+    "ast_hash": "473d3500289950ba57dd5e819a45783c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\uberius_tooth.png": {
+    "mtime": 1779063211.453408,
+    "ast_hash": "6ed07706b031eefb8c5b3a9723efdc8a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\victorious_flag.png": {
+    "mtime": 1779063211.453408,
+    "ast_hash": "6565989b4cd29353bea8ef62bb439879",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\violet_talisman.png": {
+    "mtime": 1779063211.4544077,
+    "ast_hash": "9e68be1d02b6f47212a8034c493ccc85",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\wind_rider.png": {
+    "mtime": 1779063211.4544077,
+    "ast_hash": "8db9f0ccaf37e4939dca50cad1b62090",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\wings_of_light_and_shadow.png": {
+    "mtime": 1779063211.4554071,
+    "ast_hash": "e3d6d77d21c73db9caba42c9d8e2b227",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\with_a_little_friend.png": {
+    "mtime": 1779063211.4554071,
+    "ast_hash": "37f668765baee53e06555b6d22714027",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\artifacts\\artifacts\\xiii_death.png": {
+    "mtime": 1779063211.4554071,
+    "ast_hash": "ac534bdc27274bf51b56e5ae4d45b96a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\abundance-buff.png": {
+    "mtime": 1779063211.4554071,
+    "ast_hash": "75543dd8025c46246cc78df923020096",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\archdemons-might-buff.png": {
+    "mtime": 1779063211.4568677,
+    "ast_hash": "9e347698db122cf7fe4a4494b43195b7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\attack-buff.png": {
+    "mtime": 1779063211.4568677,
+    "ast_hash": "8216219a19b209324d03bea677460455",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\barrier-buff.png": {
+    "mtime": 1779063211.4568677,
+    "ast_hash": "04b2a30e96e686d5c515567e5c792448",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\blood-aura-buff.png": {
+    "mtime": 1779063211.4578626,
+    "ast_hash": "737bf6ce3147fefb309b89daf321c3a7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\bzzt-buff.png": {
+    "mtime": 1779063211.4578626,
+    "ast_hash": "7245187697b9c3a5a526c9d07ac89c31",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\cascade-buff.png": {
+    "mtime": 1779063211.4578626,
+    "ast_hash": "f727089ede1627d8eeedcf56e99aa84c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\challenge-buff.png": {
+    "mtime": 1779063211.4578626,
+    "ast_hash": "05fed453d18f2d8abdebbdb8ce245add",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\critical-hit-damage-buff.png": {
+    "mtime": 1779063211.458863,
+    "ast_hash": "0d7ff4c6425d21cb0f312a2f9649a079",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\defense-buff.png": {
+    "mtime": 1779063211.458863,
+    "ast_hash": "3359880ff4f1a595162ff5435ff2d443",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\demon_blade_unleashed-buff.png": {
+    "mtime": 1779063211.458863,
+    "ast_hash": "cf7ed06dfb6f2a6307bd49cb98588c36",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\dual-attack-buff.png": {
+    "mtime": 1779063211.458863,
+    "ast_hash": "7d171d74aec9694febdd6819ce00b4cb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\escort-buff.png": {
+    "mtime": 1779063211.458863,
+    "ast_hash": "b50297b89ef9fcd27196f82cb89404ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\explosives-buff.png": {
+    "mtime": 1779063211.459862,
+    "ast_hash": "4b77a51c14834e6d5716bf91d3528a16",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\flame-alchemist-buff.png": {
+    "mtime": 1779063211.459862,
+    "ast_hash": "909e74495041e87ef946b154e0e353ef",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\god-of-battle-buff.png": {
+    "mtime": 1779063211.459862,
+    "ast_hash": "9d2d9cb418481c8e128843de8d12e7da",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\greater-attack-buff.png": {
+    "mtime": 1779063211.4608626,
+    "ast_hash": "b2564f957ba81ce3c5900a1c77d5c91f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\immense-power-buff.png": {
+    "mtime": 1779063211.4614873,
+    "ast_hash": "8e4e004fc567e614a8292c4aa38f247e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\invincible-buff.png": {
+    "mtime": 1779063211.4614873,
+    "ast_hash": "881ebc7038ca2b9447dc382e8bd5c120",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\lingering-fragrance-buff.png": {
+    "mtime": 1779063211.4614873,
+    "ast_hash": "d312556361347692f82a57167a07638b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\multilayer-barrier-buff.png": {
+    "mtime": 1779063211.4614873,
+    "ast_hash": "48abd2185bab19b97844dbc6b7f02269",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\neo-phantom-sword-buff.png": {
+    "mtime": 1779063211.4624858,
+    "ast_hash": "23d1c2dfb81f4081c5942eb2bc665e04",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\oath-of-punishment.png": {
+    "mtime": 1779063211.4624858,
+    "ast_hash": "c2788c6cb2ad5d8e1a5f42ae538b6b71",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\offering-buff.png": {
+    "mtime": 1779063211.4624858,
+    "ast_hash": "4caec34bdb2f64d0b19fc95a8d6cb394",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\overload-buff.png": {
+    "mtime": 1779063211.4624858,
+    "ast_hash": "65725d051aa001b9f7138d3867d21c64",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\perception-buff.png": {
+    "mtime": 1779063211.463487,
+    "ast_hash": "6028a829a41e191c7839512db8ccbc9b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\possession-buff.png": {
+    "mtime": 1779063211.463487,
+    "ast_hash": "48c7db082be6d58ca0c4dc1ac0db2f32",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\promotion-buff.png": {
+    "mtime": 1779063211.464144,
+    "ast_hash": "b7a774ee56169c34cede2464aa8a32bb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\rage-buff.png": {
+    "mtime": 1779063211.464144,
+    "ast_hash": "6c28ed8ffbebd9a0d16cd5216fed605f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\rampage-buff.png": {
+    "mtime": 1779063211.464144,
+    "ast_hash": "5cf7697b774462ec23c2d49cb928d8ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\special-friendship-buff.png": {
+    "mtime": 1779063211.4650981,
+    "ast_hash": "fc928a996197e674060b08a38f132433",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\speed-buff.png": {
+    "mtime": 1779063211.4650981,
+    "ast_hash": "e302b4cb13d1310e2643a0479b757ecd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\stars-blessing-buff.png": {
+    "mtime": 1779063211.4650981,
+    "ast_hash": "ecbcc8987743f8226fda88f6cf7a3fda",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\stealth-buff.png": {
+    "mtime": 1779063211.4661005,
+    "ast_hash": "8cbdfa2254d6bc3f5d80b47fc3dd0917",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\superhumanization-buff.png": {
+    "mtime": 1779063211.4661005,
+    "ast_hash": "ae2223915ffc5f83b6163c72f00ba7ac",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\vigor-buff.png": {
+    "mtime": 1779063211.4661005,
+    "ast_hash": "f83bd4f2f56988491f3025e0afe77dfa",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\buffs\\war-god-buff.png": {
+    "mtime": 1779063211.4661005,
+    "ast_hash": "360015b5fe837a78b55d6f27b894e651",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\attack-debuff.png": {
+    "mtime": 1779063211.4735258,
+    "ast_hash": "7acf2293f8920f7acded1210bc68d723",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\bleed-debuff.png": {
+    "mtime": 1779063211.4735258,
+    "ast_hash": "2b2f7e22407be7472a2774e8fd17758c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\bomb-debuff.png": {
+    "mtime": 1779063211.4745271,
+    "ast_hash": "1242d833efc55e2fc695517048baac54",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\burn-debuff.png": {
+    "mtime": 1779063211.4745271,
+    "ast_hash": "6cfa5e4b18a3d209dbe05682a517063f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\collapse-debuff.png": {
+    "mtime": 1779063211.4745271,
+    "ast_hash": "ab913eeacbc7e896d7d2094dcd5e0743",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\defense-debuff.png": {
+    "mtime": 1779063211.4745271,
+    "ast_hash": "f43d4d765b5877096a08c01b98238e37",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\energy-depletion-debuff.png": {
+    "mtime": 1779063211.4755278,
+    "ast_hash": "99b4e756f16a2d460914fd4f58aa2bf7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\fracture-debuff.png": {
+    "mtime": 1779063211.4755278,
+    "ast_hash": "944bedb31aa7edde6b07769afad6a68b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\laceration-debuff.png": {
+    "mtime": 1779063211.4755278,
+    "ast_hash": "407d8e26e51121f9bc7dc7f60ad33e91",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\nail-debuff.png": {
+    "mtime": 1779063211.4755278,
+    "ast_hash": "5867c30e41cae8adbc0e0db53200e1d6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\pilfer-debuff.png": {
+    "mtime": 1779063211.4765253,
+    "ast_hash": "0355dd9e32bf31bc3e62e2f2cd1b5e15",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\provoke-debuff.png": {
+    "mtime": 1779063211.477078,
+    "ast_hash": "b781389a1a46061d3344f326283cbce8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\restrict-debuff.png": {
+    "mtime": 1779063211.477078,
+    "ast_hash": "69ff85f52328eb36d2ae0677505d6e41",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\rupture-debuff.png": {
+    "mtime": 1779063211.477078,
+    "ast_hash": "b0a36399a11cbd95751c176925efacbf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\silence-debuff.png": {
+    "mtime": 1779063211.477078,
+    "ast_hash": "54870aefbc095c386aadf15dec945bc0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\sleep-debuff.png": {
+    "mtime": 1779063211.4780726,
+    "ast_hash": "cda4377e1642b87dcde64dfebc7b8481",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\speed-debuff.png": {
+    "mtime": 1779063211.4780726,
+    "ast_hash": "d1f1dacc5575ec3888ef4d9c451f4990",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\stigma-debuff.png": {
+    "mtime": 1779063211.4780726,
+    "ast_hash": "0f2da3bce2c351bae600b8376346f83c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\stun-debuff.png": {
+    "mtime": 1779063211.4780726,
+    "ast_hash": "f3dbe3b5963c27949e2aac73e5b3a470",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\target-debuff.png": {
+    "mtime": 1779063211.4790723,
+    "ast_hash": "6144da62615830fdc4923960f91b62b5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\debuffs\\trauma-debuff.png": {
+    "mtime": 1779063211.4790723,
+    "ast_hash": "1b18dd53de31b791cab7c83804e5dbdc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\elements\\dark.png": {
+    "mtime": 1779063211.4800746,
+    "ast_hash": "75c4689b54e4519cff9e5415f3def5a8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\elements\\earth.png": {
+    "mtime": 1779063211.4800746,
+    "ast_hash": "5df4fad434f6c15c2d3d2e87f6babbf7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\elements\\fire.png": {
+    "mtime": 1779063211.4800746,
+    "ast_hash": "d6e73b59781c763f17710a7fd4f04899",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\elements\\ice.png": {
+    "mtime": 1779063211.4810739,
+    "ast_hash": "66da4cc3ea51c0434462c1b9f0b2a39c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\elements\\light.png": {
+    "mtime": 1779063211.4810739,
+    "ast_hash": "8fe1eb4f5eb76db662b0545281d6a3c8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\abigail-icon.png": {
+    "mtime": 1779063211.482132,
+    "ast_hash": "bedc6d5966ca7a97fc018d2183cc3a7f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\abyssal_yufine-icon.png": {
+    "mtime": 1779063211.482132,
+    "ast_hash": "1fc22ede4f16f41f1bf0994127b7990e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\achates-icon.png": {
+    "mtime": 1779063211.4831305,
+    "ast_hash": "f6c4106093a77243e214424c9cae97c3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\adin-icon.png": {
+    "mtime": 1779063211.4831305,
+    "ast_hash": "c9ab0ef5d61e41d4a21ac5990738ab46",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\adlay-icon.png": {
+    "mtime": 1779063211.4831305,
+    "ast_hash": "3ceffa0f929e7642b2e2fa4875cfd9a1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\adventurer_ras-icon.png": {
+    "mtime": 1779063211.48413,
+    "ast_hash": "d8bb8b0ceea7b7a1be1ed550d47d9e06",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ae_giselle-icon.png": {
+    "mtime": 1779063211.48413,
+    "ast_hash": "62ba76e3d6e2a7749b315d3016e15b32",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ae_karina-icon.png": {
+    "mtime": 1779063211.48413,
+    "ast_hash": "7ef4d8866d7b893f5a462211b494023f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ae_ningning-icon.png": {
+    "mtime": 1779063211.48413,
+    "ast_hash": "332ba69b1ba5f19b241c46f4777034cb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ae_winter-icon.png": {
+    "mtime": 1779063211.4851298,
+    "ast_hash": "79213302cf8a8cb25b6a386653b44fd5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\afternoon_soak_flan-icon.png": {
+    "mtime": 1779063211.4851298,
+    "ast_hash": "c3bf19659e761f88ad50efcd4b030e14",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ainos-icon.png": {
+    "mtime": 1779063211.4851298,
+    "ast_hash": "00cf10b9604e8a46ff012ca68b5f2ea5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ainos_2_0-icon.png": {
+    "mtime": 1779063211.4861312,
+    "ast_hash": "639d56be25e1a572f52b68c6efe98252",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ains-icon.png": {
+    "mtime": 1779063211.4861312,
+    "ast_hash": "7dd83e906feed98951532362f0b9de7c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ainz_ooal_gown-icon.png": {
+    "mtime": 1779063211.4861312,
+    "ast_hash": "b9ba5e20ac5b8eabb5afdaabadf397bd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\aither-icon.png": {
+    "mtime": 1779063211.4861312,
+    "ast_hash": "82eea5bd1536e059dbaf8f6de4be2e9b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\aki-icon.png": {
+    "mtime": 1779063211.4871297,
+    "ast_hash": "32117f7d93e95fced62d3ee6877b6119",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\albedo-icon.png": {
+    "mtime": 1779063211.4871297,
+    "ast_hash": "db352d4ca9cc9150300a654779a0f9db",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\alencia-icon.png": {
+    "mtime": 1779063211.4871297,
+    "ast_hash": "373570674c7c2977794ef1c5b3572129",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\alexa-icon.png": {
+    "mtime": 1779063211.4881284,
+    "ast_hash": "20cd3c9bdb1dde8cae947854c903766e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\all_rounder_wanda-icon.png": {
+    "mtime": 1779063211.4881284,
+    "ast_hash": "4f0d4da0d06b781977cb74ea8a61f523",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ambitious_tywin-icon.png": {
+    "mtime": 1779063211.4881284,
+    "ast_hash": "4ece4088965ac4e7893e52748e355c80",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\amid-icon.png": {
+    "mtime": 1779063211.4891286,
+    "ast_hash": "dc88bbe553962cf387e532d487095a59",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\amiki-icon.png": {
+    "mtime": 1779063211.4891286,
+    "ast_hash": "0c96047ff250e615a389998d4f370359",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\angelica-icon.png": {
+    "mtime": 1779063211.4901297,
+    "ast_hash": "e88e37bef671be419828dfecca862d50",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\angelic_montmorancy-icon.png": {
+    "mtime": 1779063211.4891286,
+    "ast_hash": "acaf78748fa96c7c1a6d9e5db51243b9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\angel_of_light_angelica-icon.png": {
+    "mtime": 1779063211.4891286,
+    "ast_hash": "b698e0792916397beb2cfdd9a2cfb126",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\apocalypse_ravi-icon.png": {
+    "mtime": 1779063211.4901297,
+    "ast_hash": "f5a08194d32d8e9cee493ad6fb1e291a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\aram-icon.png": {
+    "mtime": 1779063211.4901297,
+    "ast_hash": "fec5ea4d8f7180e158bafe8f9cba2c41",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\aramintha-icon.png": {
+    "mtime": 1779063211.4911284,
+    "ast_hash": "a30739a21adf0640b0988dd78390be19",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\arbiter_vildred-icon.png": {
+    "mtime": 1779063211.4911284,
+    "ast_hash": "8e8b03c34b9cfc488207f2e7c62fcfd7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\archdemon_shadow-icon.png": {
+    "mtime": 1779063211.4911284,
+    "ast_hash": "ed1d8fed7b14bfed152750c80fbc806e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\architect_laika-icon.png": {
+    "mtime": 1779063211.4911284,
+    "ast_hash": "d098eb00c704939d99585186904591da",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\arena_guy-icon.png": {
+    "mtime": 1779063211.492131,
+    "ast_hash": "87154241df277b133125a9e4560c521e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\argent_waves_hwayoung-icon.png": {
+    "mtime": 1779063211.492131,
+    "ast_hash": "43ef5453688f056adbc1fb4dbb8c7346",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\aria-icon.png": {
+    "mtime": 1779063211.492131,
+    "ast_hash": "d6be3975dd8b4eb3c89714693f90dd5c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\armin-icon.png": {
+    "mtime": 1779063211.49313,
+    "ast_hash": "4457033fa0c74e69e8ef5a061162a958",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\arowell-icon.png": {
+    "mtime": 1779063211.49313,
+    "ast_hash": "3f865566a8d451acf823da204ce85b87",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\arunka-icon.png": {
+    "mtime": 1779063211.49313,
+    "ast_hash": "d4285e395a879d6fa4029abc7928d5d7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\assassin_cartuja-icon.png": {
+    "mtime": 1779063211.49313,
+    "ast_hash": "2142883e5dc67bacd6a631925b027ef9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\assassin_cidd-icon.png": {
+    "mtime": 1779063211.4941308,
+    "ast_hash": "2fb3d2d00747ce7a118b168d7fd7da78",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\assassin_coli-icon.png": {
+    "mtime": 1779063211.4941308,
+    "ast_hash": "17762f8793b7f88e9e36a762b2b7847b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\astromancer_elena-icon.png": {
+    "mtime": 1779063211.4951298,
+    "ast_hash": "d2a6444ff6e82231434171b2fd3a6c47",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\auxiliary_lots-icon.png": {
+    "mtime": 1779063211.4951298,
+    "ast_hash": "381f9109b262da05a560d872e3f488e8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\azalea-icon.png": {
+    "mtime": 1779063211.4951298,
+    "ast_hash": "b1335a30e3e4cac49117bb781590c1ac",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\baal_and_sezan-icon.png": {
+    "mtime": 1779063211.4961295,
+    "ast_hash": "d3d5335a4469c01114b50a4bb3173f3a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\bad_cat_armin-icon.png": {
+    "mtime": 1779063211.4961295,
+    "ast_hash": "5ac36aa15caf3941c04eb488511f6fb6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\baiken-icon.png": {
+    "mtime": 1779063211.4961295,
+    "ast_hash": "ed36bd7e1d1e87e047de056eecfe4bbf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\basar-icon.png": {
+    "mtime": 1779063211.4961295,
+    "ast_hash": "543507fe3ff4d2b7003cfe07f4f68eb0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\bask-icon.png": {
+    "mtime": 1779063211.4971297,
+    "ast_hash": "2cb377fc4379d005971f9894b6312299",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\batisse-icon.png": {
+    "mtime": 1779063211.4971297,
+    "ast_hash": "576d01426e663cfdd2d208fe9f597e49",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\beehoo-icon.png": {
+    "mtime": 1779063211.4981296,
+    "ast_hash": "b1af806a801b33536ee6219c211492f3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\belian-icon.png": {
+    "mtime": 1779063211.4981296,
+    "ast_hash": "1db708244b47a77c2abdf54236b3ef15",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\bellona-icon.png": {
+    "mtime": 1779063211.4981296,
+    "ast_hash": "46abf0ae655c07fcbc09e7798e42deea",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\benevolent_romann-icon.png": {
+    "mtime": 1779063211.4991305,
+    "ast_hash": "8be7548b1ed9ae8d5d62de9b852592c4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\benimaru-icon.png": {
+    "mtime": 1779063211.4991305,
+    "ast_hash": "ae210ebcd4d3b33bcd819233c8aa95a0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\bernard-icon.png": {
+    "mtime": 1779063211.4991305,
+    "ast_hash": "61b8eb325666a9cd9a885f09815e60c0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\birgitta-icon.png": {
+    "mtime": 1779063211.5001311,
+    "ast_hash": "5b8d6ded04c49d8f4b01c87ecb8fd07b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\blaze_dingo-icon.png": {
+    "mtime": 1779063211.5001311,
+    "ast_hash": "bf74f88dd6fae0f2d10ef7de4a1ae9e3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\blood_blade_karin-icon.png": {
+    "mtime": 1779063211.5001311,
+    "ast_hash": "3d74f4765be37ff11f1d98a6603bea63",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\blood_moon_haste-icon.png": {
+    "mtime": 1779063211.5001311,
+    "ast_hash": "874f31ed1091a0ed575bd44430526587",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\blooming_lidica-icon.png": {
+    "mtime": 1779063211.5011306,
+    "ast_hash": "a1e4217d695f45a7cb5bcad4a7ed0592",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\boss_arunka-icon.png": {
+    "mtime": 1779063211.5011306,
+    "ast_hash": "1b6a742be7497c861e3e0f901c239640",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\briar_witch_iseria-icon.png": {
+    "mtime": 1779063211.5021298,
+    "ast_hash": "f89fcf5090aa3c5067909b65426e1650",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\brieg-icon.png": {
+    "mtime": 1779063211.5021298,
+    "ast_hash": "b2d38094a29851ae8236d289b60a257f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\brinus-icon.png": {
+    "mtime": 1779063211.5021298,
+    "ast_hash": "75fd3c0ced07a0572c4c11a1490d6710",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\butcher_corps_inquisitor-icon.png": {
+    "mtime": 1779063211.50313,
+    "ast_hash": "a1664f703e6d4ef536d598b7000c3a4b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\byblis-icon.png": {
+    "mtime": 1779063211.50313,
+    "ast_hash": "bd2e9c72022f62909136148abcd8b5cb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\bystander_hwayoung-icon.png": {
+    "mtime": 1779063211.50313,
+    "ast_hash": "f438a1cc53261dad5d0f189a0eb9a317",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\camilla-icon.png": {
+    "mtime": 1779063211.50413,
+    "ast_hash": "aa3d40ab358176a968735178d5f29398",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\captain_rikoris-icon.png": {
+    "mtime": 1779063211.50413,
+    "ast_hash": "adead224d3dfa370207f3f8101a8fea9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\carmainerose-icon.png": {
+    "mtime": 1779063211.50413,
+    "ast_hash": "2466b25ac473552e83a50b0a63206892",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\carrot-icon.png": {
+    "mtime": 1779063211.50413,
+    "ast_hash": "2a4a9e5b0d4e8208936eb4898fda70b9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\cartuja-icon.png": {
+    "mtime": 1779063211.5051293,
+    "ast_hash": "d44f9bdea9f9b42780ddb5d9c758d0ad",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\cecilia-icon.png": {
+    "mtime": 1779063211.5051293,
+    "ast_hash": "4822bdd996286b570a475e00224c3594",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\celeste-icon.png": {
+    "mtime": 1779063211.5051293,
+    "ast_hash": "64b6f5f74d2afea7974f4cb7f9906204",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\celestial_mercedes-icon.png": {
+    "mtime": 1779063211.5051293,
+    "ast_hash": "50759e7e0c87a485128e36dde55601f0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\celine-icon.png": {
+    "mtime": 1779063211.5064614,
+    "ast_hash": "b8df8b9d5eb12ca0ff6e352624fd38c5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\cerise-icon.png": {
+    "mtime": 1779063211.5064614,
+    "ast_hash": "8bed77fe01518083270cd4b1b81edb81",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\cermia-icon.png": {
+    "mtime": 1779063211.5064614,
+    "ast_hash": "f24102f44c14fe6910c4dd06da1cac55",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\challenger_dominiel-icon.png": {
+    "mtime": 1779063211.5064614,
+    "ast_hash": "bfa114c6c83acdd6b48d11b6dc6d51bc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\champion_zerato-icon.png": {
+    "mtime": 1779063211.5074525,
+    "ast_hash": "c73d215c0a76a8f16b361f63f3b9daa4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\chaos_inquisitor-icon.png": {
+    "mtime": 1779063211.5074525,
+    "ast_hash": "4c62cf9914b711076072f6748fbfd6f6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\chaos_sect_axe-icon.png": {
+    "mtime": 1779063211.5074525,
+    "ast_hash": "e08916eb759d6f94c129f9e7f1de6a56",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\charles-icon.png": {
+    "mtime": 1779063211.5084522,
+    "ast_hash": "45b5b1154b6568c2231eaf70fddd8583",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\charlotte-icon.png": {
+    "mtime": 1779063211.5084522,
+    "ast_hash": "6d8a2f956eafebe198acfd3164b14ccb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\chloe-icon.png": {
+    "mtime": 1779063211.5084522,
+    "ast_hash": "e152788ac27e2d109fca25aa3874c82b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\choux-icon.png": {
+    "mtime": 1779063211.5094,
+    "ast_hash": "54d29c820a5dba365e79b8b2a5402d96",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\christy-icon.png": {
+    "mtime": 1779063211.5094,
+    "ast_hash": "9be997270f03ed8d2228552766f8bd37",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\church_of_ilryos_axe-icon.png": {
+    "mtime": 1779063211.5094,
+    "ast_hash": "8197bcc871bc2c087a397f28c8de4a0a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\cidd-icon.png": {
+    "mtime": 1779063211.5094,
+    "ast_hash": "3a1f6533d1516daa3cd9fab823f7cd11",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\clarissa-icon.png": {
+    "mtime": 1779063211.510394,
+    "ast_hash": "f78e6b47ab1b3c8c4a070aaa9b0bb1d3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\claudia-icon.png": {
+    "mtime": 1779063211.510394,
+    "ast_hash": "831804a4551d18f3eef805e13316be30",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\closer_charles-icon.png": {
+    "mtime": 1779063211.510969,
+    "ast_hash": "9936f919dab364ad0e1ae37c9154732d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\coli-icon.png": {
+    "mtime": 1779063211.510969,
+    "ast_hash": "40bdf131d0b828c349f86ca1a9dc984f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\commander_lorina-icon.png": {
+    "mtime": 1779063211.5114856,
+    "ast_hash": "33719c8584a422c56581324412d57647",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\commander_pavel-icon.png": {
+    "mtime": 1779063211.5114856,
+    "ast_hash": "4e0b480be4e0de3e6e50bc1010d49751",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\command_model_laika-icon.png": {
+    "mtime": 1779063211.5114856,
+    "ast_hash": "334ddb8130ae13d9d2a870d42b5b27cf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\conqueror_lilias-icon.png": {
+    "mtime": 1779063211.5114856,
+    "ast_hash": "610df2e084c3901b74ca58d29854beaa",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\corvus-icon.png": {
+    "mtime": 1779063211.5124805,
+    "ast_hash": "afa89f6e16c7a7d1fdc59f450dc175f0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\crescent_moon_rin-icon.png": {
+    "mtime": 1779063211.5124805,
+    "ast_hash": "d61f9396c175ed5e20f72742b5b73401",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\crimson_armin-icon.png": {
+    "mtime": 1779063211.5124805,
+    "ast_hash": "5af6c3384d07fb6959197aca9acc0df6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\crozet-icon.png": {
+    "mtime": 1779063211.5124805,
+    "ast_hash": "e11f05d58ba688d01399fcbb7f636237",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\dark_corvus-icon.png": {
+    "mtime": 1779063211.5134816,
+    "ast_hash": "e7885e7025f48e6c00bdcb8c06322560",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\death_dealer_ray-icon.png": {
+    "mtime": 1779063211.5134816,
+    "ast_hash": "955e45788f94bf5579acdbca53e57649",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\desert_jewel_basar-icon.png": {
+    "mtime": 1779063211.5134816,
+    "ast_hash": "a8749530e740956df89ed538ec23dbf8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\designer_lilibet-icon.png": {
+    "mtime": 1779063211.5134816,
+    "ast_hash": "93e2207418dc738d2256f4162de12eb1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\destina-icon.png": {
+    "mtime": 1779063211.5146036,
+    "ast_hash": "6968d8a93456b6e54e1b63f9aef2ca52",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\diene-icon.png": {
+    "mtime": 1779063211.5146036,
+    "ast_hash": "7ff13f01384aff2a4bb82ef2138eae96",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\dingo-icon.png": {
+    "mtime": 1779063211.5146036,
+    "ast_hash": "48c1163c1e9865eecdb0e5456019f10f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\disciplinary_prefect_aria-icon.png": {
+    "mtime": 1779063211.5154822,
+    "ast_hash": "1402a7ff7a4371dc03d3d8ab112eea6f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\dizzy-icon.png": {
+    "mtime": 1779063211.5154822,
+    "ast_hash": "d4c57ebe25ac712ed3bd1841d6365857",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\doll_maker_pearlhorizon-icon.png": {
+    "mtime": 1779063211.5154822,
+    "ast_hash": "50101b948e8ce2d3e2d0b3c799ff2795",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\dominiel-icon.png": {
+    "mtime": 1779063211.5154822,
+    "ast_hash": "04b155d25e09a9d9b8f390595957c9dd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\doris-icon.png": {
+    "mtime": 1779063211.5164819,
+    "ast_hash": "efb57ca991dc065ac667315119c5d09c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\dragon_bride_senya-icon.png": {
+    "mtime": 1779063211.5164819,
+    "ast_hash": "cbf86c5435f1030bec4d4242e4dc1436",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\dragon_king_sharun-icon.png": {
+    "mtime": 1779063211.5164819,
+    "ast_hash": "23946351762e8c016277b0f8c512b22c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\eaton-icon.png": {
+    "mtime": 1779063211.5174823,
+    "ast_hash": "0f557c6345a75c64644bc603e441dc65",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\eda-icon.png": {
+    "mtime": 1779063211.5174823,
+    "ast_hash": "1aff777c4104eb85d4a861c01636d487",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\edward_elric-icon.png": {
+    "mtime": 1779063211.5174823,
+    "ast_hash": "1903feab0014ba19c583a787a0a5321f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\elena-icon.png": {
+    "mtime": 1779063211.5184824,
+    "ast_hash": "b88ce5e21464fa94a9e64b157fdda58e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\eligos-icon.png": {
+    "mtime": 1779063211.5184824,
+    "ast_hash": "a9f706175a02da73b8bbd24c9f0af037",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\elphelt_valentine-icon.png": {
+    "mtime": 1779063211.5184824,
+    "ast_hash": "d08fd56a49c564de8ad948124f1c6427",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\elson-icon.png": {
+    "mtime": 1779063211.5194821,
+    "ast_hash": "8ac1fa6e6dceb716526a2db166263472",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\elvira-icon.png": {
+    "mtime": 1779063211.5194821,
+    "ast_hash": "6d1c5998884fe570d1c85a4781d86e99",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\emilia-icon.png": {
+    "mtime": 1779063211.5194821,
+    "ast_hash": "c12e6b183fc8d8b838881808bbab7965",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\empyrean_ilynav-icon.png": {
+    "mtime": 1779063211.5194821,
+    "ast_hash": "207761a485673a53bca179d28e1adaf2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\enott-icon.png": {
+    "mtime": 1779063211.520779,
+    "ast_hash": "c0378692e60d19b7c0c513ae0835793e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ervalen-icon.png": {
+    "mtime": 1779063211.520779,
+    "ast_hash": "f337b2cd5bb9f0c8fd86cd50e19abf14",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\estelle-icon.png": {
+    "mtime": 1779063211.521341,
+    "ast_hash": "ead935a91da7e96daa87abb9f89618a6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\eternal_wanderer_ludwig-icon.png": {
+    "mtime": 1779063211.521341,
+    "ast_hash": "b229d007a5a67444b41563f2b05dd109",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ezra-icon.png": {
+    "mtime": 1779063211.521341,
+    "ast_hash": "729a35a23d049f70f6722e5088225bfe",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\fairytale_tenebria-icon.png": {
+    "mtime": 1779063211.5222936,
+    "ast_hash": "09b93c686f0231ae757defcbd3fe0821",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\faithless_lidica-icon.png": {
+    "mtime": 1779063211.5222936,
+    "ast_hash": "362c6682e8d6667c9925f6d7cc476f97",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\falconer_kluri-icon.png": {
+    "mtime": 1779063211.5222936,
+    "ast_hash": "3cb3c05c759369fddbed3992e2d443d5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\fallen_cecilia-icon.png": {
+    "mtime": 1779063211.523292,
+    "ast_hash": "e6506c95cc35ff9a3a0c34995d09dd6c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\fenne-icon.png": {
+    "mtime": 1779063211.523292,
+    "ast_hash": "9735b8bc6ca6cd6d9385c93f79f04c3b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\fenris-icon.png": {
+    "mtime": 1779063211.523292,
+    "ast_hash": "32691458a043d2a05d91c2af6fcddde3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\fern-icon.png": {
+    "mtime": 1779063211.5242941,
+    "ast_hash": "8ae8f9df1d52ba58fb0fd6f7c07a4989",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\festive_eda-icon.png": {
+    "mtime": 1779063211.5242941,
+    "ast_hash": "3ab0f35e950c84e4c2f53e079a9bc128",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\fighter_maya-icon.png": {
+    "mtime": 1779063211.5248358,
+    "ast_hash": "9ddeb8389d1ee40a79a1f4f508fd8354",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\flan-icon.png": {
+    "mtime": 1779063211.5248358,
+    "ast_hash": "b7f9118ed15bc5a35a44215cad9d8f1f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\free_spirit_tieria-icon.png": {
+    "mtime": 1779063211.5248358,
+    "ast_hash": "ca07f4e9e24250d1b385a6158606ce22",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\frida-icon.png": {
+    "mtime": 1779063211.525831,
+    "ast_hash": "03dfd40587b4ee7add91baae1835eac2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\friedrich-icon.png": {
+    "mtime": 1779063211.525831,
+    "ast_hash": "4fe78fc71ffb5d42ea86473b9418fd1e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\frieren-icon.png": {
+    "mtime": 1779063211.525831,
+    "ast_hash": "5a3c0c3542d16b59f7a886962cd67cb6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\fumyr-icon.png": {
+    "mtime": 1779063211.5268304,
+    "ast_hash": "597bca085fbe6baa43e434baec75b681",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\furious-icon.png": {
+    "mtime": 1779063211.5268304,
+    "ast_hash": "ec0fa30f3c93665bb7e95080fa4a74c8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\general_purrgis-icon.png": {
+    "mtime": 1779063211.5273736,
+    "ast_hash": "f70878343ca1170111661d851d32631a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\genesis_ras-icon.png": {
+    "mtime": 1779063211.5273736,
+    "ast_hash": "f54b6c291b53c172bba3f0423f13f724",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\glenn-icon.png": {
+    "mtime": 1779063211.5273736,
+    "ast_hash": "bc3c12ec52122919ba876bb60448d0fa",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\gloomyrain-icon.png": {
+    "mtime": 1779063211.5283709,
+    "ast_hash": "8a36314242e500a735083f586287d9a8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\godmother-icon.png": {
+    "mtime": 1779063211.5283709,
+    "ast_hash": "e03838bca8096e964ed76754a9c3ec77",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\great_chief_khawana-icon.png": {
+    "mtime": 1779063211.5283709,
+    "ast_hash": "3f125612e4bd0af983f2e4a2076caf56",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\guard_captain_krau-icon.png": {
+    "mtime": 1779063211.5293698,
+    "ast_hash": "8aaf5b8dbed715ab748308e64f2a11f7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\guider_aither-icon.png": {
+    "mtime": 1779063211.5293698,
+    "ast_hash": "5e82c9710dc6cbce0f3a2b26c97d4402",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\gunther-icon.png": {
+    "mtime": 1779063211.5293698,
+    "ast_hash": "da0eb5f030b28f99b1a10c58b17ae3b4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\harsetti-icon.png": {
+    "mtime": 1779063211.5303712,
+    "ast_hash": "781d92c23e66d164e26ed49cb016e939",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\hasol-icon.png": {
+    "mtime": 1779063211.5303712,
+    "ast_hash": "2f0f7088fa7caf981554554628204574",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\haste-icon.png": {
+    "mtime": 1779063211.5303712,
+    "ast_hash": "ffb2a7b5d3e3d0dc5940cfca86d1d991",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\hataan-icon.png": {
+    "mtime": 1779063211.5303712,
+    "ast_hash": "40ac897bedc5e92699ea9ad1da2f4d7a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\hazel-icon.png": {
+    "mtime": 1779063211.5312688,
+    "ast_hash": "d06ace61a03b95c33f4dcc022d1c975b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\hecate-icon.png": {
+    "mtime": 1779063211.5312688,
+    "ast_hash": "5c65ace0eb3113475af25b580d9fec22",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\helen-icon.png": {
+    "mtime": 1779063211.532265,
+    "ast_hash": "719c052490f75775071c6f61afd52f09",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\helga-icon.png": {
+    "mtime": 1779063211.532265,
+    "ast_hash": "31ff733febb22e55dd3631b938309b82",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\hellion_lua-icon.png": {
+    "mtime": 1779063211.532265,
+    "ast_hash": "7498342be1bc6039af5ae4bbb1e343c8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\holiday_yufine-icon.png": {
+    "mtime": 1779063211.5332613,
+    "ast_hash": "e2863f22f11fdc96517ea79400fb254c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\holy_flame_adin-icon.png": {
+    "mtime": 1779063211.5332613,
+    "ast_hash": "63629aac911d6daf87d22dde472d8d95",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\hurado-icon.png": {
+    "mtime": 1779063211.5332613,
+    "ast_hash": "4ba48f6ffc3d726a040d07e3a9ae4e85",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\hwayoung-icon.png": {
+    "mtime": 1779063211.5332613,
+    "ast_hash": "5c6eaf84d274716e1be931c27569c545",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ian-icon.png": {
+    "mtime": 1779063211.5342653,
+    "ast_hash": "d4387b827a146bc2765365ceef47f70c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ilynav-icon.png": {
+    "mtime": 1779063211.5342653,
+    "ast_hash": "322bb3963d07e0fa0301f82124ab7766",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\immortal_wukong-icon.png": {
+    "mtime": 1779063211.5342653,
+    "ast_hash": "b0c5449323197589024d75d0d9724ac4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\inferno_khawazu-icon.png": {
+    "mtime": 1779063211.535261,
+    "ast_hash": "a3320946c7161630f746da474eb86577",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\infinite_horizon_achates-icon.png": {
+    "mtime": 1779063211.535261,
+    "ast_hash": "c170138e153e747abf8797431400a4c0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\inheritor_amiki-icon.png": {
+    "mtime": 1779063211.5362625,
+    "ast_hash": "79cf7464b6cfa84955e82eb55ab1929d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\iseria-icon.png": {
+    "mtime": 1779063211.5362625,
+    "ast_hash": "10516dddda41d6b78a918cd25128d861",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ivanna-icon.png": {
+    "mtime": 1779063211.5362625,
+    "ast_hash": "7c9a34cd6d3bc470727dd897e374b222",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\jack_o-icon.png": {
+    "mtime": 1779063211.5362625,
+    "ast_hash": "3f916786a408c0ff83d5bccdd8db0209",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\januta-icon.png": {
+    "mtime": 1779063211.5372603,
+    "ast_hash": "b1c9229cf6adee4558cd88a3354f45b1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\jecht-icon.png": {
+    "mtime": 1779063211.5372603,
+    "ast_hash": "22de4cb8afe0635571a34a3e64408b3b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\jena-icon.png": {
+    "mtime": 1779063211.5372603,
+    "ast_hash": "47155a86d6497965d42b2ebaaefd0928",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\jenua-icon.png": {
+    "mtime": 1779063211.5382602,
+    "ast_hash": "3461ce4b9119c6434ff20516e9457027",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\judge_kise-icon.png": {
+    "mtime": 1779063211.5382602,
+    "ast_hash": "173f3637adbdc0542af3e65e9701ca69",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\judith-icon.png": {
+    "mtime": 1779063211.5382602,
+    "ast_hash": "a3cbf4f54698e75762392315bb2f3129",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\juni-icon.png": {
+    "mtime": 1779063211.53926,
+    "ast_hash": "f5c8546a712d31229394027612a972b2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kane-icon.png": {
+    "mtime": 1779063211.53926,
+    "ast_hash": "8788a95629a2c165d4ea32a89a83112c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kanna-icon.png": {
+    "mtime": 1779063211.53926,
+    "ast_hash": "542d6c720749b1523be2345d810b84f1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\karin-icon.png": {
+    "mtime": 1779063211.540259,
+    "ast_hash": "0c2aa069182b53de3c6a72316077ecb2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kawerik-icon.png": {
+    "mtime": 1779063211.540259,
+    "ast_hash": "5b75caa264464acb2975cdc5332efbbb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kayron-icon.png": {
+    "mtime": 1779063211.5408912,
+    "ast_hash": "dcf31f8c0d9cce6d1484ab60611a3728",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ken-icon.png": {
+    "mtime": 1779063211.5408912,
+    "ast_hash": "8fd2d11c4f682d5e9bd445d2e33feba2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\khawana-icon.png": {
+    "mtime": 1779063211.5408912,
+    "ast_hash": "c6fd8b6f48b4ebe3366ff3d8a815f684",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\khawazu-icon.png": {
+    "mtime": 1779063211.5418873,
+    "ast_hash": "2da4f2be1ac685f82bc2c94bbb3d1802",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kikirat_v2-icon.png": {
+    "mtime": 1779063211.5418873,
+    "ast_hash": "3fedd19425ad499ccf7e32e2c93ad4d1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kiris-icon.png": {
+    "mtime": 1779063211.5418873,
+    "ast_hash": "ab80627ac93b2ba560c65b8ffdb734e7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kise-icon.png": {
+    "mtime": 1779063211.5418873,
+    "ast_hash": "dc54cb9e102d328ac5ce3c8143b318a3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kitty_clarissa-icon.png": {
+    "mtime": 1779063211.5428867,
+    "ast_hash": "abcefbce3d3751f658d71648becf5b67",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kizuna_ai-icon.png": {
+    "mtime": 1779063211.5428867,
+    "ast_hash": "cddd7b9d75e3bddf0f719b03ce69a909",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\kluri-icon.png": {
+    "mtime": 1779063211.5428867,
+    "ast_hash": "b1cd34d529e39128aee4b9c05d9c5a56",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\krau-icon.png": {
+    "mtime": 1779063211.5438893,
+    "ast_hash": "58a1a858d7f14ebef9371cb335e4f0f0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lady_of_the_scales-icon.png": {
+    "mtime": 1779063211.5438893,
+    "ast_hash": "60493f6e55626003c9147243a0a3bd5a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\laia-icon.png": {
+    "mtime": 1779063211.5438893,
+    "ast_hash": "90d77fb062308043b4ac574ba2e85e46",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\landy-icon.png": {
+    "mtime": 1779063211.5438893,
+    "ast_hash": "05183db4ca53a57b7cb5f625c1178d54",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\last_piece_karin-icon.png": {
+    "mtime": 1779063211.5448873,
+    "ast_hash": "7608ffe5f0d63d6cdb40c7c46460d643",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\last_rider_krau-icon.png": {
+    "mtime": 1779063211.5448873,
+    "ast_hash": "10c7395d6a197e001cfd0ce4714dd299",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\leah-icon.png": {
+    "mtime": 1779063211.5458865,
+    "ast_hash": "4a6e10db91d80324ca2627e4ab279d99",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lena-icon.png": {
+    "mtime": 1779063211.5458865,
+    "ast_hash": "f7f2e3426804d3ab67437d7accbc0d1b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\leo-icon.png": {
+    "mtime": 1779063211.5458865,
+    "ast_hash": "3b2c04a2b5c137ad5569dcabfec4c242",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lethe-icon.png": {
+    "mtime": 1779063211.546888,
+    "ast_hash": "d9ef6e4d4099c271f52afd92dddacd6d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lidica-icon.png": {
+    "mtime": 1779063211.546888,
+    "ast_hash": "0245601e2fba662d6d8230f8865db395",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lilias-icon.png": {
+    "mtime": 1779063211.5474045,
+    "ast_hash": "c29fa68b170d8ec96bf31565aa793c00",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lilibet-icon.png": {
+    "mtime": 1779063211.5474045,
+    "ast_hash": "b5b004d92539bb2c68e3dfa11430ee07",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lilka-icon.png": {
+    "mtime": 1779063211.5474045,
+    "ast_hash": "e36f26c8581337c5164cd6e1bfa22896",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lionheart_cermia-icon.png": {
+    "mtime": 1779063211.5484054,
+    "ast_hash": "d1f2e05713478ae8482a25baf641e92b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\little_queen_charlotte-icon.png": {
+    "mtime": 1779063211.5484054,
+    "ast_hash": "848a93733b06f27325944532832c1eb6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lone_crescent_bellona-icon.png": {
+    "mtime": 1779063211.5484054,
+    "ast_hash": "eeddddca069a89ef6639e78245a0754b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lone_wolf_peira-icon.png": {
+    "mtime": 1779063211.5494027,
+    "ast_hash": "53d195ab4e4cccd97672eb3f31e35a3c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lorina-icon.png": {
+    "mtime": 1779063211.5494027,
+    "ast_hash": "a5ac882c483e8849cce8a132c0295072",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lots-icon.png": {
+    "mtime": 1779063211.5494027,
+    "ast_hash": "7e377cab28087769d71ddf96a27ff185",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lua-icon.png": {
+    "mtime": 1779063211.5504067,
+    "ast_hash": "9bd6ff528e20b7d45496191bda67bff2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\lucy-icon.png": {
+    "mtime": 1779063211.5504067,
+    "ast_hash": "a64be3e9a8876bfd9f5ef1b32f4e443b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ludwig-icon.png": {
+    "mtime": 1779063211.5504067,
+    "ast_hash": "e3e397616686d90e4c1d41effebcb808",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\luluca-icon.png": {
+    "mtime": 1779063211.5504067,
+    "ast_hash": "c5edeabaa231051b29a4340dfa73f28b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\luna-icon.png": {
+    "mtime": 1779063211.5514033,
+    "ast_hash": "f831d76a415b213b3ce42286ae923539",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\magic_scholar_doris-icon.png": {
+    "mtime": 1779063211.5514033,
+    "ast_hash": "e445115418e7acd77d14bf88e750dfd4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\maid_chloe-icon.png": {
+    "mtime": 1779063211.5524032,
+    "ast_hash": "31c2fd92f0215c786154f9e36c1b03d3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\martial_artist_ken-icon.png": {
+    "mtime": 1779063211.5524032,
+    "ast_hash": "6166c8787b8cf60c9311f811c4714b0d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mascot_hazel-icon.png": {
+    "mtime": 1779063211.5524032,
+    "ast_hash": "1a1b81a7f6c992655b6ea925278f18de",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\maya-icon.png": {
+    "mtime": 1779063211.5524032,
+    "ast_hash": "8aa70eb781e775288ea4ebbe617e426d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mediator_kawerik-icon.png": {
+    "mtime": 1779063211.5534031,
+    "ast_hash": "fcc9aed64daf56a3ec2d3a5f69d84dcf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\melany-icon.png": {
+    "mtime": 1779063211.5534031,
+    "ast_hash": "9114d84362d221743dcb58a15e8f6316",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\melissa-icon.png": {
+    "mtime": 1779063211.5534031,
+    "ast_hash": "f6a476a969b54b7061040a305ad5c901",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mercedes-icon.png": {
+    "mtime": 1779063211.5544038,
+    "ast_hash": "486f8dbf7803baca9c1bd5321430e0d7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mercenary_helga-icon.png": {
+    "mtime": 1779063211.5544038,
+    "ast_hash": "281c97c3373c7c4953889a5253616345",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\midnight_gala_lilias-icon.png": {
+    "mtime": 1779063211.5544038,
+    "ast_hash": "a1070a45d3f8b800042b8825c6718bbf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mighty_scout-icon.png": {
+    "mtime": 1779063211.5554032,
+    "ast_hash": "4353375d5ea3c21031bc5b348275d37c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\milim-icon.png": {
+    "mtime": 1779063211.5554032,
+    "ast_hash": "e16a0ff8ff11ad52912b0e3a1f7520ff",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mirsa-icon.png": {
+    "mtime": 1779063211.5560107,
+    "ast_hash": "20b9dcb6a93a24f3cc00f5912a16da9b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\missing.png": {
+    "mtime": 1779063211.5560107,
+    "ast_hash": "365b3dcbc55a36feec06390527301842",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mistychain-icon.png": {
+    "mtime": 1779063211.5560107,
+    "ast_hash": "83bd091953a463fb5eb9afeeeec36b79",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\monarch_of_the_sword_iseria-icon.png": {
+    "mtime": 1779063211.5560107,
+    "ast_hash": "74de11bc6820bb8a2d460c7eae950f96",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\montmorancy-icon.png": {
+    "mtime": 1779063211.5570028,
+    "ast_hash": "98d9883cef6c47e4f8134f86331d0d1d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\moon_bunny_dominiel-icon.png": {
+    "mtime": 1779063211.5570028,
+    "ast_hash": "1a92d4f1bc4c8f48f1935cdc00a802e5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mort-icon.png": {
+    "mtime": 1779063211.5570028,
+    "ast_hash": "137c45271dd50eae7be29cb44433fd6a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mucacha-icon.png": {
+    "mtime": 1779063211.5580034,
+    "ast_hash": "8bb92564a77bb6d3b05447d593e82423",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\mui-icon.png": {
+    "mtime": 1779063211.5580034,
+    "ast_hash": "2ebeedf19ae4bf835ace68e42a782b0c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\muse_rima-icon.png": {
+    "mtime": 1779063211.5580034,
+    "ast_hash": "4c00be54732069ce197c8b42dbabe848",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\muwi-icon.png": {
+    "mtime": 1779063211.5590038,
+    "ast_hash": "c0716b0c21acbaa3102be0f985c8cf2c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\nahkwol-icon.png": {
+    "mtime": 1779063211.5590038,
+    "ast_hash": "c90ff67231b16781cb7305ace1c237db",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\navy_captain_landy-icon.png": {
+    "mtime": 1779063211.5590038,
+    "ast_hash": "d2a98e6c82d96544e6af6f1fda879e53",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\nemunas-icon.png": {
+    "mtime": 1779063211.5600035,
+    "ast_hash": "25ef5d74b2e9a5922f74a8e582623cb6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\new_kayron-icon.png": {
+    "mtime": 1779063211.5600035,
+    "ast_hash": "becb4f89a9cee8828ed2e4753b640615",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\new_kid_adin-icon.png": {
+    "mtime": 1779063211.5600035,
+    "ast_hash": "e6985aa52df016082e55632fb28ada9f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\new_ludwig-icon.png": {
+    "mtime": 1779063211.5600035,
+    "ast_hash": "8103befe9a30cb2d8180788fa9f8e36a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\new_moon_luna-icon.png": {
+    "mtime": 1779063211.5610042,
+    "ast_hash": "007f7fc7504078387f8526fa320188ff",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\notos-icon.png": {
+    "mtime": 1779063211.5610042,
+    "ast_hash": "77f2b5565a2ac98e3d792cd5f72e9f38",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ocean_breeze_luluca-icon.png": {
+    "mtime": 1779063211.56174,
+    "ast_hash": "54f71c551fbfc416d03f32f0530b5cd9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\operator_sigret-icon.png": {
+    "mtime": 1779063211.56174,
+    "ast_hash": "69c642b0f95982105580efaf6225bbca",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\orte-icon.png": {
+    "mtime": 1779063211.56174,
+    "ast_hash": "c78d08aeb61356e26e06f0b142e1dbcb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\otillie-icon.png": {
+    "mtime": 1779063211.5626817,
+    "ast_hash": "e2e0822ffa596cd429592688ca018382",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\pavel-icon.png": {
+    "mtime": 1779063211.5626817,
+    "ast_hash": "ee8bc0c557793c8cc0d70cf69be8d38b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\peacemaker_furious-icon.png": {
+    "mtime": 1779063211.5626817,
+    "ast_hash": "ac36d78347d27d433d3c0c2b5154e52b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\pearlhorizon-icon.png": {
+    "mtime": 1779063211.5626817,
+    "ast_hash": "fed2f320399770159e64f4cf78b28106",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\peira-icon.png": {
+    "mtime": 1779063211.5636828,
+    "ast_hash": "036e4128494be0849c291b7ca1e44d27",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\penelope-icon.png": {
+    "mtime": 1779063211.5636828,
+    "ast_hash": "cee423bcb795b01fe80497b06d18aa5d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\perfumer_byblis-icon.png": {
+    "mtime": 1779063211.5636828,
+    "ast_hash": "9823d827ce8ef3677bd341a3e670f78d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\pernilla-icon.png": {
+    "mtime": 1779063211.564703,
+    "ast_hash": "204b3dac5a5fa2f56c8d55e7b412bb0e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\pirate_captain_flan-icon.png": {
+    "mtime": 1779063211.564703,
+    "ast_hash": "20eb0ba776f5781431d2b7baa0c727bb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\politis-icon.png": {
+    "mtime": 1779063211.565696,
+    "ast_hash": "4a717f0d9044d24b1ce1d27857dbfcbf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\purrgis-icon.png": {
+    "mtime": 1779063211.565696,
+    "ast_hash": "7ba247df534e6c5c775ad8c8add7482b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\pyllis-icon.png": {
+    "mtime": 1779063211.565696,
+    "ast_hash": "aa1a6af8d435e20286790853ba209d13",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ragnvald-icon.png": {
+    "mtime": 1779063211.565696,
+    "ast_hash": "93db3c5a430537c2b92a52f2969cb9e1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ram-icon.png": {
+    "mtime": 1779063211.5666966,
+    "ast_hash": "8f05d132d7c7876811134511a1b86dcd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ran-icon.png": {
+    "mtime": 1779063211.5666966,
+    "ast_hash": "0654f4732a20e99e0058f29c33fc5e04",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ras-icon.png": {
+    "mtime": 1779063211.5666966,
+    "ast_hash": "54e29cfcd544c6d41cd5d48f0bceb05c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ravi-icon.png": {
+    "mtime": 1779063211.5676935,
+    "ast_hash": "c5c7f30b3ee89ce86176c57e0dc21fd4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ray-icon.png": {
+    "mtime": 1779063211.5676935,
+    "ast_hash": "59605e1ca69f90a17d94fc4093b22958",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rem-icon.png": {
+    "mtime": 1779063211.5676935,
+    "ast_hash": "61057ab437fdf42cd3aea7f0ffb3a977",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\remnant_violet-icon.png": {
+    "mtime": 1779063211.5676935,
+    "ast_hash": "470e0dbd04fdc17f7fe9911138ebb631",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\requiemroar-icon.png": {
+    "mtime": 1779063211.568695,
+    "ast_hash": "3e4f89a243c9763cd878beaf4b257096",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\requiem_roana-icon.png": {
+    "mtime": 1779063211.568695,
+    "ast_hash": "fd9867458c7df9fc1508ea31c3724ce5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\researcher_carrot-icon.png": {
+    "mtime": 1779063211.568695,
+    "ast_hash": "0a7a585fb2ca4321b8ac004662184748",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\revna-icon.png": {
+    "mtime": 1779063211.5696933,
+    "ast_hash": "ef973d8c2d046213467cf75b0c0d83d7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rhianna_and_lucielle-icon.png": {
+    "mtime": 1779063211.5696933,
+    "ast_hash": "4844e28215cbb4386b4695ca1d3b63df",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\righteous_thief_roozid-icon.png": {
+    "mtime": 1779063211.5696933,
+    "ast_hash": "23f3b77475260a85da8f1267f31395e2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rikoris-icon.png": {
+    "mtime": 1779063211.5707233,
+    "ast_hash": "4560e6c4d53a5d9ef47dd26e05359f6a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rima-icon.png": {
+    "mtime": 1779063211.5712388,
+    "ast_hash": "0501977153ac2e5b9e23b694e1110b8f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rimuru-icon.png": {
+    "mtime": 1779063211.5712388,
+    "ast_hash": "0d2e76b139da3fe179f7e9841868b4e7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rin-icon.png": {
+    "mtime": 1779063211.571757,
+    "ast_hash": "3780f79fb1fb7d2e816a814e13278740",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rinak-icon.png": {
+    "mtime": 1779063211.571757,
+    "ast_hash": "a9441ad536aa6646c8a9bc1853135a27",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\riza_hawkeye-icon.png": {
+    "mtime": 1779063211.571757,
+    "ast_hash": "d8f95d61218e0d735db7a30b68658177",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\roaming_warrior_leo-icon.png": {
+    "mtime": 1779063211.5727644,
+    "ast_hash": "876fb48f7bcba9a6edc093264e8407ad",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\roana-icon.png": {
+    "mtime": 1779063211.5727644,
+    "ast_hash": "5164a7fa5f23e4a9b323dddffbf9d21c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\robin-icon.png": {
+    "mtime": 1779063211.5727644,
+    "ast_hash": "296b10a7372c18acbdc984fddec3ca9a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\romann-icon.png": {
+    "mtime": 1779063211.5727644,
+    "ast_hash": "ffbc0b1f9efdd0c941f0a34436f9130a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\roozid-icon.png": {
+    "mtime": 1779063211.573769,
+    "ast_hash": "289b77b98db3c66b4b3ad76fc7156a46",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\rose-icon.png": {
+    "mtime": 1779063211.573769,
+    "ast_hash": "25e88c398f229768093b25ee05c6dd70",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\roy_mustang-icon.png": {
+    "mtime": 1779063211.5743272,
+    "ast_hash": "fdae3ad6ede87f385217418b521a62cc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ruele_of_light-icon.png": {
+    "mtime": 1779063211.5743272,
+    "ast_hash": "446f26ccec5d3d8738a498c1f464dfb1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\ruiza-icon.png": {
+    "mtime": 1779063211.5743272,
+    "ast_hash": "e29bb79ae0390777f8cd26cd75db4ab4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sage_baal_and_sezan-icon.png": {
+    "mtime": 1779063211.5752838,
+    "ast_hash": "e22ccad6aaa64d5f82f478a43755ea0b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\salome-icon.png": {
+    "mtime": 1779063211.5752838,
+    "ast_hash": "05ee99262fc638c8ab67a54e872d2118",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\saria-icon.png": {
+    "mtime": 1779063211.5752838,
+    "ast_hash": "47041abebdfef4393c31a38ca7775d10",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\savior_adin-icon.png": {
+    "mtime": 1779063211.5762868,
+    "ast_hash": "bd086612da30848dce1045b7f3673aa0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\schniel-icon.png": {
+    "mtime": 1779063211.5762868,
+    "ast_hash": "566353b35456f5e00181267d541be548",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\school_nurse_yulha-icon.png": {
+    "mtime": 1779063211.5762868,
+    "ast_hash": "8ca7d4eb4007487bc772f0bbfbd2e66d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\schuri-icon.png": {
+    "mtime": 1779063211.5762868,
+    "ast_hash": "ba03ad607f5fbbbeb2455156e14b8581",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sealed_eye_surin-icon.png": {
+    "mtime": 1779063211.577351,
+    "ast_hash": "e82361b282b4e12f4a49df9f24a3fe1a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\seaside_bellona-icon.png": {
+    "mtime": 1779063211.577351,
+    "ast_hash": "30ec835e53360d1788ed2c03677e1c29",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sea_phantom_politis-icon.png": {
+    "mtime": 1779063211.577351,
+    "ast_hash": "ce41fa982e295289e5e2b97d2b7c721e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\senya-icon.png": {
+    "mtime": 1779063211.578302,
+    "ast_hash": "e3be9b3f437024e59d5d51424a2156e5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\serene_purity_adin-icon.png": {
+    "mtime": 1779063211.578302,
+    "ast_hash": "f81ff245c6d86a679f7fcbbb29c71201",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\serila-icon.png": {
+    "mtime": 1779063211.578302,
+    "ast_hash": "3aebe86489cad82eb49572c26de452ef",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\setsuka-icon.png": {
+    "mtime": 1779063211.578302,
+    "ast_hash": "be3a4234a329c5d0f893dfb6cf45eaf6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sez-icon.png": {
+    "mtime": 1779063211.579301,
+    "ast_hash": "896b0a51c711c49165ec9974c4358fa5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\shadow_knight_pyllis-icon.png": {
+    "mtime": 1779063211.579301,
+    "ast_hash": "1ca4a69eebcd3195cf283498875ccf5f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\shadow_rose-icon.png": {
+    "mtime": 1779063211.579301,
+    "ast_hash": "2706ad9ef34820ec95d304f6be6cd9b4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\shalltear-icon.png": {
+    "mtime": 1779063211.5803068,
+    "ast_hash": "e92e33e4be028fcaa440a7ad8cd4d211",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sharun-icon.png": {
+    "mtime": 1779063211.5803068,
+    "ast_hash": "dcf4441008663846395831fee05cf23c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\shepherd_jena-icon.png": {
+    "mtime": 1779063211.5803068,
+    "ast_hash": "330ada039ba50db5134af3d7dfde4617",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\shepherd_of_the_dark_diene-icon.png": {
+    "mtime": 1779063211.5813012,
+    "ast_hash": "9ee5696978d66bc2a3e8b31e8789c438",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\shooting_star_achates-icon.png": {
+    "mtime": 1779063211.5813012,
+    "ast_hash": "f6973ce63594e7e8bd99dd489c9fb4b7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\shuna-icon.png": {
+    "mtime": 1779063211.5813012,
+    "ast_hash": "564bc8b433d2bafe68cadfe41b7721fc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sigret-icon.png": {
+    "mtime": 1779063211.5823011,
+    "ast_hash": "9310cfb946886acd4f54e345b07e0d9b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\silk-icon.png": {
+    "mtime": 1779063211.5823011,
+    "ast_hash": "f1aedef78082125f475522cff8f1455d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\silvertide_christy-icon.png": {
+    "mtime": 1779063211.5823011,
+    "ast_hash": "7816a1f4e663926e6990ac3eec2aa8bc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\silver_blade_aramintha-icon.png": {
+    "mtime": 1779063211.5823011,
+    "ast_hash": "6e47cb67a66d51539341db5d3434e9e8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sinful_angelica-icon.png": {
+    "mtime": 1779063211.5832992,
+    "ast_hash": "1912d409a4c6fa80ea9fdeaf82644e73",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sol-icon.png": {
+    "mtime": 1779063211.5832992,
+    "ast_hash": "7b2d41a82d730851782ae288d7e2e8e8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\solitaria_of_the_snow-icon.png": {
+    "mtime": 1779063211.5832992,
+    "ast_hash": "a0008ec9e6bf64fe5b8f1d6f06e40ddf",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\someguy-icon.png": {
+    "mtime": 1779063211.5843031,
+    "ast_hash": "65d64f978c468d558ec6811b2aae5212",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sonia-icon.png": {
+    "mtime": 1779063211.5843031,
+    "ast_hash": "19508da4efe9178a8d4eb622e0dbfe94",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\specimen_sez-icon.png": {
+    "mtime": 1779063211.5843031,
+    "ast_hash": "96232733c351ce43ed0e23a8ba68fca9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\specter_tenebria-icon.png": {
+    "mtime": 1779063211.5853,
+    "ast_hash": "69c0b818d461b25589058a54be17e730",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\spirit_eye_celine-icon.png": {
+    "mtime": 1779063211.5853,
+    "ast_hash": "656e4023eeb1774a84e5dffec3614409",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\stark-icon.png": {
+    "mtime": 1779063211.5853,
+    "ast_hash": "71d1ab9d30c0af62ebb834720858546c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\straze-icon.png": {
+    "mtime": 1779063211.5862997,
+    "ast_hash": "a1c37dbed316f90fa4e3810db5d0a611",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\successor_taeyou-icon.png": {
+    "mtime": 1779063211.5862997,
+    "ast_hash": "20bbccdf6cb109ff71a533dbd30af5d6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\summertime_iseria-icon.png": {
+    "mtime": 1779063211.5872996,
+    "ast_hash": "a8932f9c82c26c339d8861ebaf5eb2bd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\summer_break_charlotte-icon.png": {
+    "mtime": 1779063211.5862997,
+    "ast_hash": "a9f5affe129df65faaa900a1f6e1dd0a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\summer_disciple_alexa-icon.png": {
+    "mtime": 1779063211.5872996,
+    "ast_hash": "a4d5ff3a87fe730dfb9318344d58562c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\surin-icon.png": {
+    "mtime": 1779063211.588305,
+    "ast_hash": "666ef94a25d37b5217039a293fa130f1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\suthan-icon.png": {
+    "mtime": 1779063211.588305,
+    "ast_hash": "fd294b893ce1afc8fcf5da643c35f279",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sven-icon.png": {
+    "mtime": 1779063211.588305,
+    "ast_hash": "8863fc96b0b2e6dbcb495eb09146c5cb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\swift_flagbearer_sigret-icon.png": {
+    "mtime": 1779063211.588305,
+    "ast_hash": "a8735b0be6df335eb56c06fd877870ff",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\sylvan_sage_vivian-icon.png": {
+    "mtime": 1779063211.5893056,
+    "ast_hash": "c44398a51f95220416bb23460687db92",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\tactical_archetype_coli-icon.png": {
+    "mtime": 1779063211.5893056,
+    "ast_hash": "468bd11b8aca0224234925d3e34e1142",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\taeyou-icon.png": {
+    "mtime": 1779063211.5893056,
+    "ast_hash": "e914e8442aa6789e2da11e90288102e1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\talaz-icon.png": {
+    "mtime": 1779063211.590299,
+    "ast_hash": "ef29e398c15148ecb94079aafa6bf66b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\talia-icon.png": {
+    "mtime": 1779063211.590299,
+    "ast_hash": "5f917cd1f02763d8b60dd036e1869fe8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\tamarinne-icon.png": {
+    "mtime": 1779063211.590299,
+    "ast_hash": "a51f6370ed7cbf00c608c65fa998dc9c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\taranor_guard-icon.png": {
+    "mtime": 1779063211.590299,
+    "ast_hash": "45d2e70a9eaeef83e1489d529315021d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\taranor_royal_guard-icon.png": {
+    "mtime": 1779063211.5913055,
+    "ast_hash": "2a3fe9776ee10a237161aef82472d6dc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\tempest_surin-icon.png": {
+    "mtime": 1779063211.5913055,
+    "ast_hash": "4d1392318e08a04d91c70f27f8cf9f21",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\tenebria-icon.png": {
+    "mtime": 1779063211.5913055,
+    "ast_hash": "a791c4f51a4536f8cd3e2f46949b0936",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\tieria-icon.png": {
+    "mtime": 1779063211.5923,
+    "ast_hash": "9c1b4fea358551d4c74f1ebac3db691a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\top_model_luluca-icon.png": {
+    "mtime": 1779063211.5923,
+    "ast_hash": "0f8dc24257ce4bde944ad91670bcd02f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\tori-icon.png": {
+    "mtime": 1779063211.5923,
+    "ast_hash": "f041aac7e8318d938f297a0af565f05c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\troublemaker_crozet-icon.png": {
+    "mtime": 1779063211.5933042,
+    "ast_hash": "dc65bb2bf95a538c87d524151eee075a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\twisted_eidolon_kayron-icon.png": {
+    "mtime": 1779063211.5933042,
+    "ast_hash": "a3147c103801a80fc5e52ff4a7812e65",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\tywin-icon.png": {
+    "mtime": 1779063211.5943239,
+    "ast_hash": "043633730d39c303b4c7fdd9afdf52f8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\unbound_knight_arowell-icon.png": {
+    "mtime": 1779063211.5943332,
+    "ast_hash": "5de4bb7ffd81c076e0ec92fbbe07daa0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\urban_shadow_choux-icon.png": {
+    "mtime": 1779063211.5943332,
+    "ast_hash": "a1f7ff49e2a33a1aef875aacd4efbb7c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\verdant_adin-icon.png": {
+    "mtime": 1779063211.595318,
+    "ast_hash": "6cb3354a7fb0c05640b51df0aaeef520",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\veronica-icon.png": {
+    "mtime": 1779063211.595318,
+    "ast_hash": "4ec054029ceaf7a4c9bc8ba27445d4d9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\victorika-icon.png": {
+    "mtime": 1779063211.595318,
+    "ast_hash": "f357bcdbe2346ad500e1e8bd497aefca",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\vigilante_leader_glenn-icon.png": {
+    "mtime": 1779063211.595318,
+    "ast_hash": "9cc53e76dfa9abda87a3ea294d31ff4f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\vildred-icon.png": {
+    "mtime": 1779063211.59632,
+    "ast_hash": "02b135aaff1115cc6903fcfd3aa0ea4e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\violet-icon.png": {
+    "mtime": 1779063211.59632,
+    "ast_hash": "de191ac5af9ece32ffab1b15aa2f001c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\vivian-icon.png": {
+    "mtime": 1779063211.59632,
+    "ast_hash": "10de959a7d8b49ebbd45584014063e31",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\wanda-icon.png": {
+    "mtime": 1779063211.5973136,
+    "ast_hash": "cb681854503cd504f56950992c979351",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\wanderer_ras-icon.png": {
+    "mtime": 1779063211.5973136,
+    "ast_hash": "c20d57122f2e50bf9ff885ed23027669",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\wanderer_silk-icon.png": {
+    "mtime": 1779063211.5973136,
+    "ast_hash": "c95f2fefc4099f607fdfc6136bd533c8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\wandering_prince_cidd-icon.png": {
+    "mtime": 1779063211.5983133,
+    "ast_hash": "9438033edb07127fd91e2828149b5b60",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\watcher_schuri-icon.png": {
+    "mtime": 1779063211.5983133,
+    "ast_hash": "cb774ade88a2bbb0401d2c60dedd5bf2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\westwind_executioner_schuri-icon.png": {
+    "mtime": 1779063211.5983133,
+    "ast_hash": "52956b18c6c97793d79dd8d8358ecaf6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\witch_of_the_mere_tenebria-icon.png": {
+    "mtime": 1779063211.5983133,
+    "ast_hash": "9e8b15357a78161f75700052fe4e4931",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\wretched_rose-icon.png": {
+    "mtime": 1779063211.5993137,
+    "ast_hash": "79ec7be336bf5f3a1897182389f4a676",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\yoonryoung-icon.png": {
+    "mtime": 1779063211.5993137,
+    "ast_hash": "532c826dd46801c9f4394b5388baeae1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\young_senya-icon.png": {
+    "mtime": 1779063211.5993137,
+    "ast_hash": "87b8f9ca1a6e16478f0fb11f13818681",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\yufine-icon.png": {
+    "mtime": 1779063211.6003132,
+    "ast_hash": "f56bd508efc37866dc5054a890711680",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\yulha-icon.png": {
+    "mtime": 1779063211.6003132,
+    "ast_hash": "6e52e69b73c5cc9d8ff3caf49a256991",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\yuna-icon.png": {
+    "mtime": 1779063211.6003132,
+    "ast_hash": "c367cc13a13c46941702d8914b253172",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\zahhak-icon.png": {
+    "mtime": 1779063211.6013134,
+    "ast_hash": "c5a979591bb1e6ec42fbe99c825db0a4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\zealot_carmainerose-icon.png": {
+    "mtime": 1779063211.6013134,
+    "ast_hash": "9ed66a0e063cd5ad9f9ca2a12ca3633d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\zeno-icon.png": {
+    "mtime": 1779063211.6013134,
+    "ast_hash": "b82fc298b5b512e85a5196f35c5df945",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\zerato-icon.png": {
+    "mtime": 1779063211.6013134,
+    "ast_hash": "95a53c7d8760b9bed02bde8bcf6b2d37",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\heroes\\zio-icon.png": {
+    "mtime": 1779063211.602321,
+    "ast_hash": "ff57d13fbbbc0a6ece82a49d3b26c5b7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\30-hp.png": {
+    "mtime": 1779063211.607841,
+    "ast_hash": "f88637c74fcb7b0f5c549d7726e55383",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\alarm.svg": {
+    "mtime": 1779063211.607841,
+    "ast_hash": "c6c918e5039f2b5fdef484ca258687a1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\artifact.png": {
+    "mtime": 1779063211.607841,
+    "ast_hash": "348e978eb184d18b2493a089308aac83",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\battery-low.svg": {
+    "mtime": 1779063211.6088345,
+    "ast_hash": "a2e9cabc3d2b73ee12245aa0356dbdab",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\chevron-double-down.svg": {
+    "mtime": 1779063211.6088345,
+    "ast_hash": "809eee1b967020be2058d7fb45a20b68",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\chevron-double-up.svg": {
+    "mtime": 1779063211.6088345,
+    "ast_hash": "f0162e509bd39d8874079c82154aadf3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\chevron-down.svg": {
+    "mtime": 1779063211.6088345,
+    "ast_hash": "47d1736098819358d2162a124a7d5ac3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\chevron-up.svg": {
+    "mtime": 1779063211.6098344,
+    "ast_hash": "8bb27f33d100db8ede2e576d900866ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\close.svg": {
+    "mtime": 1779063211.6098344,
+    "ast_hash": "f52674951c6d46ab52e87845e4cbd494",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\cog.svg": {
+    "mtime": 1779063211.6098344,
+    "ast_hash": "4a4706a374cbeb59548a5f260da5dd89",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\compare.svg": {
+    "mtime": 1779063211.6098344,
+    "ast_hash": "aded8936f1dd1fd7ad53f5350d61bc25",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\damage_calculator_logo.png": {
+    "mtime": 1779063211.6113644,
+    "ast_hash": "00f4bb9069d6388cb85bbb89a08f64a1",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\delete.svg": {
+    "mtime": 1779063211.6113844,
+    "ast_hash": "df0c878c9184c2e9983ddfb6a32eceb2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\e7-chevron-down.png": {
+    "mtime": 1779063211.6113844,
+    "ast_hash": "49063a6bc1481d0a5c5bb85f91594004",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\e7-chevron-up.png": {
+    "mtime": 1779063211.6123736,
+    "ast_hash": "956ba548cb8b41da3bd50f00c2ea6912",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\effectiveness_checker_logo.png": {
+    "mtime": 1779063211.6123736,
+    "ast_hash": "900d597e6bb5f0efa360e81d0ccb7e73",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\ehp_calculator_logo.png": {
+    "mtime": 1779063211.6133733,
+    "ast_hash": "7e62b1b184fc79c1b7b852206f495a2a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\full-charge.svg": {
+    "mtime": 1779063211.6140332,
+    "ast_hash": "b7f9741aeac792166a017d415ef2479f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\full-hp.png": {
+    "mtime": 1779063211.6140332,
+    "ast_hash": "f01c3bf3497f2ff637d9f453aa48621a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\half-hp.png": {
+    "mtime": 1779063211.6150281,
+    "ast_hash": "207e7dbfb2701bf5ae8357f3f33c764a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\help-circle-outline.svg": {
+    "mtime": 1779063211.6150281,
+    "ast_hash": "1308c0df62344141010f2dfe6a2979f6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\help-circle.svg": {
+    "mtime": 1779063211.6160274,
+    "ast_hash": "e877b60c2de146327ebb8b50b33a749f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\hero_bg.png": {
+    "mtime": 1779063211.6160274,
+    "ast_hash": "76029e573757413661d2bc0265016081",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\hero_frame.png": {
+    "mtime": 1779063211.6160274,
+    "ast_hash": "1dec275241f148d92721cbb5421e4a7d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\highest-def.png": {
+    "mtime": 1779063211.617029,
+    "ast_hash": "4ee7fd3f43271cedff2c8cb223c36aff",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\highest-hp.png": {
+    "mtime": 1779063211.617029,
+    "ast_hash": "8f76f811fd568e45607fdc087e9a7493",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\incognito.svg": {
+    "mtime": 1779063211.617029,
+    "ast_hash": "8c86e8ee16a00a13e7afafb92c99512e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\ko-fi.webp": {
+    "mtime": 1779063211.617029,
+    "ast_hash": "07bb577348aa409cc3fe65078e8bd970",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\line-chart.svg": {
+    "mtime": 1779063211.6180282,
+    "ast_hash": "c3295b4619d1e5a356bbc38eaadfeaee",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\loading-spinner.svg": {
+    "mtime": 1779063211.6180282,
+    "ast_hash": "7a1be2f4fead2ed84e0ef21750386f54",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\manual.png": {
+    "mtime": 1779063211.6180282,
+    "ast_hash": "dddc6f4d9222dfe43b545891d58f4790",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\menu.svg": {
+    "mtime": 1779063211.619028,
+    "ast_hash": "ace2b328394e324f490c3759c29e1850",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\one.png": {
+    "mtime": 1779063211.619028,
+    "ast_hash": "dfae9375954843ef05ad9ea29d824ba2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\open-in-new.svg": {
+    "mtime": 1779063211.619028,
+    "ast_hash": "d6ac56c314fd5c6e422ab0079d3ab9d8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\resistance_icon.png": {
+    "mtime": 1779063211.6200273,
+    "ast_hash": "0a182c4020faa0a1abc1813b7b1074c4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\save.svg": {
+    "mtime": 1779063211.6200273,
+    "ast_hash": "d15eb33d8febcd9c947140194d1c018b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\share-nodes-solid.svg": {
+    "mtime": 1779063211.6200273,
+    "ast_hash": "7c414ae0dddbad7baf08d370a25ebdb3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\skill_tree.png": {
+    "mtime": 1779063211.6210265,
+    "ast_hash": "611899bc0791b5d7ba6485bc1e190847",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\skull.svg": {
+    "mtime": 1779063211.6210265,
+    "ast_hash": "73464740c003846f98df0eecc8a01880",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\speed_solver_logo.png": {
+    "mtime": 1779063211.622026,
+    "ast_hash": "5bc97aed6d55fa87290f3f54511fea02",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\speed_tuner_logo.png": {
+    "mtime": 1779063211.6231208,
+    "ast_hash": "598191c35f66d49b574c6d0ff5a9227f",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\square-root-box.svg": {
+    "mtime": 1779063211.6231208,
+    "ast_hash": "def971d51b505523e95b4ecda4211ea2",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\square-root.svg": {
+    "mtime": 1779063211.6231208,
+    "ast_hash": "dda49b5fd3ff329849be4a29de7722c8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\stats.svg": {
+    "mtime": 1779063211.6241167,
+    "ast_hash": "3791b3725c16c0e834c274e8ed12d11b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\three.png": {
+    "mtime": 1779063211.6241167,
+    "ast_hash": "becf85942d69068e88d615e1101c2038",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\two.png": {
+    "mtime": 1779063211.6241167,
+    "ast_hash": "c78c3aba75c86bda6084f4229d162e2e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\icons\\unknown_portrait.png": {
+    "mtime": 1779063211.6241167,
+    "ast_hash": "2bfbc493bb447a759a19f64684c9ba62",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setattack.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "b4d6626aa69b747db90cdc196b2eac9e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setblock.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "51874df22aaadd9bd594dbdf7deb409b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setcounter.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "5ab2bafdd06294d1304d2a5e93da6041",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setcritical.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "0e42bec1c93eb353fb181a394ddb6772",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setdefense.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "6ab640659a6787825fa6bd9a1cee3dbb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setdestruction.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "9a7f15cdbea52c6f847fa9b7a55f0513",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setheal.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "70eea888ee8e1bfaa239e0b117b0f82e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\sethealth.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "577d16d16dc36ea578b4954e403fb75e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\sethit.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "14e8b743f51c09a4fc6fbd460a7c2402",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setimmunity.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "68edaea2b0c5f4c90128f69e70bb82e8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setinjury.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "bf4be27128077376dff49869e2a4267a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setlifesteal.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "36edf1e50137ef28ddbbd73b311e0c4b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setpenetration.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "e069e65ef5fa19cebea99739b2de72ea",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setprotection.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "e28c5744a74fc3557c78949895275d72",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setrage.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "29449ab1e0b70795e13f93d7ab96f171",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setresist.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "da7217ca876b77acd5b8385230177c2c",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setrevenant.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "bc4495eaa38c8fccb7171e25d05731f9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setrevenge.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "c044102f96bf4dc3b034b446095bd44e",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setriposte.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "5dac2932cdea6cd28a5e202d7b1e45f8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setspeed.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "ce151b6a571eacd3e144cd1839e77c24",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\settorrent.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "19d721a13fa6468667e5ee62d49902db",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\setunity.png": {
+    "mtime": 1778994194.0,
+    "ast_hash": "961dc00ee27d7710b90d580e541c7f97",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\assets\\images\\item_set\\set_chase.png": {
+    "mtime": 1779012020.605325,
+    "ast_hash": "68ede4843654ace9e11e41358932058d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens\\Hero_Detail\\identity\\detail-signature.png": {
+    "mtime": 1778966416.3771243,
+    "ast_hash": "d7cb04dee55ed6a5b5eaafbf805eff68",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens\\Hero_Stats\\identity\\stats-signature.png": {
+    "mtime": 1778968038.6843715,
+    "ast_hash": "daf577ba9f61ef0e702508a01cb512b3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens\\Lobby\\identity\\lobby-signature.png": {
+    "mtime": 1779123688.0534382,
+    "ast_hash": "6784a81a63ec05373283905bb8278443",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\assets\\screens\\Lobby\\identity_bluestacks_1600x900\\lobby-signature.png": {
+    "mtime": 1779258181.6535501,
+    "ast_hash": "fdcd33901a875dbf8e6da1df344564e4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\128x128.png": {
+    "mtime": 1779105116.700557,
+    "ast_hash": "e9141501732e06b3eb4b9b7ca79d1328",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\128x128@2x.png": {
+    "mtime": 1779105116.7407477,
+    "ast_hash": "9b2214fc2b3b74bba790f2f90b5c2d34",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\32x32.png": {
+    "mtime": 1779105116.6683953,
+    "ast_hash": "c7494b2dc078c812e0bd6954bd9283f3",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\64x64.png": {
+    "mtime": 1779105116.680907,
+    "ast_hash": "b9e691a48fd9999a44ed632de2f8334a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\icon.png": {
+    "mtime": 1779105116.8383794,
+    "ast_hash": "ac5d615e8e0138611c47fdb354b8a95a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square107x107Logo.png": {
+    "mtime": 1779105115.468768,
+    "ast_hash": "c7a9cce5f8d988e641b3ba3d3bffc95d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square142x142Logo.png": {
+    "mtime": 1779105115.513771,
+    "ast_hash": "763d1b226d6d22b532f89595bbdac241",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square150x150Logo.png": {
+    "mtime": 1779105115.5508487,
+    "ast_hash": "972339a15845fa98bd39ac402ed1e420",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square284x284Logo.png": {
+    "mtime": 1779105115.6154492,
+    "ast_hash": "24b55e3c2d7f902e3d3aa57b3617a9bb",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square30x30Logo.png": {
+    "mtime": 1779105115.3981633,
+    "ast_hash": "77f8fb44b057dc5d94a07692ff6b8065",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square310x310Logo.png": {
+    "mtime": 1779105115.6784627,
+    "ast_hash": "cffdcb6bd2096406c9c533f2ec8f1aad",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square44x44Logo.png": {
+    "mtime": 1779105115.41069,
+    "ast_hash": "31950c2064bdc3806a9dbbd855b22352",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square71x71Logo.png": {
+    "mtime": 1779105115.4236863,
+    "ast_hash": "d155b2e7faa6d907849aea0e71af5afd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\Square89x89Logo.png": {
+    "mtime": 1779105115.4402466,
+    "ast_hash": "08d0f2f9f8b0cbc7a662665f9f472413",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\StoreLogo.png": {
+    "mtime": 1779105115.3851352,
+    "ast_hash": "928927f46fa2d47492517cae57765fd0",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-hdpi\\ic_launcher.png": {
+    "mtime": 1779105118.032819,
+    "ast_hash": "d03e12b66a1977e0f035006012ef5d6b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-hdpi\\ic_launcher_foreground.png": {
+    "mtime": 1779105117.760921,
+    "ast_hash": "ca87e708034fb182f959586119650f93",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-hdpi\\ic_launcher_round.png": {
+    "mtime": 1779105118.0197988,
+    "ast_hash": "3a58e8e1e57e42771209b5129abd3fdd",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-mdpi\\ic_launcher.png": {
+    "mtime": 1779105118.0588062,
+    "ast_hash": "43ea16748e861cec0225b06243f7e506",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-mdpi\\ic_launcher_foreground.png": {
+    "mtime": 1779105117.7799618,
+    "ast_hash": "ba4346fc8ab2c7c9e173538060c9919a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-mdpi\\ic_launcher_round.png": {
+    "mtime": 1779105118.045807,
+    "ast_hash": "366bd3c807707c37061bd56893ee94cc",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xhdpi\\ic_launcher.png": {
+    "mtime": 1779105118.1101685,
+    "ast_hash": "6a5612af3ad442fa5dee68407fddf329",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xhdpi\\ic_launcher_foreground.png": {
+    "mtime": 1779105117.8231661,
+    "ast_hash": "c989c0a352a33e508d43701d02166672",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xhdpi\\ic_launcher_round.png": {
+    "mtime": 1779105118.081892,
+    "ast_hash": "a9d9ec8e6c331502ac752b14432bc714",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xxhdpi\\ic_launcher.png": {
+    "mtime": 1779105118.1677935,
+    "ast_hash": "f3f20c1adecb7db2dab548c73e100e34",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xxhdpi\\ic_launcher_foreground.png": {
+    "mtime": 1779105117.896808,
+    "ast_hash": "2980131eb4dc7c6179910ff47e3b4253",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xxhdpi\\ic_launcher_round.png": {
+    "mtime": 1779105118.139166,
+    "ast_hash": "eb92e816b839fb38b83d1eec6d319770",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xxxhdpi\\ic_launcher.png": {
+    "mtime": 1779105118.2420833,
+    "ast_hash": "f3fd3f47a618c913f85e429d076aa11d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xxxhdpi\\ic_launcher_foreground.png": {
+    "mtime": 1779105118.0088112,
+    "ast_hash": "a4a55ae2d73c4897900d4e3657bd23ef",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\android\\mipmap-xxxhdpi\\ic_launcher_round.png": {
+    "mtime": 1779105118.2063255,
+    "ast_hash": "422a51d0eaf1863564b68c55fcbbb85b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-20x20@1x.png": {
+    "mtime": 1779105116.8699312,
+    "ast_hash": "cdb46fbbab6adb364c3e662b490bd691",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-20x20@2x-1.png": {
+    "mtime": 1779105116.8564,
+    "ast_hash": "891ba9acb3904a9e0bb5dabeaf26d9ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-20x20@2x.png": {
+    "mtime": 1779105116.8856843,
+    "ast_hash": "891ba9acb3904a9e0bb5dabeaf26d9ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-20x20@3x.png": {
+    "mtime": 1779105116.9066124,
+    "ast_hash": "21a5c11ca34970b926353a499c9fa6ab",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-29x29@1x.png": {
+    "mtime": 1779105116.9369898,
+    "ast_hash": "4505f08a7cd57b2ceabdccec4be0352d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-29x29@2x-1.png": {
+    "mtime": 1779105116.9244535,
+    "ast_hash": "a8c8ea3c04a87cbc780994db8332a004",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-29x29@2x.png": {
+    "mtime": 1779105116.9496498,
+    "ast_hash": "a8c8ea3c04a87cbc780994db8332a004",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-29x29@3x.png": {
+    "mtime": 1779105116.9661362,
+    "ast_hash": "85168047fc06e902a8b292cabb0f91f9",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-40x40@1x.png": {
+    "mtime": 1779105116.9960566,
+    "ast_hash": "891ba9acb3904a9e0bb5dabeaf26d9ae",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-40x40@2x-1.png": {
+    "mtime": 1779105116.9841552,
+    "ast_hash": "780e8a883c942f5da66d3cc52e885bef",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-40x40@2x.png": {
+    "mtime": 1779105117.0118067,
+    "ast_hash": "780e8a883c942f5da66d3cc52e885bef",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-40x40@3x.png": {
+    "mtime": 1779105117.0395286,
+    "ast_hash": "bdc5a7e1cf12605ac9b23fdf4b616534",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-512@2x.png": {
+    "mtime": 1779105117.7271392,
+    "ast_hash": "eb8c45b09877249674c34177e64e6aa6",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-60x60@2x.png": {
+    "mtime": 1779105117.0585306,
+    "ast_hash": "bdc5a7e1cf12605ac9b23fdf4b616534",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-60x60@3x.png": {
+    "mtime": 1779105117.0876005,
+    "ast_hash": "ad92f989682a7b37ca43077076efbd8b",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-76x76@1x.png": {
+    "mtime": 1779105117.1017044,
+    "ast_hash": "8e1497c74a251894e86afbd7e0849d4a",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-76x76@2x.png": {
+    "mtime": 1779105117.1276014,
+    "ast_hash": "62626cf98a8843ded431a659dc06f0a5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src-tauri\\icons\\ios\\AppIcon-83.5x83.5@2x.png": {
+    "mtime": 1779105117.1548057,
+    "ast_hash": "447ef895f9fff0e74becdb59af5e7ce5",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\utils.ts": {
+    "mtime": 1779536837.5553193,
+    "ast_hash": "805ffc5ea2d6e3dd9f578d1b01705bf8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\analytics\\DashboardBuildsTable.tsx": {
+    "mtime": 1779565510.0089858,
+    "ast_hash": "076885219ae930e06345ba10ccbbd9a4",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\analytics\\DashboardCounterThreats.tsx": {
+    "mtime": 1779532950.6986809,
+    "ast_hash": "584b5151b8bc00939530768f86498bd7",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\analytics\\DashboardGearRating.tsx": {
+    "mtime": 1779532950.7605896,
+    "ast_hash": "1fb0fca98ec19793ac09d6573453a13d",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\analytics\\DashboardIdentityCard.tsx": {
+    "mtime": 1779532950.6967278,
+    "ast_hash": "b616513cbf622d38c14a95e60accea29",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\analytics\\DashboardLeaderboard.tsx": {
+    "mtime": 1779532950.7605896,
+    "ast_hash": "8ba2a4e549636f02441b5f716995f0ca",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\analytics\\DashboardStatsComparison.tsx": {
+    "mtime": 1779565727.5490992,
+    "ast_hash": "ec88aefab0f4b338d42fa1221f345ef8",
+    "semantic_hash": ""
+  },
+  "D:\\e7tracker\\e7tracker\\src\\components\\dashboard\\analytics\\DashboardSynergyBans.tsx": {
+    "mtime": 1779532950.7348318,
+    "ast_hash": "3026b5ce4a241048d97345326f85e60c",
+    "semantic_hash": ""
+  }
+}

@@ -8,7 +8,9 @@ export enum Keybind {
     AltH = 'alt-h',
     AltS = 'alt-s',
     AltDot = 'alt-dot',
-    AltComma = 'alt-comma'
+    AltComma = 'alt-comma',
+    AltD = 'alt-d',
+    AltR = 'alt-r'
 }
 
 export interface KeybindEvent {

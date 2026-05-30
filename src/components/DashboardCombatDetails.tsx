@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar, Tooltip as ChartTooltip, Legend } from 'recharts';
 import { HeroAnalysis, CombatCounter, CombatMatchup, CombatPreban, CombatPilotBan, CombatBestPair, CombatPositionPick, CombatPrebanPair, CombatOppWinningPosition } from '../services/combatData';
@@ -20,23 +20,33 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
     const [duoPickType, setDuoPickType] = useState<'fp' | 'sp'>('fp');
     const [matchupPickType, setMatchupPickType] = useState<'fp' | 'sp'>('fp');
     const [matchupSearchQuery, setMatchupSearchQuery] = useState<string>("");
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>("");
     const [counterViewType, setCounterViewType] = useState<'strong' | 'weak'>('strong');
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchQuery(matchupSearchQuery);
+        }, 300);
+        return () => clearTimeout(handler);
+    }, [matchupSearchQuery]);
 
     // 1. FP vs SP Advantage Recharts Data
     const pickAdvantageChartData = useMemo(() => {
         if (!localCombatAnalysis) return [];
-        const fp = localCombatAnalysis.first_pick || { games: 0, wins: 0, win_rate: 0 };
-        const sp = localCombatAnalysis.second_pick || { games: 0, wins: 0, win_rate: 0 };
+        const fp = localCombatAnalysis.first_pick ?? { games: 0, wins: 0, win_rate: 0 };
+        const sp = localCombatAnalysis.second_pick ?? { games: 0, wins: 0, win_rate: 0 };
+        const fpWinRate = typeof fp?.win_rate === 'number' ? fp.win_rate : 0;
+        const spWinRate = typeof sp?.win_rate === 'number' ? sp.win_rate : 0;
         return [
             {
                 name: t('combat.fpLabel', 'First Pick'),
-                [t('combat.winRate', 'Win Rate')]: Number(fp.win_rate.toFixed(1)),
-                [t('combat.gamesLabel', 'Games')]: fp.games,
+                [t('combat.winRate', 'Win Rate')]: Number(fpWinRate.toFixed(1)),
+                [t('combat.gamesLabel', 'Games')]: fp?.games ?? 0,
             },
             {
                 name: t('combat.spLabel', 'Second Pick'),
-                [t('combat.winRate', 'Win Rate')]: Number(sp.win_rate.toFixed(1)),
-                [t('combat.gamesLabel', 'Games')]: sp.games,
+                [t('combat.winRate', 'Win Rate')]: Number(spWinRate.toFixed(1)),
+                [t('combat.gamesLabel', 'Games')]: sp?.games ?? 0,
             }
         ];
     }, [localCombatAnalysis, t]);
@@ -55,8 +65,8 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
     // 3. Best Duo Partners FP vs SP
     const currentDuos = useMemo(() => {
         if (!localCombatAnalysis) return [];
-        const duos = duoPickType === 'fp' 
-            ? localCombatAnalysis.best_pairs_fp 
+        const duos = duoPickType === 'fp'
+            ? localCombatAnalysis.best_pairs_fp
             : localCombatAnalysis.best_pairs_sp;
         return (duos || []).slice(0, 10);
     }, [localCombatAnalysis, duoPickType]);
@@ -67,13 +77,13 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
         const raw = matchupPickType === 'fp'
             ? localCombatAnalysis.matchups_fp
             : localCombatAnalysis.matchups_sp;
-        if (!raw) return [];
-        
+        if (!Array.isArray(raw)) return [];
+
         return raw.filter(item => {
-            const name = item.hero_name || item.hero;
-            return name.toLowerCase().includes(matchupSearchQuery.toLowerCase());
+            const name = item?.hero_name ?? item?.hero ?? '';
+            return typeof name === 'string' && name.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
         });
-    }, [localCombatAnalysis, matchupPickType, matchupSearchQuery]);
+    }, [localCombatAnalysis, matchupPickType, debouncedSearchQuery]);
 
     // 5. Counters Breakdown (Strong vs Weak)
     const currentCounters = useMemo(() => {
@@ -111,8 +121,8 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
         );
     }
 
-    const firstPickStats = localCombatAnalysis.first_pick || { games: 0, wins: 0, win_rate: 0 };
-    const secondPickStats = localCombatAnalysis.second_pick || { games: 0, wins: 0, win_rate: 0 };
+    const firstPickStats = localCombatAnalysis?.first_pick ?? { games: 0, wins: 0, win_rate: 0 };
+    const secondPickStats = localCombatAnalysis?.second_pick ?? { games: 0, wins: 0, win_rate: 0 };
 
     return (
         <div className="advanced-combat-dashboard">
@@ -125,8 +135,8 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                     <div className="pick-advantage-summary-flex">
                         <div className="pick-advantage-stat-block">
                             <span className="side-lbl first-pick-glow">{t('combat.firstPickShort', 'First Pick')}</span>
-                            <span className="side-val">{firstPickStats.win_rate.toFixed(1)}% {t('combat.wr', 'WR')}</span>
-                            <span className="side-sub-lbl">{firstPickStats.wins} W / {firstPickStats.games} G</span>
+                            <span className="side-val">{(firstPickStats?.win_rate ?? 0).toFixed(1)}% {t('combat.wr', 'WR')}</span>
+                            <span className="side-sub-lbl">{firstPickStats?.wins ?? 0} W / {firstPickStats?.games ?? 0} G</span>
                         </div>
                         <div className="pick-advantage-chart-wrapper">
                             <ResponsiveContainer width="100%" height={100} debounce={200}>
@@ -140,8 +150,8 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                         </div>
                         <div className="pick-advantage-stat-block text-right">
                             <span className="side-lbl second-pick-glow">{t('combat.secondPickShort', 'Second Pick')}</span>
-                            <span className="side-val">{secondPickStats.win_rate.toFixed(1)}% {t('combat.wr', 'WR')}</span>
-                            <span className="side-sub-lbl">{secondPickStats.wins} W / {secondPickStats.games} G</span>
+                            <span className="side-val">{(secondPickStats?.win_rate ?? 0).toFixed(1)}% {t('combat.wr', 'WR')}</span>
+                            <span className="side-sub-lbl">{secondPickStats?.wins ?? 0} W / {secondPickStats?.games ?? 0} G</span>
                         </div>
                     </div>
                 </div>
@@ -248,22 +258,22 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                                     {currentDuos.map((duo, idx) => (
                                         <tr key={idx}>
                                             <td className="duo-hero-cell">
-                                                <HeroMiniPortrait heroName={duo.hero_name || duo.hero} size={18} className="duo-avatar" />
-                                                <span className="duo-name truncate">{duo.hero_name || duo.hero}</span>
+                                                <HeroMiniPortrait heroName={duo?.hero_name ?? duo?.hero ?? ''} size={18} className="duo-avatar" />
+                                                <span className="duo-name truncate">{duo?.hero_name ?? duo?.hero ?? 'Unknown'}</span>
                                             </td>
-                                            <td className="text-right text-muted">{duo.count} g</td>
-                                            <td className="text-right font-bold text-cyan">{duo.win_rate.toFixed(1)}%</td>
+                                            <td className="text-right text-muted">{duo?.count ?? 0} g</td>
+                                            <td className="text-right font-bold text-cyan">{(duo?.win_rate ?? 0).toFixed(1)}%</td>
                                             <td className="text-right">
                                                 <div className="mini-distribution-bar-flex">
                                                     {["1", "2", "3", "4", "5"].map(slot => {
-                                                        const slotData = duo.by_position?.[slot];
-                                                        const wr = slotData ? slotData.win_rate : 0;
-                                                        const hasGames = slotData && slotData.count > 0;
+                                                        const slotData = duo?.by_position?.[slot];
+                                                        const wr = typeof slotData?.win_rate === 'number' ? slotData.win_rate : 0;
+                                                        const hasGames = slotData && typeof slotData.count === 'number' && slotData.count > 0;
                                                         return (
-                                                            <div 
-                                                                key={slot} 
+                                                            <div
+                                                                key={slot}
                                                                 className={`mini-slot-badge ${hasGames ? 'active' : 'empty'}`}
-                                                                title={hasGames ? `S${slot}: ${wr.toFixed(0)}% WR (${slotData.count} games)` : `S${slot}: No games`}
+                                                                title={hasGames ? `S${slot}: ${wr.toFixed(0)}% WR (${slotData?.count ?? 0} games)` : `S${slot}: No games`}
                                                                 style={hasGames ? { background: wr >= 53 ? 'rgba(16, 185, 129, 0.2)' : 'rgba(56, 189, 248, 0.15)', borderColor: wr >= 53 ? '#10b981' : '#38bdf8' } : {}}
                                                             >
                                                                 {slot}
@@ -285,7 +295,7 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                 {/* Banning Patterns Deep-Dive */}
                 <div className="dashboard-card combat-sub-card banning-patterns-card">
                     <h4 className="strategy-card-title">{t('combat.banPatternsTitle', 'Advanced Banning & Ban Pairs')}</h4>
-                    
+
                     {/* Preban Pairs */}
                     <div className="preban-pairs-section">
                         <span className="banning-sub-title">{t('combat.prebanPairsTitle', 'Top Pre-ban Couples (Banned Together)')}</span>
@@ -294,16 +304,16 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                                 prebanPairs.map((pair, idx) => (
                                     <div key={idx} className="preban-pair-row">
                                         <div className="avatars-joined">
-                                            {pair.hero_names.slice(0, 2).map((name, hIdx) => (
+                                            {Array.isArray(pair?.hero_names) && pair.hero_names.slice(0, 2).map((name, hIdx) => (
                                                 <div key={hIdx} className="mini-avatar-overlap" title={name}>
                                                     <HeroMiniPortrait heroName={name} size={18} className="overlap-img" />
                                                 </div>
                                             ))}
                                         </div>
-                                        <span className="joined-names truncate">{pair.hero_names.join(' + ')}</span>
+                                        <span className="joined-names truncate">{Array.isArray(pair?.hero_names) ? pair.hero_names.join(' + ') : 'Unknown'}</span>
                                         <div className="joined-stats">
-                                            <span className="joined-count">{pair.count} g</span>
-                                            <span className="joined-wr" style={{ color: pair.win_rate >= 50 ? '#10b981' : '#38bdf8' }}>{pair.win_rate.toFixed(0)}% WR</span>
+                                            <span className="joined-count">{pair?.count ?? 0} g</span>
+                                            <span className="joined-wr" style={{ color: (pair?.win_rate ?? 0) >= 50 ? '#10b981' : '#38bdf8' }}>{(pair?.win_rate ?? 0).toFixed(0)}% WR</span>
                                         </div>
                                     </div>
                                 ))
@@ -318,7 +328,7 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                         <div className="ban-col-extended">
                             <span className="banning-sub-title">{t('combat.topSelfPrebans', 'My Top Pre-bans')}</span>
                             <div className="extended-ban-list">
-                                {localCombatAnalysis.my_prebans.length > 0 ? (
+                                {Array.isArray(localCombatAnalysis?.my_prebans) && localCombatAnalysis.my_prebans.length > 0 ? (
                                     localCombatAnalysis.my_prebans.slice(0, 5).map((b, idx) => (
                                         <div key={idx} className="condensed-ban-line">
                                             <HeroMiniPortrait heroName={b.hero_name || b.hero} size={14} className="portrait-micro" />
@@ -335,7 +345,7 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                         <div className="ban-col-extended border-left-choices">
                             <span className="banning-sub-title">{t('combat.topEnemyPrebans', 'Enemy Top Pre-bans')}</span>
                             <div className="extended-ban-list">
-                                {localCombatAnalysis.enemy_prebans.length > 0 ? (
+                                {Array.isArray(localCombatAnalysis?.enemy_prebans) && localCombatAnalysis.enemy_prebans.length > 0 ? (
                                     localCombatAnalysis.enemy_prebans.slice(0, 5).map((b, idx) => (
                                         <div key={idx} className="condensed-ban-line">
                                             <HeroMiniPortrait heroName={b.hero_name || b.hero} size={14} className="portrait-micro" />
@@ -379,10 +389,10 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                             currentCounters.map((counter, idx) => (
                                 <div key={idx} className="counter-profile-row">
                                     <div className="counter-profile-hero">
-                                        <HeroMiniPortrait heroName={counter.hero_name} size={20} className="profile-avatar" />
+                                        <HeroMiniPortrait heroName={counter?.hero_name ?? 'Unknown'} size={20} className="profile-avatar" />
                                         <div className="profile-hero-desc">
-                                            <span className="profile-name truncate">{counter.hero_name}</span>
-                                            <span className="profile-stats-txt">{counter.count} g ({counter.win_rate.toFixed(0)}% WR)</span>
+                                            <span className="profile-name truncate">{counter?.hero_name ?? 'Unknown'}</span>
+                                            <span className="profile-stats-txt">{counter?.count ?? 0} g ({(counter?.win_rate ?? 0).toFixed(0)}% WR)</span>
                                         </div>
                                     </div>
                                     <div className="counter-positional-threat-bar">
@@ -393,16 +403,16 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                                                 const lossPct = posData ? posData.pct : 0;
                                                 const count = posData ? posData.count : 0;
                                                 return (
-                                                    <div 
-                                                        key={slot} 
+                                                    <div
+                                                        key={slot}
                                                         className="threat-bar-container"
                                                         title={`Slot ${slot}: ${lossPct.toFixed(0)}% loss rate (${count} losses)`}
                                                     >
                                                         <span className="slot-num">S{slot}</span>
                                                         <div className="threat-track">
-                                                            <div 
-                                                                className="threat-fill" 
-                                                                style={{ 
+                                                            <div
+                                                                className="threat-fill"
+                                                                style={{
                                                                     width: `${lossPct}%`,
                                                                     background: lossPct >= 60 ? '#f43f5e' : lossPct >= 45 ? '#ffae00' : '#10b981'
                                                                 }}
@@ -464,18 +474,21 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                                 </thead>
                                 <tbody>
                                     {currentMatchups.map((m, idx) => {
-                                        const losses = m.count - m.wins;
+                                        const count = m?.count ?? 0;
+                                        const wins = m?.wins ?? 0;
+                                        const losses = count - wins;
+                                        const winRate = m?.win_rate ?? 0;
                                         return (
                                             <tr key={idx}>
                                                 <td className="opponent-cell">
-                                                    <HeroMiniPortrait heroName={m.hero_name || m.hero} size={18} className="opponent-avatar" />
-                                                    <span className="opponent-name truncate">{m.hero_name || m.hero}</span>
+                                                    <HeroMiniPortrait heroName={m?.hero_name ?? m?.hero ?? 'Unknown'} size={18} className="opponent-avatar" />
+                                                    <span className="opponent-name truncate">{m?.hero_name ?? m?.hero ?? 'Unknown'}</span>
                                                 </td>
-                                                <td className="text-right text-muted">{m.count} g</td>
-                                                <td className="text-right font-bold" style={{ color: m.win_rate >= 52 ? '#10b981' : m.win_rate >= 48 ? '#38bdf8' : '#f43f5e' }}>
-                                                    {m.win_rate.toFixed(1)}%
+                                                <td className="text-right text-muted">{count} g</td>
+                                                <td className="text-right font-bold" style={{ color: winRate >= 52 ? '#10b981' : winRate >= 48 ? '#38bdf8' : '#f43f5e' }}>
+                                                    {winRate.toFixed(1)}%
                                                 </td>
-                                                <td className="text-right text-muted">{m.wins}w - {losses}l</td>
+                                                <td className="text-right text-muted">{wins}w - {losses}l</td>
                                             </tr>
                                         );
                                     })}
@@ -499,9 +512,9 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                                 {list.length > 0 ? (
                                     list.map((item, idx) => (
                                         <div key={idx} className="winning-pick-line">
-                                            <HeroMiniPortrait heroName={item.hero_name} size={16} className="winning-avatar" />
-                                            <span className="winning-name truncate">{item.hero_name}</span>
-                                            <span className="winning-pct" style={{ color: item.pct >= 53 ? '#f43f5e' : '#38bdf8' }}>{item.pct.toFixed(0)}% WR</span>
+                                            <HeroMiniPortrait heroName={item?.hero_name ?? 'Unknown'} size={16} className="winning-avatar" />
+                                            <span className="winning-name truncate">{item?.hero_name ?? 'Unknown'}</span>
+                                            <span className="winning-pct" style={{ color: (item?.pct ?? 0) >= 53 ? '#f43f5e' : '#38bdf8' }}>{(item?.pct ?? 0).toFixed(0)}% WR</span>
                                         </div>
                                     ))
                                 ) : (
@@ -512,7 +525,7 @@ export const DashboardCombatDetails: React.FC<DashboardCombatDetailsProps> = Rea
                     ))}
                 </div>
             </div>
-            
+
         </div>
     );
 });

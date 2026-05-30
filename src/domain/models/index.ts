@@ -12,3 +12,4 @@ export * from './DetectionSchema';
 export * from './DetectionConfig';
 export * from './ClientProfile';
 export * from './Window';
+export * from './InteractiveOverlay';

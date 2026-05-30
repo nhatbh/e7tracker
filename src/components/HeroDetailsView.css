@@ -5,7 +5,7 @@
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(circle at 50% 0%, rgba(11, 22, 54, 0.65) 0%, rgba(3, 6, 16, 0.8) 100%);
+    background: radial-gradient(circle at 50% 0%, rgba(11, 22, 54, 0.35) 0%, rgba(3, 6, 16, 0.55) 100%);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
     box-sizing: border-box;
@@ -1186,15 +1186,24 @@
     right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    color: #64748b;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+    transition: all 0.2s;
 }
 
 .clear-search-btn:hover {
     color: #fff;
+    background: rgba(244, 63, 94, 0.2);
+    border-color: rgba(244, 63, 94, 0.4);
 }
 
 /* Builds Table styling adjustments for compactness */
@@ -1878,9 +1887,6 @@
     border: 1px solid !important;
     border-radius: 8px !important;
     padding: 8px 11px !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.9), 
-                0 8px 16px -6px rgba(0, 0, 0, 0.9), 
-                0 0 15px rgba(0, 0, 0, 0.5) !important;
     z-index: 999999999 !important; /* Top of ALL layers including overlays */
     pointer-events: none;
     white-space: normal;
@@ -1896,7 +1902,7 @@
 }
 
 .tooltip-vibe-header {
-    font-size: 0.5rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     font-weight: 800;
     letter-spacing: 0.6px;
@@ -1905,7 +1911,7 @@
 }
 
 .tooltip-tag-name {
-    font-size: 0.72rem;
+    font-size: 0.88rem;
     font-weight: 800;
     color: #f8fafc;
     margin-bottom: 5px;
@@ -1913,7 +1919,7 @@
 }
 
 .tooltip-tag-desc {
-    font-size: 0.58rem;
+    font-size: 0.72rem;
     color: #94a3b8;
     font-weight: 400;
     line-height: 1.4;
@@ -2726,4 +2732,45 @@
 .empty-combat-details p {
     color: #64748b;
     font-size: 0.8rem;
+}
+
+/* ── Unified Pagination Controls ── */
+.table-pagination-controls-unified {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 12px 0;
+}
+
+.pagination-btn-unified {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pagination-btn-unified:hover:not(:disabled) {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    border-color: #00e5ff;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+}
+
+.pagination-btn-unified:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.01);
+    color: #475569;
+}
+
+.pagination-info-text-unified {
+    font-size: 0.75rem;
+    color: #94a3b8;
 }

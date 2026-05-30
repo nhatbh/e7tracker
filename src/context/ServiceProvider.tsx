@@ -15,6 +15,9 @@ import { OCRProvider } from './OCRContext';
 import { TickerProvider } from './TickerContext';
 import { KeybindServiceProvider } from './KeybindContext';
 import { ClientProfileProvider } from './ClientProfileContext';
+import { DamageCalculatorProvider } from './DamageCalculatorContext';
+import { OverlayManagerProvider } from './OverlayManagerContext';
+import { TierListServiceProvider } from './TierListServiceContext';
 
 export interface ServiceProviderProps {
     children: React.ReactNode;
@@ -38,7 +41,13 @@ export const OverlayServiceProvider: React.FC<ServiceProviderProps> = ({ childre
                                         <TickerProvider>
                                             <OCRProvider>
                                                 <KeybindServiceProvider>
-                                                    {children}
+                                                    <OverlayManagerProvider>
+                                                        <TierListServiceProvider>
+                                                            <DamageCalculatorProvider>
+                                                                {children}
+                                                            </DamageCalculatorProvider>
+                                                        </TierListServiceProvider>
+                                                    </OverlayManagerProvider>
                                                 </KeybindServiceProvider>
                                             </OCRProvider>
                                         </TickerProvider>

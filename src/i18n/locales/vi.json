@@ -265,6 +265,11 @@
             "name": "Standard Pick",
             "vibe": "Tròn Vai",
             "desc": "Thông số ban pick cơ bản, đánh tròn vai. Không có sự thiên lệch hay đột biến nào đáng kể trong meta hiện tại."
+        },
+        "underperforming": {
+            "name": "Dưới Trướng Meta",
+            "vibe": "Cần Buff",
+            "desc": "Chỉ số tổng thể dưới mức trung bình, thể hiện sự yếu kém trong meta hiện tại."
         }
     }
 }

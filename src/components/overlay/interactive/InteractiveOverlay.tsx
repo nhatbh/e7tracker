@@ -1,20 +1,22 @@
-/**
- * InteractiveOverlay Component
- * Full-screen interactive overlay that sits on top of the main overlay
- * Toggles cursor pass-through when active
- */
-
 import React, { useEffect, useState } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import { HeroDetailsView } from '../../HeroDetailsView';
+import { overlayManager } from '../../../overlay/services/OverlayManagerService';
+import { InteractivePageType } from '../../../domain/models/InteractiveOverlay';
 import './InteractiveOverlay.css';
 
 interface InteractiveOverlayProps {
-    isActive: boolean;
     onClose: () => void;
 }
 
-export const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isActive, onClose }) => {
-    const [clickCount, setClickCount] = useState(0);
+export const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ onClose }) => {
+    const [activeOverlayId, setActiveOverlayId] = useState<InteractivePageType | null>(null);
+
+    useEffect(() => {
+        const unsubscribe = overlayManager.onOverlayChange(setActiveOverlayId);
+        setActiveOverlayId(overlayManager.getActiveOverlayId());
+        return unsubscribe;
+    }, []);
 
     // Toggle cursor pass-through when overlay becomes active/inactive
     useEffect(() => {
@@ -24,7 +26,7 @@ export const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isActive
                 if (window.label === 'main') {
                     // When overlay is active, allow cursor interactions (false = don't ignore)
                     // When overlay is inactive, pass through to game (true = ignore)
-                    await window.setIgnoreCursorEvents(!isActive);
+                    await window.setIgnoreCursorEvents(activeOverlayId === null);
                 }
             } catch (error) {
                 // Silently fail if not in Tauri context
@@ -32,11 +34,46 @@ export const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isActive
         };
 
         manageCursor();
-    }, [isActive]);
+    }, [activeOverlayId]);
 
-    if (!isActive) {
+    if (!activeOverlayId) {
         return null;
     }
+
+    const renderContent = () => {
+        if (activeOverlayId === InteractivePageType.Dashboard) {
+            const definition = overlayManager.getOverlay(InteractivePageType.Dashboard);
+            if (definition) {
+                const Component = definition.component as any;
+                return <Component isActive={true} onClose={onClose} />;
+            }
+        }
+        
+        if (activeOverlayId === InteractivePageType.HeroDetails) {
+            const heroName = overlayManager.getActiveOverlayData();
+            if (!heroName) {
+                return (
+                    <div className="interactive-overlay-empty">
+                        <p>No hero detected. Please select a hero in-game to view details.</p>
+                        <button className="interactive-overlay-btn" onClick={onClose}>Close</button>
+                    </div>
+                );
+            }
+            return (
+                <HeroDetailsView 
+                    heroName={heroName} 
+                    onClose={onClose}
+                />
+            );
+        }
+
+        return (
+            <div className="interactive-overlay-empty">
+                <p>Overlay not found.</p>
+                <button className="interactive-overlay-btn" onClick={onClose}>Close</button>
+            </div>
+        );
+    };
 
     return (
         <div className="interactive-overlay-container">
@@ -45,53 +82,8 @@ export const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isActive
 
             {/* Interactive content panel */}
             <div className="interactive-overlay-panel">
-                <div className="interactive-overlay-header">
-                    <h2 className="interactive-overlay-title">Interactive Overlay</h2>
-                    <button 
-                        className="interactive-overlay-close-btn"
-                        onClick={onClose}
-                        aria-label="Close overlay"
-                    >
-                        ✕
-                    </button>
-                </div>
-
                 <div className="interactive-overlay-content">
-                    <p className="interactive-overlay-description">
-                        This is the new interactive overlay layer. You can now interact with UI elements.
-                    </p>
-
-                    <div className="interactive-overlay-button-group">
-                        <button 
-                            className="interactive-overlay-btn interactive-overlay-btn-primary"
-                            onClick={() => setClickCount(clickCount + 1)}
-                        >
-                            Test Button (Clicked: {clickCount})
-                        </button>
-
-                        <button 
-                            className="interactive-overlay-btn interactive-overlay-btn-secondary"
-                            onClick={() => setClickCount(0)}
-                        >
-                            Reset Counter
-                        </button>
-
-                        <button 
-                            className="interactive-overlay-btn interactive-overlay-btn-danger"
-                            onClick={onClose}
-                        >
-                            Close Overlay (Alt+R)
-                        </button>
-                    </div>
-
-                    <div className="interactive-overlay-info">
-                        <p className="interactive-overlay-info-text">
-                            ℹ️ Cursor pass-through is now <strong>disabled</strong>. Click anywhere to interact.
-                        </p>
-                        <p className="interactive-overlay-info-text">
-                            Press <kbd>Alt+R</kbd> or click "Close Overlay" to return to non-interactive mode.
-                        </p>
-                    </div>
+                    {renderContent()}
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@ import { getSetIconUrl } from '../../services/setAssets';
 import { HeroMiniPortrait } from '../HeroMiniPortrait';
 import { SavedBuildProfile, calculateProfileDamage } from '../../services/damageCalc/profileCalc';
 import { formatFormLabel, FormDefaults, Heroes, getHeroCalculatorKey } from '../../services/damageCalc/damageService';
+import { useDamageCalculatorService } from '../../context/DamageCalculatorContext';
 import './CompareTab.css';
 
 const COMPARE_COLORS = ['#00f2fe', '#ff007f', '#10b981', '#ffb700'];
@@ -269,6 +270,7 @@ export const CompareTab: React.FC<CompareTabProps> = ({
   onBackToSavedBuilds
 }) => {
   const { t } = useTranslation();
+  const damageCalculatorService = useDamageCalculatorService();
   const [profiles, setProfiles] = useState<SavedBuildProfile[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -290,16 +292,12 @@ export const CompareTab: React.FC<CompareTabProps> = ({
   const hero = useMemo(() => Heroes[heroKey] || Heroes.abigail, [heroKey]);
   const heroElement = hero?.element;
 
-  // Load all profiles from cache
+  // Load all profiles from context
   const loadProfiles = async () => {
     try {
       setLoading(true);
-      const cached = await invoke<string | null>("cache_get", { key: "saved_damage_calc_builds" });
-      if (cached) {
-        setProfiles(JSON.parse(cached));
-      } else {
-        setProfiles([]);
-      }
+      const list = await damageCalculatorService.getAllProfiles();
+      setProfiles(list);
     } catch (e) {
       console.error("Failed to load profiles in CompareTab:", e);
     } finally {
@@ -309,7 +307,7 @@ export const CompareTab: React.FC<CompareTabProps> = ({
 
   useEffect(() => {
     loadProfiles();
-  }, []);
+  }, [damageCalculatorService]);
 
   // All saved builds are selectable as opponent target
   const opponentOptions = useMemo(() => {
@@ -710,7 +708,7 @@ export const CompareTab: React.FC<CompareTabProps> = ({
             Simulating Target: {customDef.toLocaleString()} Def • {customHP.toLocaleString()} HP
           </div>
           <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={230}>
+            <ResponsiveContainer width="100%" height={230} debounce={200}>
               <BarChart data={compareChartData.damageChartData} margin={{ top: 20, right: 10, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" />
                 <XAxis 
@@ -775,7 +773,7 @@ export const CompareTab: React.FC<CompareTabProps> = ({
             Contrasting Effective Health (EHP) vs. Raw Damage Score
           </div>
           <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={230}>
+            <ResponsiveContainer width="100%" height={230} debounce={200}>
               <BarChart data={compareChartData.ehpChartData} margin={{ top: 20, right: 10, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" />
                 <XAxis 

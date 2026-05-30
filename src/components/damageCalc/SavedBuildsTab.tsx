@@ -20,6 +20,7 @@ import { getSetIconUrl } from '../../services/setAssets';
 import { HeroMiniPortrait } from '../HeroMiniPortrait';
 import { SavedBuildProfile, calculateProfileDamage, CalculatedDamageOutput } from '../../services/damageCalc/profileCalc';
 import { formatFormLabel, FormDefaults, Heroes, getHeroCalculatorKey } from '../../services/damageCalc/damageService';
+import { useDamageCalculatorService } from '../../context/DamageCalculatorContext';
 import './SavedBuildsTab.css';
 
 const COMPARE_COLORS = ['#00f2fe', '#ff007f', '#10b981', '#ffb700'];
@@ -289,6 +290,7 @@ export const SavedBuildsTab: React.FC<SavedBuildsTabProps> = ({
   onStartComparison
 }) => {
   const { t } = useTranslation();
+  const damageCalculatorService = useDamageCalculatorService();
   const [profiles, setProfiles] = useState<SavedBuildProfile[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -330,16 +332,12 @@ export const SavedBuildsTab: React.FC<SavedBuildsTabProps> = ({
   const hero = useMemo(() => Heroes[heroKey] || Heroes.abigail, [heroKey]);
   const heroElement = hero?.element;
 
-  // Load profiles from SQLite database on mount / filter change
+  // Load profiles from context on mount
   const loadProfiles = async () => {
     try {
       setLoading(true);
-      const cached = await invoke<string | null>("cache_get", { key: "saved_damage_calc_builds" });
-      if (cached) {
-        setProfiles(JSON.parse(cached));
-      } else {
-        setProfiles([]);
-      }
+      const list = await damageCalculatorService.getProfilesByHero(heroName); // Actually get all profiles for the filterMode logic to work
+      setProfiles(list);
     } catch (e) {
       console.error("Failed to load saved builds:", e);
     } finally {
@@ -349,21 +347,20 @@ export const SavedBuildsTab: React.FC<SavedBuildsTabProps> = ({
 
   useEffect(() => {
     loadProfiles();
-  }, []);
+  }, [heroName, damageCalculatorService]);
 
   const handleDeleteProfile = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (!window.confirm("Are you sure you want to delete this saved build profile?")) return;
 
     try {
-      const cached = await invoke<string | null>("cache_get", { key: "saved_damage_calc_builds" });
-      if (cached) {
-        const list: SavedBuildProfile[] = JSON.parse(cached);
-        const filtered = list.filter(p => p.id !== id);
-        await invoke("cache_set", { key: "saved_damage_calc_builds", value: JSON.stringify(filtered) });
-        setProfiles(filtered);
-        if (expandedProfileId === id) setExpandedProfileId(null);
-      }
+      await damageCalculatorService.deleteProfile(id);
+      
+      // Reload profiles
+      const list = await damageCalculatorService.getProfilesByHero(heroName);
+      setProfiles(list);
+      
+      if (expandedProfileId === id) setExpandedProfileId(null);
     } catch (e) {
       console.error("Failed to delete profile:", e);
     }

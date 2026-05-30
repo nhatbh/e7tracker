@@ -21,6 +21,7 @@ export interface FetchProgressEvent {
 export interface CacheManagerState {
     progress: Record<CacheType, number>;
     refetch: (type: CacheType) => Promise<void>;
+    purgeAllCache: () => Promise<void>;
 }
 
 const CacheManagerContext = createContext<CacheManagerState | null>(null);
@@ -89,9 +90,30 @@ export const CacheManagerProvider: React.FC<{ children: React.ReactNode }> = ({ 
         }
     };
 
+    const purgeAllCache = async (): Promise<void> => {
+        try {
+            // Reset all progress to 0
+            setProgress({
+                [CacheType.Hero]: 0,
+                [CacheType.Build]: 0,
+                [CacheType.Artifact]: 0,
+                [CacheType.CombatAnalytics]: 0,
+                [CacheType.Metagame]: 0,
+            });
+
+            // Call backend to clear all cache (cache_clear is the correct command)
+            await invoke('cache_clear');
+            console.log('[CacheManager] All cache cleared successfully');
+        } catch (error) {
+            console.error('[CacheManager] Failed to clear all cache:', error);
+            throw error;
+        }
+    };
+
     const value: CacheManagerState = {
         progress,
         refetch,
+        purgeAllCache,
     };
 
     return (

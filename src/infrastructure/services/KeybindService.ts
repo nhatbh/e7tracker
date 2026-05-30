@@ -21,6 +21,8 @@ export class KeybindService implements IKeybindService {
             { event: 'alt-s', key: Keybind.AltS },
             { event: 'alt-dot', key: Keybind.AltDot },
             { event: 'alt-comma', key: Keybind.AltComma },
+            { event: 'alt-d', key: Keybind.AltD },
+            { event: 'alt-r', key: Keybind.AltR },
         ];
 
         for (const binding of bindings) {

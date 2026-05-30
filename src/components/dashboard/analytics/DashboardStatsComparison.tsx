@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
-import { BuildStats } from '../services/buildAssist';
-import { getSetIconUrl } from '../services/setAssets';
+import { BuildStats } from '../../../services/buildAssist';
+import { SetIconsGroup } from '../../common/SetIconsGroup';
 
 interface DashboardStatsComparisonProps {
     radarData: any[];
@@ -11,6 +11,18 @@ interface DashboardStatsComparisonProps {
     setStats: Array<{ setName: string; percent: number; stats: BuildStats; }>;
     proSetStats: Array<{ setName: string; percent: number; stats: BuildStats; }>;
 }
+
+// Move statsList outside component to prevent recreation on every render
+const STATS_LIST: Array<{ labelKey: string; key: keyof BuildStats; isPercent?: boolean; isSpd?: boolean }> = [
+    { labelKey: 'combat.atk', key: 'atk' },
+    { labelKey: 'combat.def', key: 'def' },
+    { labelKey: 'combat.hp', key: 'hp' },
+    { labelKey: 'combat.spd', key: 'spd', isSpd: true },
+    { labelKey: 'combat.critPct', key: 'chc', isPercent: true },
+    { labelKey: 'combat.cDmg', key: 'chd', isPercent: true },
+    { labelKey: 'combat.eff', key: 'eff', isPercent: true },
+    { labelKey: 'combat.er', key: 'efr', isPercent: true },
+];
 
 export const DashboardStatsComparison: React.FC<DashboardStatsComparisonProps> = React.memo(({
     radarData,
@@ -21,30 +33,17 @@ export const DashboardStatsComparison: React.FC<DashboardStatsComparisonProps> =
 }) => {
     const { t } = useTranslation();
 
-    const renderSetHeader = (setObj: any, isPro: boolean) => {
+    const renderSetHeader = useMemo(() => (setObj: any, isPro: boolean) => {
         if (!setObj) return <span className="empty-header-dash">-</span>;
         return (
             <div className={`header-set-badge ${isPro ? 'pro-glow' : ''}`} title={`${setObj.setName} (${setObj.percent}%)`}>
-                <div className="header-set-icons">
-                    {setObj.setName.split(' / ').map((setPart: string) => {
-                        const cleanPart = setPart.trim();
-                        const isChase = cleanPart.toLowerCase() === 'chase' || cleanPart.toLowerCase() === 'set_chase';
-                        return (
-                            <img
-                                key={cleanPart}
-                                src={getSetIconUrl(cleanPart)}
-                                alt={cleanPart}
-                                className={`header-set-icon ${isChase ? 'no-scale' : ''}`}
-                            />
-                        );
-                    })}
-                </div>
+                <SetIconsGroup setName={setObj.setName} className="header-set-icons" iconClassName="header-set-icon" />
                 <span className="header-set-percent">{setObj.percent}%</span>
             </div>
         );
-    };
+    }, []);
 
-    const renderStatCell = (setObj: any, statKey: keyof BuildStats, isPro: boolean) => {
+    const renderStatCell = useMemo(() => (setObj: any, statKey: keyof BuildStats, isPro: boolean) => {
         if (!setObj || !setObj.stats) return <span className="text-right text-muted">-</span>;
         const val = setObj.stats[statKey];
         const isPercent = statKey === 'chc' || statKey === 'chd' || statKey === 'eff' || statKey === 'efr';
@@ -54,18 +53,7 @@ export const DashboardStatsComparison: React.FC<DashboardStatsComparisonProps> =
                 {formatted}
             </span>
         );
-    };
-
-    const statsList: Array<{ labelKey: string; key: keyof BuildStats; isPercent?: boolean; isSpd?: boolean }> = [
-        { labelKey: 'combat.atk', key: 'atk' },
-        { labelKey: 'combat.def', key: 'def' },
-        { labelKey: 'combat.hp', key: 'hp' },
-        { labelKey: 'combat.spd', key: 'spd', isSpd: true },
-        { labelKey: 'combat.critPct', key: 'chc', isPercent: true },
-        { labelKey: 'combat.cDmg', key: 'chd', isPercent: true },
-        { labelKey: 'combat.eff', key: 'eff', isPercent: true },
-        { labelKey: 'combat.er', key: 'efr', isPercent: true },
-    ];
+    }, []);
 
     return (
         <div className="dashboard-column charts-radar-col">
@@ -96,7 +84,7 @@ export const DashboardStatsComparison: React.FC<DashboardStatsComparisonProps> =
                                 <span>{t("combat.statLabel")}</span>
                                 <span className="text-right" style={{ color: '#00e5ff' }}>{t("combat.avgLabel")}</span>
                                 <span className="text-right" style={{ color: '#ff007f' }}>{t("combat.proLabel")}</span>
-                                
+
                                 {/* Top 3 Avg Sets Headers */}
                                 <span className="text-right">{renderSetHeader(setStats[0], false)}</span>
                                 <span className="text-right">{renderSetHeader(setStats[1], false)}</span>
@@ -109,12 +97,12 @@ export const DashboardStatsComparison: React.FC<DashboardStatsComparisonProps> =
                             </div>
                             {avg ? (
                                 <div className="comp-rows-container">
-                                    {statsList.map(({ labelKey, key, isPercent, isSpd }) => (
+                                    {STATS_LIST.map(({ labelKey, key, isPercent, isSpd }) => (
                                         <div key={key} className="comp-row">
                                             <span className="stat-label-col">{t(labelKey)}</span>
                                             <span className="text-right">{isPercent ? `${Math.round(avg[key])}%` : isSpd ? Math.round(avg[key]) : Math.round(avg[key]).toLocaleString()}</span>
                                             <span className="text-right comp-value-pro">{pro ? (isPercent ? `${Math.round(pro[key])}%` : isSpd ? Math.round(pro[key]) : Math.round(pro[key]).toLocaleString()) : '-'}</span>
-                                            
+
                                             {/* Avg sets stats cells */}
                                             {renderStatCell(setStats[0], key, false)}
                                             {renderStatCell(setStats[1], key, false)}

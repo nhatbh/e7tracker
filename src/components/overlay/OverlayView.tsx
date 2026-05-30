@@ -4,8 +4,14 @@ import { ScreenType } from '../../domain/models/DetectionSchema';
 import { HeroStatsOverlays } from './hero-stats/HeroStatsOverlays';
 import { invoke } from '@tauri-apps/api/core';
 import { useWindowService } from '../../context/WindowServiceContext';
-import { listen } from '@tauri-apps/api/event';
 import { InteractiveOverlay } from './interactive/InteractiveOverlay';
+import { overlayManager } from '../../overlay/services/OverlayManagerService';
+import { InteractivePageType } from '../../domain/models/InteractiveOverlay';
+import { DashboardView } from './dashboard/DashboardView';
+import { HeroDetailsView } from '../HeroDetailsView';
+import { useKeybind } from '../../context/KeybindContext';
+import { Keybind } from '../../domain/models/KeybindSchema';
+import { useOverlayManager } from '../../context/OverlayManagerContext';
 import './OverlayView.css';
 
 interface WindowInfo {
@@ -20,8 +26,39 @@ interface OverlayViewProps {
 export const OverlayView: React.FC<OverlayViewProps> = ({ onTrackingChange }) => {
     const screenDetection = useScreenDetection();
     const windowService = useWindowService();
+    const overlayManager = useOverlayManager();
     const [currentScreen, setCurrentScreen] = useState<ScreenType>(ScreenType.Unknown);
-    const [isInteractive, setIsInteractive] = useState(false);
+    const [currentHeroName, setCurrentHeroName] = useState<string | null>(null);
+    const [showDashboardTooltip, setShowDashboardTooltip] = useState(true);
+
+    useEffect(() => {
+        // Register Overlays
+        overlayManager.registerOverlay({
+            id: InteractivePageType.Dashboard,
+            keybind: { alt: true, key: 'd' },
+            component: DashboardView
+        });
+        overlayManager.registerOverlay({
+            id: InteractivePageType.HeroDetails,
+            keybind: { alt: true, key: 'r' },
+            component: HeroDetailsView
+        });
+
+        return () => {
+            overlayManager.unregisterOverlay(InteractivePageType.Dashboard);
+            overlayManager.unregisterOverlay(InteractivePageType.HeroDetails);
+        };
+    }, []);
+
+    useKeybind(Keybind.AltD, () => {
+        overlayManager.toggleOverlay(InteractivePageType.Dashboard);
+        setShowDashboardTooltip(false);
+    });
+
+    // Listen for Alt+R keybind (handled locally, state via service)
+    useKeybind(Keybind.AltR, () => {
+        overlayManager.toggleOverlay(InteractivePageType.HeroDetails, currentHeroName);
+    });
 
     useEffect(() => {
         const unsubscribe = screenDetection.onScreenChanged((screen) => {
@@ -31,15 +68,7 @@ export const OverlayView: React.FC<OverlayViewProps> = ({ onTrackingChange }) =>
         return unsubscribe;
     }, [screenDetection]);
 
-    // Handle Alt+R shortcut event
-    useEffect(() => {
-        const unlisten = listen('toggle-hero-details', () => {
-            setIsInteractive(prev => !prev);
-        });
-        return () => {
-            unlisten.then(fn => fn());
-        };
-    }, []);
+
 
     useEffect(() => {
         const setupWindowTracking = async () => {
@@ -62,15 +91,22 @@ export const OverlayView: React.FC<OverlayViewProps> = ({ onTrackingChange }) =>
     return (
         <main className="overlay-view overlay-view-wrapper">
             <InteractiveOverlay 
-                isActive={isInteractive} 
-                onClose={() => setIsInteractive(false)} 
+                onClose={() => overlayManager.closeOverlay()} 
             />
             {currentScreen === ScreenType.HeroStats ? (
-                <HeroStatsOverlays />
+                <HeroStatsOverlays onHeroChange={setCurrentHeroName} />
             ) : (
-                <div className="overlay-watermark">
-                    <img src="/app-icon.png" alt="e7Tracker" className="watermark-icon" />
-                    <span className="watermark-text">e7Tracker</span>
+                <div className="overlay-watermark-container">
+                    {showDashboardTooltip && (
+                        <div className="dashboard-keybind-tooltip">
+                            <kbd>Alt + D</kbd>
+                            <span>Dashboard</span>
+                        </div>
+                    )}
+                    <div className="overlay-watermark">
+                        <img src="/app-icon.png" alt="e7Tracker" className="watermark-icon" />
+                        <span className="watermark-text">e7Tracker</span>
+                    </div>
                 </div>
             )}
         </main>

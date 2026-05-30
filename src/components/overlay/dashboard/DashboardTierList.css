@@ -1,0 +1,111 @@
+.tier-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.tier-swimlane {
+    display: flex;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+}
+
+.tier-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 40px;
+    font-weight: 800;
+}
+
+.tier-label { font-size: 1.2rem; }
+.tier-count { font-size: 0.7rem; opacity: 0.7; }
+
+.tier-heroes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    flex: 1 1 auto;
+    align-content: flex-start;
+}
+
+.hero-card {
+    background: rgba(13, 17, 30, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 8px;
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.hero-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(20, 25, 45, 0.6);
+}
+
+.hero-card-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.hero-stats-compact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+}
+
+.stat-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 45px;
+}
+
+.stat-lbl { font-size: 0.5rem; opacity: 0.5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.stat-val { font-weight: 600; font-size: 0.65rem; }
+
+.power-score { font-size: 0.7rem; font-weight: 700; }
+
+.specialist-warning { font-size: 0.7rem; position: absolute; top: 4px; right: 4px; }
+
+.hero-info-compact { margin-top: 2px; }
+.hero-name-compact { font-weight: 600; font-size: 0.75rem; }
+
+.hero-tags-compact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 2px;
+}
+
+.tag-badge {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    padding: 1px 4px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+.tag-vibe {
+    /* Inner span not needed anymore - vibe text rendered directly in badge */
+}
+
+.tag-name {
+    /* Not used anymore */
+}
+
+.tier-empty { padding: 20px; text-align: center; color: rgba(255, 255, 255, 0.3); font-size: 0.75rem; }

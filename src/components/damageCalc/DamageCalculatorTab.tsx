@@ -6,8 +6,10 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { listen } from '@tauri-apps/api/event';
 
 import { FormDefaults, formatFormLabel, Artifacts, getHeroCalculatorKey, Heroes } from '../../services/damageCalc/damageService';
-import { BuildAssist, ProcessedBuildData } from '../../services/buildAssist';
+import { useBuildProfileService } from '../../context/BuildProfileServiceContext';
+import { useDamageCalculatorService } from '../../context/DamageCalculatorContext';
 import { SavedBuildProfile, calculateProfileDamage } from '../../services/damageCalc/profileCalc';
+import { ProcessedBuildData } from '../../domain/models/BuildProfile';
 
 import { CustomDialog } from './sandbox/CustomDialog';
 import { CasterPresetsPopup } from './sandbox/CasterPresetsPopup';
@@ -47,6 +49,8 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
     onClearImportedProfile
 }) => {
     const { t } = useTranslation();
+    const buildProfileService = useBuildProfileService();
+    const damageCalculatorService = useDamageCalculatorService();
 
     // ── STATE MANAGEMENT ──
     const [profiles, setProfiles] = useState<SavedBuildProfile[]>([]);
@@ -145,8 +149,7 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
     // ── INITIAL LOAD & SYNC ──
     const loadSavedBuilds = async () => {
         try {
-            const cached = await invoke<string | null>("cache_get", { key: "saved_damage_calc_builds" });
-            const list: SavedBuildProfile[] = cached ? JSON.parse(cached) : [];
+            const list = await damageCalculatorService.getProfilesByHero(heroName);
             setProfiles(list);
             return list;
         } catch (e) {
@@ -155,65 +158,53 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
         }
     };
 
-    // Load presets, hero keys, and saved builds on mount
+    // Combined Initial Load
     useEffect(() => {
-        setIsLoading(true);
-        loadSavedBuilds().then(async (list) => {
+        const initializeTab = async () => {
+            setIsLoading(true);
             try {
-                const cachedState = await invoke<string | null>("cache_get", {
-                    key: `damage_calc_state_${heroName.toLowerCase()}`
-                });
+                // 1. Load profiles and sandbox state in parallel
+                const [profiles, cachedState] = await Promise.all([
+                    damageCalculatorService.getProfilesByHero(heroName),
+                    invoke<string | null>("cache_get", { key: `damage_calc_state_${heroName.toLowerCase()}` })
+                ]);
+                setProfiles(profiles);
+
+                // 2. Load hero list
+                const allProfiles = await buildProfileService.getAllProfiles();
+                setAllHeroKeys(Array.from(new Set(allProfiles.map(p => p.heroName))));
+
+                // 3. Process sandbox state
                 if (cachedState) {
                     const parsed = JSON.parse(cachedState);
                     if (parsed.activeCasters && parsed.activeCasters.length > 0) {
                         setActiveCasters(parsed.activeCasters);
                         setActiveCasterId(parsed.activeCasterId || parsed.activeCasters[0].id);
-                        if (parsed.targetProfile) {
-                            setTargetProfile(parsed.targetProfile);
-                        }
-                        if (parsed.calcMode) {
-                            setCalcMode(parsed.calcMode);
-                        }
-                        setIsLoading(false);
-                        return; // Successfully loaded from state cache!
+                        if (parsed.targetProfile) setTargetProfile(parsed.targetProfile);
+                        if (parsed.calcMode) setCalcMode(parsed.calcMode);
+                        return; 
                     }
                 }
+
+                // 4. Default fallback
+                const matches = profiles.filter(p => p.heroName.toLowerCase() === heroName.toLowerCase());
+                if (matches.length > 0) {
+                    setActiveCasters([matches[0]]);
+                    setActiveCasterId(matches[0].id);
+                } else {
+                    const defaultCaster = createBlankProfile(heroName, 'Active Build');
+                    setActiveCasters([defaultCaster]);
+                    setActiveCasterId(defaultCaster.id);
+                }
             } catch (err) {
-                console.error("Failed to load cached sandbox state:", err);
+                console.error("Failed to initialize sandbox tab:", err);
+            } finally {
+                setIsLoading(false);
             }
+        };
 
-            // Find existing caster build matching heroName
-            const matches = list.filter(p => p.heroName.toLowerCase() === heroName.toLowerCase());
-            if (matches.length > 0) {
-                setActiveCasters([matches[0]]);
-                setActiveCasterId(matches[0].id);
-            } else {
-                // Construct a default caster build
-                const defaultCaster = createBlankProfile(heroName, 'Active Build');
-                setActiveCasters([defaultCaster]);
-                setActiveCasterId(defaultCaster.id);
-            }
-            setIsLoading(false);
-        });
-
-        // Initialize BuildAssist and pull hero list
-        BuildAssist.init().then(() => {
-            const list = BuildAssist.getHeroList();
-            if (list && list.length > 0) {
-                setAllHeroKeys(list);
-            } else {
-                setAllHeroKeys(Object.keys(Heroes).map(k => {
-                    const h = Heroes[k as keyof typeof Heroes];
-                    return h ? (h as any).name || k : k;
-                }));
-            }
-        }).catch(() => {
-            setAllHeroKeys(Object.keys(Heroes).map(k => {
-                const h = Heroes[k as keyof typeof Heroes];
-                return h ? (h as any).name || k : k;
-            }));
-        });
-    }, [heroName]);
+        initializeTab();
+    }, [heroName, damageCalculatorService, buildProfileService]);
 
     // Background State Persistence
     useEffect(() => {
@@ -486,7 +477,7 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
         setSelectedPresetHero(hero);
         setIsPresetLoading(true);
         try {
-            const build = await BuildAssist.getBuilds(hero);
+            const build = await buildProfileService.getProcessedBuildData(hero);
             setPresetHeroData(build);
         } catch (e) {
             console.error("Failed to load preset build info:", e);
@@ -566,9 +557,6 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
     // Quick Save Caster Tab
     const handleSaveCasterTab = async (caster: SavedBuildProfile) => {
         try {
-            const cached = await invoke<string | null>("cache_get", { key: "saved_damage_calc_builds" });
-            let list: SavedBuildProfile[] = cached ? JSON.parse(cached) : [];
-
             let profileToSave = { ...caster };
             if (caster.id.startsWith('caster_') || caster.id.startsWith('preset_')) {
                 const finalId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15);
@@ -579,14 +567,10 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
                 setActiveCasterId(finalId);
             }
 
-            const existsIdx = list.findIndex(p => p.id === profileToSave.id);
-            if (existsIdx >= 0) {
-                list[existsIdx] = profileToSave;
-            } else {
-                list.push(profileToSave);
-            }
-
-            await invoke("cache_set", { key: "saved_damage_calc_builds", value: JSON.stringify(list) });
+            await damageCalculatorService.saveProfile(profileToSave);
+            
+            // Reload profiles
+            const list = await damageCalculatorService.getProfilesByHero(heroName);
             setProfiles(list);
 
             showCustomAlert(`Saved Build "${profileToSave.profileName}" successfully!`, 'Success');
@@ -599,16 +583,13 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
     const handleSaveTargetTab = async () => {
         if (!targetProfile || targetProfile.id === 'target') return;
         try {
-            const cached = await invoke<string | null>("cache_get", { key: "saved_damage_calc_builds" });
-            let list: SavedBuildProfile[] = cached ? JSON.parse(cached) : [];
-
-            const existsIdx = list.findIndex(p => p.id === targetProfile.id);
-            if (existsIdx >= 0) {
-                list[existsIdx] = targetProfile;
-                await invoke("cache_set", { key: "saved_damage_calc_builds", value: JSON.stringify(list) });
-                setProfiles(list);
-                showCustomAlert(`Saved Target "${targetProfile.profileName}" successfully!`, 'Success');
-            }
+            await damageCalculatorService.saveProfile(targetProfile);
+            
+            // Reload profiles
+            const list = await damageCalculatorService.getProfilesByHero(heroName);
+            setProfiles(list);
+            
+            showCustomAlert(`Saved Target "${targetProfile.profileName}" successfully!`, 'Success');
         } catch (e) {
             console.error("Failed to save target build:", e);
         }
@@ -636,12 +617,14 @@ export const DamageCalculatorTab: React.FC<DamageCalculatorTabProps> = ({
             `Are you sure you want to delete the ${selectedLibraryIds.length} selected build profiles?`,
             async () => {
                 try {
-                    const cached = await invoke<string | null>("cache_get", { key: "saved_damage_calc_builds" });
-                    const list: SavedBuildProfile[] = cached ? JSON.parse(cached) : [];
-                    const filtered = list.filter(p => !selectedLibraryIds.includes(p.id));
-                    await invoke("cache_set", { key: "saved_damage_calc_builds", value: JSON.stringify(filtered) });
+                    for (const id of selectedLibraryIds) {
+                        await damageCalculatorService.deleteProfile(id);
+                    }
 
-                    setProfiles(filtered);
+                    // Reload profiles
+                    const list = await damageCalculatorService.getProfilesByHero(heroName);
+                    setProfiles(list);
+                    
                     setActiveCasters(prev => prev.filter(c => !selectedLibraryIds.includes(c.id)));
                     setSelectedLibraryIds([]);
                 } catch (e) {

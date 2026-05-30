@@ -265,6 +265,11 @@
       "name": "Standard Draft",
       "vibe": "Balanced",
       "desc": "Draft statistics show standard placement distributions with no extreme slot or performance biases in the current meta."
+    },
+    "underperforming": {
+      "name": "Underperforming",
+      "vibe": "Needs Buff",
+      "desc": "Overall stats are below average, indicating weakness in the current meta."
     }
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { HeroAnalysis } from '../services/combatData';
+import { HeroAnalysis } from '../../../services/combatData';
 
 interface DashboardLeaderboardProps {
     localCombatAnalysis: HeroAnalysis | null;

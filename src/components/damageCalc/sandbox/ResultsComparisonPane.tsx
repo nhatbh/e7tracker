@@ -113,7 +113,7 @@ export const ResultsComparisonPane: React.FC<ResultsComparisonPaneProps> = ({
                     {chartData.length === 0 ? (
                         <div className="chart-empty-state">No caster workspace tab loaded.</div>
                     ) : (
-                        <ResponsiveContainer width="100%" height={260}>
+                        <ResponsiveContainer width="100%" height={260} debounce={200}>
                             <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" />
                                 <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" fontSize={10} tickLine={false} />

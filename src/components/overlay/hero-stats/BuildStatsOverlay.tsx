@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { getSetIconUrl } from '../../../services/setAssets';
+import { SetIconsGroup } from '../../common/SetIconsGroup';
 import { SettingsService, AppSettings, DEFAULT_SETTINGS } from '../../../services/settingsService';
 import './BuildStatsOverlay.css';
 import { BuildStats, HeroAnalysis, MetagameHero, ProcessedBuildData, ActiveBuildSource } from '../../../domain/models';
@@ -256,20 +256,7 @@ export const BuildStatsOverlay: React.FC<BuildStatsOverlayProps> = ({
                                 style={{ backgroundColor: color }}
                             />
                             {isSet ? (
-                                <div className="set-icons-group">
-                                    {value.split(' / ').map((setPart: string) => {
-                                        const cleanPart = setPart.trim();
-                                        const isChase = cleanPart.toLowerCase() === 'chase' || cleanPart.toLowerCase() === 'set_chase';
-                                        return (
-                                            <img
-                                                key={cleanPart}
-                                                src={getSetIconUrl(cleanPart)}
-                                                alt={cleanPart}
-                                                className={`set-legend-icon ${isChase ? 'no-scale' : ''}`}
-                                            />
-                                        );
-                                    })}
-                                </div>
+                                <SetIconsGroup setName={value} />
                             ) : (
                                 <span className="legend-text">
                                     {value === 'Avg' ? t('chart.average') : value === 'Pro Avg' ? t('chart.proAverage') : value === 'Current' ? t('chart.current') : value}

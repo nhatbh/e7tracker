@@ -7,7 +7,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { CombatAnalyticsService } from '../infrastructure/services';
 import { ICombatAnalyticsService } from '../domain/services';
 
-const CombatAnalyticsServiceContext = createContext<ICombatAnalyticsService | null>(null);
+export const CombatAnalyticsServiceContext = createContext<ICombatAnalyticsService | null>(null);
 
 export const CombatAnalyticsServiceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [service] = useState<ICombatAnalyticsService>(() => new CombatAnalyticsService());

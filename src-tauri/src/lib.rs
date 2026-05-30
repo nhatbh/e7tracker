@@ -714,8 +714,18 @@ pub fn run() {
             app.global_shortcut().on_shortcut(alt_r, move |_app, _shortcut, event| {
                 if event.state() == tauri_plugin_global_shortcut::ShortcutState::Pressed {
                     if let Some(main_win) = handle_r.get_webview_window("main") {
-                        crate::log_message("[e7tracker] Emitting toggle-hero-details");
-                        let _ = main_win.emit("toggle-hero-details", ());
+                        let _ = main_win.emit("alt-r", ());
+                    }
+                }
+            })?;
+
+            // ── Alt + D: Toggle Interactive Dashboard Overlay ──
+            let alt_d = Shortcut::new(Some(Modifiers::ALT), Code::KeyD);
+            let handle_d = handle.clone();
+            app.global_shortcut().on_shortcut(alt_d, move |_app, _shortcut, event| {
+                if event.state() == tauri_plugin_global_shortcut::ShortcutState::Pressed {
+                    if let Some(main_win) = handle_d.get_webview_window("main") {
+                        let _ = main_win.emit("alt-d", ());
                     }
                 }
             })?;

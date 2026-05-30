@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar } from 'recharts';
-import { getSetIconUrl } from '../services/setAssets';
+import { getSetIconUrl } from '../../../services/setAssets';
 
 interface DashboardGearRatingProps {
     gsList: number[];

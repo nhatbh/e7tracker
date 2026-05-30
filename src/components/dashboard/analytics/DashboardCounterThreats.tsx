@@ -1,7 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { HeroAnalysis } from '../services/combatData';
-import { HeroMiniPortrait, getLegitMatchups } from './HeroMiniPortrait';
+import { HeroAnalysis } from '../../../services/combatData';
+import { HeroMiniPortrait } from '../../HeroMiniPortrait';
+import { getLegitMatchups } from '../utils';
 
 interface DashboardCounterThreatsProps {
     localCombatAnalysis: HeroAnalysis | null;

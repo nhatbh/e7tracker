@@ -12,3 +12,4 @@ export * from './IScreenDetectionService';
 export * from './IOCRService';
 export * from './IKeybindService';
 export * from './OCRRegistry';
+export * from './IDamageCalculatorService';
